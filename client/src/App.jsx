@@ -17,6 +17,7 @@ import AdminPanel from "./components/pages/Admin/AdminPanel"
 import fetchProduct from './helpers/contextFun'
 import CategoryProducts from "./components/pages/CategoryProducts"
 import ProductDetials from "./components/pages/ProductDetials"
+import OtpInput from "./components/pages/OtpInput"
 
 function App() {
   const dispatch = useDispatch()
@@ -60,12 +61,13 @@ pauseOnHover
 theme="colored"
 />
     <Header/>
-    <main className="min-h-[calc(100vh-60px)] bg-pink-50 pt-16">
+    <main className="min-h-[calc(100vh-60px)] backgroundImage  pt-16">
       <Routes>
         <Route path="/" element={<Home/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/forgot-password" element={<ForgotPasswod/>}/>
         <Route path="/sign-up" element={<SignUp/>}/>
+        <Route path="/otp-verification" element={<OtpInput/>}/>
         <Route path="/product-category/:categoryName" element={<CategoryProducts/>}/>
         <Route path="/product/:id" element={<ProductDetials/>}/>
         <Route path="/admin-panel/*" element={<AdminPanel/>}/>

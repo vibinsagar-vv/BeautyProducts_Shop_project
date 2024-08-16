@@ -5,6 +5,8 @@ const userModel = require('../../models/userModel')
 async function userSignInCntrl(req,res){
 try{
     const {email,password} = req.body
+    console.log(req.body);
+    
 
     if(!email){
         throw new Error("please provide email")
@@ -20,8 +22,11 @@ try{
         throw new Error("User Not Found")
         
     }
-    const checkPassword =await  bcrypt.compare(password,user.password)
-
+    console.log(user);
+    
+    const checkPassword =await bcrypt.compare(password,user.password)
+    console.log('signin:26',checkPassword);
+    
     if(checkPassword){
 
         const token = await jwt.sign({data:{userid:user._id,name:user.name,email:user.email}},process.env.jwtSecrect,{expiresIn:60*60*8})
@@ -37,7 +42,7 @@ try{
     }
 
 }catch(error){
-    res.json({
+    res.status(500).json({
         success:false,
         error:true,
         message:error.message ||error

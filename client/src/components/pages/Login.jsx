@@ -26,10 +26,11 @@ export default function Login() {
 
   const handleSubmit=async(e)=>{
     e.preventDefault()
-
-   const resData=await AXIOS.post("http://localhost:7800/user/login",data)
-   localStorage.setItem("token",resData.data.data.token)
-   localStorage.setItem("role",resData.data.data.role)
+    try{
+      const resData=await AXIOS.post("http://localhost:7800/user/login",data)
+   
+   localStorage?.setItem("token",resData.data.data.token)
+   localStorage?.setItem("role",resData.data.data.role)
 
     
    if(resData.data.success){
@@ -40,15 +41,15 @@ export default function Login() {
    if(resData.data.error){
     toast.error(resData.data.message)
    }
-
+    }catch(error){
+      toast.error(error.response.data.message)
+    }
   }
   return (
     <section id='login'className='mt-16'>
         <div className='mx-auto container p-4'>
            <div className='bg-white p-5 w-full max-w-sm mx-auto'>
-                <div className='text-7xl w-20 h-20 mx-auto text-pink-700'>
-                  <FaUserCircle/>
-                </div>
+           <h1 className='text-center text-5xl font-bold text-pink-700'>LogIn</h1>
                 <form onSubmit={handleSubmit} className='pt-8 flext flex-col gap-2'>
                   <div className='grid'>
                     <label htmlFor='email'>Email :</label>

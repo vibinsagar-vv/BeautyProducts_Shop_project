@@ -23,6 +23,7 @@ export default function Header() {
         if(resData.data.success){
             toast.success(resData.data.message)
             dispatch(setUserDetials(null))
+            SetMenuDisplay(false)
             nav("/")
         }
         if(resData.data.error){
@@ -31,12 +32,12 @@ export default function Header() {
     }
   return (
     <header className='h-16 shadow-md bg-white fixed w-full z-40' >
-        <div className='w-full h-full container mx-auto flex items-center px-3 justify-between'>
+        <div className='w-full h-full container  flex items-center px-6 justify-between'>
             <div className=''>
                 <Link to={"/"}><img src={Logo}  className='w-28 md:w-36 rounded-md mr-5'/></Link>
             </div>
 
-            <div className='hidden md:flex items-center w-full justify-between max-w-sm border rounded-full focus-within:shadow pl-2 mx-2 '>
+            <div className='hidden md:flex items-center w-full justify-between max-w-sm border border-black rounded-full focus-within:shadow pl-5 mx-2 '>
                 <input type="text" placeholder='search here...' className='w-full outline-none' />
                 <div className='min-w-[50px] h-8 bg-pink-700  flex items-center justify-center rounded-r-full text-white'>
                     <FaSearch/>
@@ -47,7 +48,7 @@ export default function Header() {
                 <div className='relative flex justify-center'>
                     {
                         userDetials?._id&&(
-                            <div className='text-3xl text-pink-700 w-10 h-10  cursor-pointer' onClick={()=>SetMenuDisplay(preve=>!preve)}>
+                            <div className='text-3xl flex items-center text-pink-700 w-10 h-10  cursor-pointer' onClick={()=>SetMenuDisplay(preve=>!preve)}>
                         {
                             userDetials?.profilePic?(<img className='w-10 h-10 rounded-full' src={`http://localhost:7800/profilePhotos/${userDetials.profilePic}`} alt={userDetials.name}/>):(
                                 <FaUserCircle/>
@@ -57,9 +58,15 @@ export default function Header() {
                     </div>
                         )
                     }
-                        {userDetials?.role==="ADMIN"&&(menuDisplay&&(<div className='hidden md:block absolute z-40 border bg-white bottom-0 top-11 h-fit p-2 shadow-lg rounded'>
-                            <nav className=''>
-                                <Link to={"admin-panel/products"} className=' whitespace-nowrap hover:bg-pink-100 p-2' onClick={()=>SetMenuDisplay(preve=>!preve)}>Admin panel</Link>
+                        {(menuDisplay&&(<div className='hidden md:block absolute z-40 border border-slate-400 bg-white bottom-0 top-11 h-fit text-center shadow-lg rounded'>
+                            <nav className='flex flex-col'>
+                            <Link to={"admin-panel/products"} className=' whitespace-nowrap hover:bg-pink-200 border border-b-slate-400 p-2' onClick={()=>SetMenuDisplay(preve=>!preve)}>Profile</Link>
+                                {
+                                    userDetials?.role==="ADMIN"&&(
+                                        <Link to={"admin-panel/products"} className=' whitespace-nowrap hover:bg-pink-200 p-2' onClick={()=>SetMenuDisplay(preve=>!preve)}>Admin panel</Link>
+
+                                    )
+                                }
                             </nav>
                         </div>))
                         }

@@ -19,7 +19,6 @@ export default function SignUp() {
     password:"",
     name:"",
     confirmPassword:"",
-    profilePic:""
   })
 
   const handleChange=(e)=>{
@@ -32,34 +31,17 @@ export default function SignUp() {
       }
     })
   }
-  const handleUploadPic =async(e)=>{
-        const file=e.target.files[0]
-        const imagePic = await imageTobase64(file)
-      SetProfilePhoto(imagePic)
-        SetData((preve)=>{
-            return{
-                ...preve,
-                profilePic : file
-            }
-        })
-      }
-
-      const formdata = new FormData()
-        formdata.append('profilePic',data.profilePic)
-        formdata.append('name',data.name)
-        formdata.append('email',data.email)
-        formdata.append('password',data.password)
-
-
   const handleSubmit=async(e)=>{
     e.preventDefault()
-
     try{
       if(data.password===data.confirmPassword){
-      const resultdata=await AXIOS.post('http://localhost:7800/user/sign-up',formdata,{headers:{'Content-Type':'multipart/form-data'}})
+      const resultdata=await AXIOS.post('http://localhost:7800/user/generate-otp',data)
+        localStorage.setItem('token',resultdata.data.data)
+        localStorage.setItem('verifiction',resultdata.data.Otp)
+        sessionStorage.setItem('targetTime',resultdata.data.time)
       if(resultdata.data.success){
         toast.success(resultdata.data.message)
-        nav('/login')
+        nav('/otp-verification')
       }
 
       if(resultdata.data.error){
@@ -76,25 +58,8 @@ export default function SignUp() {
     <section id='signup' className='py-7'>
           <div className='mx-auto container p-4'>
             <div className='bg-white p-5 w-full max-w-sm mx-auto'>
-            <form encType='multipart/form-data' onSubmit={handleSubmit} className='pt-8 flext flex-col gap-2'>
-                  <div className='outline w-[73px] h-30 mx-auto text-black relative overflow-hidden rounded-full'>
-                      {data.profilePic?<div className=' w-[73px] h-30 mx-auto overflow-hidden rounded-full'><img src={profilePhoto} alt="profile Photo" /></div>:
-                      <div className='text-7xl text-pink-700 flex items-center justify-center w-full rounded-full overflow-hidden'>
-                      <FaUserCircle/>
-                    </div>}
-                  
-                      <label>
-                      <div className='text-xs text-black bg-opacity-80 bg-slate-200  text-center absolute bottom-0 rounded-b-[75px]  w-[73px] pb-2'>
-                      Upload Photo
-                    </div>
-                          <input type="file" 
-                          name="profilePic" 
-                          id="profilePic" 
-                          onChange={handleUploadPic}
-                          className='hidden' />
-                      </label>
-                    
-                  </div>
+              <h1 className='text-center text-5xl font-bold text-pink-700'>Sign-UP</h1>
+            <form onSubmit={handleSubmit} className='pt-8 flext flex-col gap-2'>
                       <div className='grid'>
                           <label htmlFor='name'>Name :</label>
                           <div className='bg-slate-200 p-2'>
