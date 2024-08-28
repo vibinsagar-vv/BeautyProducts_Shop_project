@@ -1,18 +1,36 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import fetchCategoryWiseProduct from '../helpers/fetchCategoryWiseProduct'
 import displayINRCurrency from '../helpers/displayCurrency'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import Heading from '../helpers/Heading'
+import AddToCart from '../helpers/AddToCart'
+import Context from '../context/context'
+import { toast } from 'react-toastify'
 
 export default function HorizontalCardProduct({category,heading}) {
     const [data,SetData] = useState([])
     const [loading,SetLoading] = useState(false)
     const loadingList = new Array(13).fill(null)
+    const {fetchUserAddToCart} = useContext(Context)
+    const nav = useNavigate()
+
+    const handleAddToCart = async(e,id) =>{
+        e?.stopPropagation()
+        e?.preventDefault()
+    
+            if(localStorage.getItem('token')){
+            await AddToCart(id,nav)
+            await fetchUserAddToCart()
+            }else{
+                toast.error("please login...")
+                nav("/login")
+            }
+    }
 
     const fetchData = async() =>{
         SetLoading(true)
         const categoryProduct = await fetchCategoryWiseProduct(category)
         SetLoading(false)
-        console.log(categoryProduct);
         SetData(categoryProduct?.data)
     }
 
@@ -21,28 +39,27 @@ export default function HorizontalCardProduct({category,heading}) {
     },[])
 
   return (
-    <div className='container mx-auto px-4 my-6'>
+    <div className='container  mx-auto px-4 my-6 mb-12'>
 
-        <h2 className='text-2xl font-semibold py-4'>{heading}</h2>
+        <Heading text={heading}/>
 
-
-        <div className='flex items-center gap-4 md:gap-6 overflow-scroll scrollbar-none'>
+        <div className='flex items-center md:justify-center gap-4 md:gap-6 overflow-scroll scrollbar-none'>
             {
 
                 data.map((product,index)=>{
                     return(
-                        <Link to={"/product/"+product?._id} key={index} className='w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] h-36 bg-white rounded-md shadow-md flex'>
-                            <div className='bg-slate-200 rounded-l-md h-full p-4 min-w-[120px] md:min-w-[145px] flex items-center justify-center'>
+                        <Link to={"/product/"+product?._id} key={index} className='w-full min-w-[280px] md:min-w-[304px] max-w-[280px] md:max-w-[304px] h-36 bg-white border border-black flex'>
+                            <div className='bg-white  h-full p-4 min-w-[120px] md:min-w-[145px] flex items-center justify-center'>
                                 <img src={`http://localhost:7800/ProductImages/${product.productImage[0]}`} alt="" className='object-scale-down h-full max-w-24 hover:scale-110 transition-all mix-blend-multiply' />
                             </div>
-                            <div className='p-4 grid'>
+                            <div className='p-4 w-[160px] py-4 grid bg-orange-300 bg-opacity-30'>
                                 <h2 className='font-medium md:text-lg text-base text-ellipsis line-clamp-1 text-black'>{product?.ProductName}</h2>
                                 <p className='capitalize text-slate-500'>{product.category}</p>
                                 <div className='flex gap-3'>
-                                    <p className='text-red-600 font-medium'>{displayINRCurrency(product?.sellingPrice)}</p>
-                                    <p className='text-slate-500 line-through'>{displayINRCurrency(product?.price)}</p>
+                                    <p className='text-black font-bold'>{displayINRCurrency(product?.sellingPrice)}</p>
+                                    <p className='text-slate-500 text-sm line-through'>{displayINRCurrency(product?.price)}</p>
                                 </div>
-                                <button className='text-sm bg-pink-700 hover:bg-pink-900 text-white px-3 py-0.5 rounded-full' onClick={(e)=>AddToCart(e,product?._id)}>Add to Cart</button>
+                                <button className='text-sm bg-transparent border font-bold border-pink-600 hover:bg-pink-600 text-pink-600 hover:text-white px-3 py-0.5 rounded-full' onClick={(e)=>handleAddToCart(e,product?._id)}>Add to Cart</button>
                             </div>
                         </Link>
                     )

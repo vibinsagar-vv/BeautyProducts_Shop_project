@@ -26,7 +26,7 @@ export default function UploadProducts({onClose,fetchData}) {
 
     const handleuploadProduct = async(e) =>{
         const file= e.target.files[0]
-        UploadImage(data.ProductName||'productImage',file)
+        UploadImage(file)
          SetData({...data,productImage:[...data.productImage,(data.ProductName||"productImage")+'_'+file.name]})
          console.log('test data',data);
     }

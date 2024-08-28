@@ -4,6 +4,7 @@ import BannerProduct from '../BannerProduct'
 import HorizontalCardProduct from '../HorizontalCardProduct'
 import AXIOS from 'axios'
 import VerticalCardProduct from '../VerticalCardProduct'
+import Heading from '../../helpers/Heading'
 
 export default function Home() {
 
@@ -21,12 +22,16 @@ useEffect(()=>{
 
   return (
     <div className=' min-h-[calc(100vh-120px)] pb-8'>
-        <CategoryList/>
+        <div className=''>
         <BannerProduct/>
-        <div>
+        </div>
+        <div className='px-6'>
+        <CategoryList/>
+        </div>
+        <div className='px-6'>
           {
             category.map((name,index)=>{
-              if(name=="makeup"||name=="hairoil&shampoo"){
+              if(name=="makeup"||name=="whiteningcreams"){
                   return(
                     <VerticalCardProduct key={index} category={name} heading={`Top ${name}s`}/>
                   )
@@ -34,7 +39,7 @@ useEffect(()=>{
                 return(
                   <HorizontalCardProduct key={index} category={name} heading={`Top ${name}:`}/>
                 )
-              }              
+              }       
             })
           }
         </div>

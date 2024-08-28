@@ -23,7 +23,7 @@ async function authToken(req,res,next){
         success:false,
         data:[],
         error:true,
-        message:error.message ||error
+        message:"Please Login"
        })
     }
 }

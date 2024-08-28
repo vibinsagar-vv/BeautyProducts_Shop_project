@@ -16,4 +16,18 @@
 /* scrollbar hidden */
 .scrollbar-none::-webkit-scrollbar{
     display: none;
+
+
+}
+.Marck{
+    font-family: "Marck Script", cursive;
+}
+.productFont{
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+.backgroundImage{
+    background-image: url('./assest/Background/mainBackground.jpg');
+    background-size: cover;
 }
