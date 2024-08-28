@@ -5,7 +5,6 @@ const userModel = require('../../models/userModel')
 async function userSignInCntrl(req,res){
 try{
     const {email,password} = req.body
-    console.log(req.body);
     
 
     if(!email){
@@ -22,10 +21,8 @@ try{
         throw new Error("User Not Found")
         
     }
-    console.log(user);
     
     const checkPassword =await bcrypt.compare(password,user.password)
-    console.log('signin:26',checkPassword);
     
     if(checkPassword){
 

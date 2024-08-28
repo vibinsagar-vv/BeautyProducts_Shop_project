@@ -36,6 +36,7 @@ export default function Login() {
    if(resData.data.success){
     toast.success(resData.data.message)
     generalContext.fetchUserDetials()
+    generalContext.fetchUserAddToCart()
       nav('/')
    }
    if(resData.data.error){

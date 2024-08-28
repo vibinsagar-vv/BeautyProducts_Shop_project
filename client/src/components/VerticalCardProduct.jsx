@@ -1,14 +1,31 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import fetchCategoryWiseProduct from '../helpers/fetchCategoryWiseProduct'
 import displayINRCurrency from '../helpers/displayCurrency'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import AddToCart from '../helpers/AddToCart'
 import Heading from '../helpers/Heading'
+import Context from '../context/context'
+import { toast } from 'react-toastify'
 
 export default function VerticalCardProduct({category,heading}) {
     const [data,SetData] = useState([])
     const [loading,SetLoading] = useState(false)
     const loadingList = new Array(13).fill(null)
+    const {fetchUserAddToCart} = useContext(Context)
+    const nav = useNavigate()
+
+    const handleAddToCart = async(e,id) =>{
+        e?.stopPropagation()
+        e?.preventDefault()
+    
+            if(localStorage.getItem('token')){
+            await AddToCart(id,nav)
+            await fetchUserAddToCart()
+            }else{
+                toast.error("please login...")
+                nav("/login")
+            }
+    }
 
     const fetchData = async() =>{
         SetLoading(true)
@@ -22,14 +39,14 @@ export default function VerticalCardProduct({category,heading}) {
     },[])
 
   return (
-    <div className='container  mx-auto px-4 my-6 mb-32'>
+    <div className='container mx-auto px-4 my-6 mb-12'>
 
     <div>
     {/* <h2 className='text-2xl font-semibold py-4'>{heading}</h2> */}
         <Heading text={heading}/>
     </div>
 
-        <div className='flex items-center justify-center gap-6 md:gap-10 overflow-scroll scrollbar-none'>
+        <div className='flex items-center md:justify-center lg:justify-center gap-6 md:gap-10 overflow-scroll scrollbar-none'>
             {
 
                 data.map((product,index)=>{
@@ -45,16 +62,13 @@ export default function VerticalCardProduct({category,heading}) {
                                     <p className='text-slate-950 font-extrabold'>{displayINRCurrency(product?.sellingPrice)}</p>
                                     <p className='text-slate-500 line-through text-sm'>{displayINRCurrency(product?.price)}</p>
                                 </div>
-                                <button className='text-sm bg-transparent border border-pink-700 font-bold text-pink-600 hover:bg-pink-600 hover:text-white px-3 py-0.5 rounded-full' onClick={(e)=>AddToCart(e,product?._id)}>Add to Cart</button>
+                                <button className='text-sm bg-transparent border border-pink-700 font-bold text-pink-600 hover:bg-pink-600 hover:text-white px-3 py-0.5 rounded-full' onClick={(e)=>handleAddToCart(e,product?._id)}>Add to Cart</button>
                             </div>
                         </Link>
                     )
                 })
             }
         </div>
-
-        
-
     </div>
   )
 }

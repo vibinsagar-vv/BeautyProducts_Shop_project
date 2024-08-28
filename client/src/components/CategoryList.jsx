@@ -21,7 +21,7 @@ export default function CategoryList() {
   return (
     <div className='container mx-auto p-4 pt-10 '>
                 <Heading text='Shop By Category'/>
-        <div className='flex items-center gap-4 justify-center overflow-scroll scrollbar-none pl-3'>
+        <div className='flex items-center gap-4 justify-between lg:justify-center overflow-scroll scrollbar-none pl-3'>
             {
 
                 loading ?(

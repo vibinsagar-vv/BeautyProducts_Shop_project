@@ -18,16 +18,16 @@ const DeleteBannerCntrl = require('../controller/products/banner/DeleteBanner')
 const GetCategoryWiseProduct = require('../controller/products/getCategoryWiseProduct')
 const DeleteProductCntrl = require('../controller/products/DeleteProduct')
 const getProductDetailCntrl = require('../controller/products/getProductDetails')
+const SearchProductCntrl = require('../controller/products/SearchProduct')
 
 const Mulstorage = multer.diskStorage({
     destination:function(req,file,cb){
         cb(null,'uploads/ProductImages/')
     },
     filename:function(req,file,cb){
-        cb(null,req.headers.imagename+'_'+file.originalname)
+        cb(null,file.originalname)
 
     }
-
 })
 
 const upload=multer({storage:Mulstorage})
@@ -42,7 +42,7 @@ router.get("/get-category-product",getCategoryProduct)
 router.post("/category-product",GetCategoryWiseProduct)
 router.post("/delete-product",authToken,AuthAdmin,DeleteProductCntrl)
 router.post("/product-detials",getProductDetailCntrl)
-
+router.get("/search",SearchProductCntrl)
 /* banner routes */
 
 router.post("/upload-banner",authToken,AuthAdmin,UploadBannerCntrl)

@@ -39,7 +39,7 @@ useEffect(()=>{
                 return(
                   <HorizontalCardProduct key={index} category={name} heading={`Top ${name}:`}/>
                 )
-              }              
+              }       
             })
           }
         </div>
