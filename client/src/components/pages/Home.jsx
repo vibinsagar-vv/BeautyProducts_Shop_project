@@ -25,21 +25,21 @@ useEffect(()=>{
         <div className=''>
         <BannerProduct/>
         </div>
-        <div className='px-6'>
+        <div className='px-2'>
         <CategoryList/>
         </div>
         <div className='px-6'>
           {
             category.map((name,index)=>{
-              if(name=="makeup"||name=="whiteningcreams"){
+              // if(name=="makeup"||name=="whiteningcreams"){
                   return(
                     <VerticalCardProduct key={index} category={name} heading={`Top ${name}s`}/>
                   )
-              }else{
-                return(
-                  <HorizontalCardProduct key={index} category={name} heading={`Top ${name}:`}/>
-                )
-              }       
+              // }else{
+              //   return(
+              //     <HorizontalCardProduct key={index} category={name} heading={`Top ${name}:`}/>
+              //   )
+              // }       
             })
           }
         </div>

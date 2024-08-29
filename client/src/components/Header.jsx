@@ -55,15 +55,15 @@ export default function Header() {
         }
     }
   return (
-    <header className='h-16 shadow-md bg-white fixed w-full z-40' >
+    <header className='h-16 shadow-md bg-primary-light fixed w-full z-40' >
         <div className='w-full h-full container  flex items-center px-6 justify-between'>
             <div className=''>
                 <Link to={"/"}><img src={Logo}  className='w-28 md:w-36 rounded-md mr-5'/></Link>
             </div>
 
-            <div className='hidden md:flex items-center w-full justify-between max-w-sm border border-black rounded-full focus-within:shadow pl-5 mx-2 '>
-                <input type="text" placeholder='search here...' className='w-full outline-none' onChange={handleChangeSearch} onBlur={handleblur}/>
-                <div className='min-w-[50px] h-8 bg-pink-700  flex items-center justify-center rounded-r-full text-white' onClick={handleSearch}>
+            <div className='hidden md:flex items-center w-full justify-between max-w-sm border-2 border-accent-light bg-neutral-light rounded-full focus-within:shadow pl-5 mx-2 '>
+                <input type="text" placeholder='search here...' className='w-full outline-none bg-transparent text-textColor-light placeholder-textColor-light' onChange={handleChangeSearch} onBlur={handleblur}/>
+                <div className='min-w-[50px] h-8 bg-accent-light  flex items-center justify-center rounded-r-full text-white' onClick={handleSearch}>
                     <FaSearch/>
                 </div>
             </div>
@@ -72,9 +72,9 @@ export default function Header() {
                 <div className='relative flex justify-center'>
                     {
                         userDetials?._id&&(
-                            <div className='text-3xl flex items-center text-pink-700 w-10 h-10  cursor-pointer' onClick={()=>SetMenuDisplay(preve=>!preve)}>
+                            <div className='text-4xl flex items-center justify-center border-2 border-accent-dark text-accent-light rounded-full  cursor-pointer' onClick={()=>SetMenuDisplay(preve=>!preve)}>
                         {
-                            userDetials?.profilePic?(<img className='w-10 h-10 rounded-full' src={`http://localhost:7800/profilePhotos/${userDetials.profilePic}`} alt={userDetials.name}/>):(
+                            userDetials?.profilePic?(<img className='w-full h-full rounded-full' src={`http://localhost:7800/profilePhotos/${userDetials.profilePic}`} alt={userDetials.name}/>):(
                                 <FaUserCircle/>
                             )
                         }
@@ -99,7 +99,7 @@ export default function Header() {
                     <Link to={"cart"} className='text-2xl cursor-pointer relative'>
                         <span><FaCartShopping/></span>
 
-                        <div className='bg-pink-700  text-white w-4 h-4 rounded-full p-1 flex items-center justify-center absolute -top-2 -right-3'>
+                        <div className='bg-accent-light   text-white w-4 h-4 rounded-full p-1 flex items-center justify-center absolute -top-2 -right-3'>
                             <p className='text-xs'>{context?.cartProductCount}</p>
                         </div>
                     </Link>
@@ -108,9 +108,9 @@ export default function Header() {
                 <div>
                     {
                         userDetials?._id ?(
-                            <button className='px-3 py-1 text-white rounded-full bg-pink-700 hover:bg-pink-800 text-nowrap' onClick={handleLogOut}>Log Out</button>
+                            <button className='px-3 py-1 text-white rounded-full bg-accent-light hover:bg-tertiary-dark text-nowrap' onClick={handleLogOut}>Log Out</button>
                         ):(
-                            <Link to={"/login"} className='px-3 py-1 text-white rounded-full bg-pink-700 hover:bg-pink-800 '>Log in</Link>
+                            <Link to={"/login"} className='px-3 py-1 text-white rounded-full bg-accent-light hover:bg-pink-800 '>Log in</Link>
                         )
                     }
             </div>

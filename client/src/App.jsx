@@ -90,7 +90,7 @@ pauseOnHover
 theme="colored"
 />
     <Header/>
-    <main className="min-h-[calc(100vh-60px)] backgroundImage  pt-16">
+    <main className="min-h-[calc(100vh-60px)] bg-neutral-light  pt-16">
       <Routes>
         <Route path="/" element={<Home/>}/>
         <Route path="/login" element={<Login/>}/>

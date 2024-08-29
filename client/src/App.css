@@ -1,5 +1,5 @@
 .customShadow{
-    box-shadow: 3px 0px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 3px 0px 5px rgba(248, 197, 193);
 }
 .userTable{
     @apply bg-white pb-4
