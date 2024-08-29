@@ -59,71 +59,63 @@ export default function SignUp() {
           <div className='mx-auto container p-4'>
             <div className='bg-white p-5 w-full max-w-sm mx-auto'>
               <h1 className='text-center text-5xl font-bold text-pink-700'>Sign-UP</h1>
-            <form onSubmit={handleSubmit} className='pt-8 flext flex-col gap-2'>
-                      <div className='grid'>
-                          <label htmlFor='name'>Name :</label>
-                          <div className='bg-slate-200 p-2'>
+            <form onSubmit={handleSubmit} className='pt-8 flex flex-col gap-6'>
+                          <div className='relative'>
                           <input 
                           type="name" 
                           name="name" 
                           id="name" 
                           value={data.name}
-                          placeholder='Enter name'
                           onChange={handleChange}
                           required
-                          className='w-full h-full outline-none  bg-transparent'/>
+                          autoComplete='off'
+                          className='w-full bg-transparent border-b-2 border-gray-400 py-1 focus:outline-none focus:border-b-accent-light focus:border-b-[3px] transition-colors peer'/>
+                          <label className='absolute text-gray-600 font-medium left-0 top-1 cursor-text peer-focus:text-xs peer-focus:text-accent-light peer-focus:-top-4 transition-all' htmlFor='name'>Name</label>
                           </div>
-                      </div>
-
-                      <div className='grid'>
-                          <label htmlFor='email'>Email :</label>
-                          <div className='bg-slate-200 p-2'>
+                          <div className='relative'>
                           <input 
                           type="email" 
                           name="email" 
                           id="email" 
                           value={data.email}
-                          placeholder='Enter email'
                           onChange={handleChange}
                           required
-                          className='w-full h-full outline-none  bg-transparent'/>
+                          className='w-full bg-transparent border-b-2 border-gray-400 py-1 focus:outline-none focus:border-b-accent-light focus:border-b-[3px] transition-colors peer'/>
+                          <label className='absolute text-gray-600 font-medium left-0 top-1 cursor-text peer-focus:text-xs peer-focus:text-accent-light peer-focus:-top-4 transition-all' htmlFor='email'>Email</label>
                           </div>
-                      </div>
-                      <div>
-                          <label htmlFor='password'>Password :</label>
-                          <div className='bg-slate-200 p-2 flex items-center'>
+                      <div className='flex'>
+                          <div className='relative w-full'>
                           <input 
                           type={showpassword?"text":"password"} 
                           name="password" 
                           id="password"
                           value={data.password}
-                          placeholder='Enter password' 
                           onChange={handleChange}
                           required
-                          className='w-full h-full outline-none bg-transparent' />
-                              <div className='cursor-pointer text-xl' onClick={()=>Setshowpassword((preve)=>!preve)}>
+                          className='w-full border-gray-400 bg-transparent border-b-2 py-1 focus:outline-none focus:border-b-accent-light focus:border-b-[3px] transition-colors peer'/>
+                          <label className='absolute text-gray-600 font-medium left-0 top-1 cursor-text peer-focus:text-xs peer-focus:text-accent-light peer-focus:-top-4 transition-all' htmlFor='password'>Password</label>
+                              <div className='cursor-pointer absolute right-1 top-2 flex items-center text-xl text-textColor-light' onClick={()=>Setshowpassword((preve)=>!preve)}>
                               <span className='hover:text-pink-700'>
                                   {showpassword?
                                   <FaEyeSlash/>:<FaEye/>
                                   }
-                                  
                               </span>
                               </div>
                           </div>
                       </div>
-                      <div>
-                          <label htmlFor='password'>Confirm Password :</label>
-                          <div className='bg-slate-200 p-2 flex items-center'>
+                      <div className='flex'>
+                          <div className='relative w-full'>
                           <input 
                           type={showConfirmPassword?"text":"password"} 
                           name="confirmPassword" 
                           id="confirmPassword"
                           value={data.confirmPassword}
-                          placeholder='Enter confirmPassword' 
                           onChange={handleChange}
                           required
-                          className='w-full h-full outline-none bg-transparent' />
-                              <div className='cursor-pointer text-xl' onClick={()=>SetshowConfirmPassword((preve)=>!preve)}>
+                          autoComplete='off'
+                          className='w-full border-gray-400 bg-transparent border-b-2 py-1 focus:outline-none focus:border-b-accent-light focus:border-b-[3px] transition-colors peer'/>
+                          <label className='absolute text-gray-600 font-medium left-0 top-1 cursor-text peer-focus:text-xs peer-focus:text-accent-light peer-focus:-top-4 transition-all' htmlFor='password'>Confirm Password</label>
+                              <div className='cursor-pointer absolute right-1 top-2 flex items-center text-xl text-textColor-light' onClick={()=>SetshowConfirmPassword((preve)=>!preve)}>
                               <span className='hover:text-pink-700'>
                                   {showConfirmPassword?
                                   <FaEyeSlash/>:<FaEye/>

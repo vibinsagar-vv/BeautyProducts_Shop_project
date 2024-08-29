@@ -3,7 +3,7 @@ import Logo from '../assest/logo/Logo.png'
 import { FaSearch } from "react-icons/fa";
 import { FaUserCircle } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import AXIOS from 'axios'
 import { toast } from 'react-toastify';
@@ -15,10 +15,12 @@ export default function Header() {
     const [menuDisplay,SetMenuDisplay] = useState(false)
     const [search,SetSearch] = useState("")
     const nav = useNavigate()
+    const url = useLocation()
     const userDetials = useSelector(state=>state?.user?.user)
     // console.log('userhead',user);
     const dispatch = useDispatch()
-
+    console.log(url);
+    
     const context = useContext(Context)    
 
     const handleLogOut=async()=>{
@@ -54,8 +56,10 @@ export default function Header() {
             nav("/")
         }
     }
+    console.log((url.pathname !="/login"||url.pathname !="/sign-up"));
+    
   return (
-    <header className='h-16 shadow-md bg-primary-light fixed w-full z-40' >
+    <header className='h-16 bg-primary-light fixed w-full z-40' >
         <div className='w-full h-full container  flex items-center px-6 justify-between'>
             <div className=''>
                 <Link to={"/"}><img src={Logo}  className='w-28 md:w-36 rounded-md mr-5'/></Link>
@@ -109,8 +113,9 @@ export default function Header() {
                     {
                         userDetials?._id ?(
                             <button className='px-3 py-1 text-white rounded-full bg-accent-light hover:bg-tertiary-dark text-nowrap' onClick={handleLogOut}>Log Out</button>
-                        ):(
+                        ):(((url.pathname !="/login")&&(url.pathname !="/sign-up"))&&(
                             <Link to={"/login"} className='px-3 py-1 text-white rounded-full bg-accent-light hover:bg-pink-800 '>Log in</Link>
+                        )
                         )
                     }
             </div>

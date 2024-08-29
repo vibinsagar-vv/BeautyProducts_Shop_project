@@ -47,37 +47,45 @@ export default function Login() {
     }
   }
   return (
-    <section id='login'className='mt-16'>
-        <div className='mx-auto container p-4'>
-           <div className='bg-white p-5 w-full max-w-sm mx-auto'>
-           <h1 className='text-center text-5xl font-bold text-pink-700'>LogIn</h1>
-                <form onSubmit={handleSubmit} className='pt-8 flext flex-col gap-2'>
-                  <div className='grid'>
-                    <label htmlFor='email'>Email :</label>
-                    <div className='bg-slate-200 p-2'>
-                      <input 
-                      type="email" 
-                      name="email" 
-                      id="email" 
-                      value={data.email}
-                      placeholder='Enter email'
-                      onChange={handleChange}
-                      className='w-full h-full outline-none  bg-transparent'/>
-                    </div>
-                  </div>
-                  <div>
-                    <label htmlFor='password'>Password :</label>
-                    <div className='bg-slate-200 p-2 flex items-center'>
+    <section id='login'className='h-[calc(100vh-120px)] p-16 flex justify-center ease-in-out'>
+        <div className='flex border-2 h-full w-[60%] border-accent-dark rounded-xl'>
+        <div className='mx-auto pt-16 container rounded-l-xl lg:w-[60%] p-4'>
+           <div className='p-5 w-full max-w-sm mx-auto'>
+           <h1 className='text-center text-5xl font-bold text-accent-dark'>LogIn</h1>
+                <form onSubmit={handleSubmit} className='pt-8 flex justify-center flex-col gap-4'>
+                  {/* <div className='grid'> */}
+                  <div className='relative'>
+  <input 
+    type="email" 
+    name="email" 
+    id="email" 
+    value={data.email}
+    onChange={handleChange}
+    className='peer w-full bg-transparent border-b-2 border-gray-400 py-1 focus:outline-none focus:border-b-accent-light focus:border-b-[3px] transition-colors' 
+    placeholder=" "  // Add a blank placeholder to trigger peer-placeholder-shown
+  />
+  <label 
+    className='absolute text-gray-600 font-medium left-0 top-1 cursor-text 
+               peer-focus:text-xs peer-focus:text-accent-light peer-focus:-top-4 
+               transition-all peer-placeholder-shown:top-1 peer-placeholder-shown:text-gray-600 
+               peer-placeholder-shown:text-base' 
+    htmlFor='email'>
+    Email
+  </label>
+</div>
+
+                  <div className='flex '>
+                    <div className='relative w-full'>
                       <input 
                       type={showpassword?"text":"password"} 
                       name="password" 
                       id="password"
                       value={data.password}
-                      placeholder='Enter password' 
                       onChange={handleChange}
-                      className='w-full h-full outline-none bg-transparent' />
-                        <div className='cursor-pointer text-xl' onClick={()=>Setshowpassword((preve)=>!preve)}>
-                          <span className='hover:text-pink-700'>
+                      className='w-full border-gray-400 bg-transparent border-b-2 py-1 focus:outline-none focus:border-b-accent-light focus:border-b-[3px] transition-colors peer'/>
+                      <label className='absolute text-gray-600 font-medium left-0 top-1 cursor-text peer-focus:text-xs peer-focus:text-accent-light peer-focus:-top-4 transition-all' htmlFor='password'>Password</label>
+                      <div className='cursor-pointer absolute right-1 top-2 flex items-center text-xl text-textColor-light' onClick={()=>Setshowpassword((preve)=>!preve)}>
+                          <span className='hover:text-accent-light'>
                             {showpassword?
                             <FaEyeSlash/>:<FaEye/>
                             }
@@ -85,14 +93,20 @@ export default function Login() {
                           </span>
                         </div>
                     </div>
-                    <Link to={"/forgot-password"} className='block w-fit ml-auto hover:underline hover:text-pink-700 '>
-                            Forgot password
-                    </Link>
                   </div>
-                  <button className='bg-pink-700 text-white px-6 py-2 w-full max-w-[150px] rounded-full hover:scale-110 transition-all mx-auto block mt-6 hover:bg-pink-800' >Log in</button>
+                  <Link to={"/forgot-password"} className='block w-fit ml-auto hover:underline hover:text-pink-700 '>
+                            Forgot password?
+                    </Link>
+                  <button className='bg-accent-dark text-white font-bold px-6 py-2 w-full max-w-[150px] rounded-full hover:scale-110 transition-all mx-auto block mt-6 hover:bg-tertiary-dark' >LOG IN</button>
                 </form>
-                <p className='py-6'>Don't have account ?<Link to={"/sign-up"} className='text-pink-700 hover:underline hover:text-pink-900'>Sign Up</Link></p>
+                <p className='lg:hidden py-6'>Don't have account ?<Link to={"/sign-up"} className='text-pink-700 hover:underline hover:text-pink-900'>Sign Up</Link></p>
            </div>
+        </div>
+        <div className='hidden bg-accent-light h w-[40%] rounded-r-xl lg:flex flex-col gap-8 justify-center items-center'>
+              <p className='text-4xl font-extrabold text-white font-serif'>Hello,Friend!</p>
+              <p className='text-center w-[80%] text-white'>Enter your personal detials and start journey with Us</p>
+              <Link to={"/sign-up"} className='border-[3px] border-white text-white font-bold text-center px-6 py-2 w-full max-w-[150px] rounded-full hover:scale-110 transition-all mx-auto block mt-6' >SIGN UP</Link>
+              </div>
         </div>
     </section>
   )
