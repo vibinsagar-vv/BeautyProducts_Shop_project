@@ -54,25 +54,25 @@ export default function Login() {
            <h1 className='text-center text-5xl font-bold text-accent-dark'>LogIn</h1>
                 <form onSubmit={handleSubmit} className='pt-8 flex justify-center flex-col gap-4'>
                   {/* <div className='grid'> */}
-                  <div className='relative'>
-  <input 
-    type="email" 
-    name="email" 
-    id="email" 
-    value={data.email}
-    onChange={handleChange}
-    className='peer w-full bg-transparent border-b-2 border-gray-400 py-1 focus:outline-none focus:border-b-accent-light focus:border-b-[3px] transition-colors' 
-    placeholder=" "  // Add a blank placeholder to trigger peer-placeholder-shown
-  />
-  <label 
-    className='absolute text-gray-600 font-medium left-0 top-1 cursor-text 
-               peer-focus:text-xs peer-focus:text-accent-light peer-focus:-top-4 
-               transition-all peer-placeholder-shown:top-1 peer-placeholder-shown:text-gray-600 
-               peer-placeholder-shown:text-base' 
-    htmlFor='email'>
-    Email
-  </label>
-</div>
+                  
+                  <div class="relative">
+            <input 
+              type="email"
+              id="email"
+              name="email" 
+              value={data.email}
+              onChange={handleChange}
+              class="block px-2.5 pb-0.5 pt-4 w-full text-sm text-gray-900 bg-transparent border-b-[3px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-accent-dark peer" 
+              placeholder=" " 
+              required 
+            />
+            <label 
+              for="email" 
+              class="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">
+              Email
+            </label>
+          </div>
+
 
                   <div className='flex '>
                     <div className='relative w-full'>
@@ -82,8 +82,9 @@ export default function Login() {
                       id="password"
                       value={data.password}
                       onChange={handleChange}
-                      className='w-full border-gray-400 bg-transparent border-b-2 py-1 focus:outline-none focus:border-b-accent-light focus:border-b-[3px] transition-colors peer'/>
-                      <label className='absolute text-gray-600 font-medium left-0 top-1 cursor-text peer-focus:text-xs peer-focus:text-accent-light peer-focus:-top-4 transition-all' htmlFor='password'>Password</label>
+                      class="block px-2.5 pb-0.5 pt-4 w-full text-sm text-gray-900 bg-transparent border-b-[3px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-accent-dark peer" 
+                      placeholder=" "/>
+                      <label class="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4" htmlFor='password'>Password</label>
                       <div className='cursor-pointer absolute right-1 top-2 flex items-center text-xl text-textColor-light' onClick={()=>Setshowpassword((preve)=>!preve)}>
                           <span className='hover:text-accent-light'>
                             {showpassword?

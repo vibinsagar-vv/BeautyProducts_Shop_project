@@ -55,10 +55,16 @@ export default function SignUp() {
     }
   }
   return (
-    <section id='signup' className='py-7'>
-          <div className='mx-auto container p-4'>
-            <div className='bg-white p-5 w-full max-w-sm mx-auto'>
-              <h1 className='text-center text-5xl font-bold text-pink-700'>Sign-UP</h1>
+    <section id='signup' className='h-[calc(100vh-120px)] p-16 flex justify-center ease-in-out'>
+          <div className='flex border-2 h-full w-[60%] border-accent-dark rounded-xl'>
+          <div className='hidden bg-accent-light h w-[40%] rounded-l-xl lg:flex flex-col gap-8 justify-center items-center'>
+              <p className='text-4xl font-extrabold text-white font-serif'>Hello,Friend!</p>
+              <p className='text-center w-[80%] text-white'>Enter your personal detials and start journey with Us</p>
+              <Link to={"/sign-up"} className='border-[3px] border-white text-white font-bold text-center px-6 py-2 w-full max-w-[150px] rounded-full hover:scale-110 transition-all mx-auto block mt-6' >SIGN UP</Link>
+              </div>
+          <div className='mx-auto pt-16 container rounded-r-xl lg:w-[60%] p-4'>
+            <div className='p-5 w-full max-w-sm mx-auto'>
+              <h1 className='text-center text-5xl font-bold text-accent-dark'>Sign-UP</h1>
             <form onSubmit={handleSubmit} className='pt-8 flex flex-col gap-6'>
                           <div className='relative'>
                           <input 
@@ -68,21 +74,28 @@ export default function SignUp() {
                           value={data.name}
                           onChange={handleChange}
                           required
-                          autoComplete='off'
-                          className='w-full bg-transparent border-b-2 border-gray-400 py-1 focus:outline-none focus:border-b-accent-light focus:border-b-[3px] transition-colors peer'/>
-                          <label className='absolute text-gray-600 font-medium left-0 top-1 cursor-text peer-focus:text-xs peer-focus:text-accent-light peer-focus:-top-4 transition-all' htmlFor='name'>Name</label>
+                          class="block px-2.5 pb-0.5 pt-4 w-full text-sm text-gray-900 bg-transparent border-b-[3px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-accent-dark peer" 
+                          placeholder=" "/>
+                          <label for="name" 
+                            class="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">Name</label>
                           </div>
-                          <div className='relative'>
-                          <input 
-                          type="email" 
-                          name="email" 
-                          id="email" 
-                          value={data.email}
-                          onChange={handleChange}
-                          required
-                          className='w-full bg-transparent border-b-2 border-gray-400 py-1 focus:outline-none focus:border-b-accent-light focus:border-b-[3px] transition-colors peer'/>
-                          <label className='absolute text-gray-600 font-medium left-0 top-1 cursor-text peer-focus:text-xs peer-focus:text-accent-light peer-focus:-top-4 transition-all' htmlFor='email'>Email</label>
-                          </div>
+                          <div class="relative">
+                              <input 
+                                type="email"
+                                id="email"
+                                name="email" 
+                                value={data.email}
+                                onChange={handleChange}
+                                class="block px-2.5 pb-0.5 pt-4 w-full text-sm text-gray-900 bg-transparent border-b-[3px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-accent-dark peer" 
+                                placeholder=" " 
+                                required 
+                              />
+                              <label 
+                                for="email" 
+                                class="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">
+                                Email
+                              </label>
+                            </div>
                       <div className='flex'>
                           <div className='relative w-full'>
                           <input 
@@ -92,8 +105,9 @@ export default function SignUp() {
                           value={data.password}
                           onChange={handleChange}
                           required
-                          className='w-full border-gray-400 bg-transparent border-b-2 py-1 focus:outline-none focus:border-b-accent-light focus:border-b-[3px] transition-colors peer'/>
-                          <label className='absolute text-gray-600 font-medium left-0 top-1 cursor-text peer-focus:text-xs peer-focus:text-accent-light peer-focus:-top-4 transition-all' htmlFor='password'>Password</label>
+                          class="block px-2.5 pb-0.5 pt-4 w-full text-sm text-gray-900 bg-transparent border-b-[3px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-accent-dark peer" 
+                          placeholder=" "/>
+                          <label class="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4" htmlFor='password'>Password</label>
                               <div className='cursor-pointer absolute right-1 top-2 flex items-center text-xl text-textColor-light' onClick={()=>Setshowpassword((preve)=>!preve)}>
                               <span className='hover:text-pink-700'>
                                   {showpassword?
@@ -112,9 +126,9 @@ export default function SignUp() {
                           value={data.confirmPassword}
                           onChange={handleChange}
                           required
-                          autoComplete='off'
-                          className='w-full border-gray-400 bg-transparent border-b-2 py-1 focus:outline-none focus:border-b-accent-light focus:border-b-[3px] transition-colors peer'/>
-                          <label className='absolute text-gray-600 font-medium left-0 top-1 cursor-text peer-focus:text-xs peer-focus:text-accent-light peer-focus:-top-4 transition-all' htmlFor='password'>Confirm Password</label>
+                          class="block px-2.5 pb-0.5 pt-4 w-full text-sm text-gray-900 bg-transparent border-b-[3px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-accent-dark peer" 
+                          placeholder=" "/>
+                          <label class="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4" htmlFor='password'>Confirm Password</label>
                               <div className='cursor-pointer absolute right-1 top-2 flex items-center text-xl text-textColor-light' onClick={()=>SetshowConfirmPassword((preve)=>!preve)}>
                               <span className='hover:text-pink-700'>
                                   {showConfirmPassword?
@@ -126,10 +140,11 @@ export default function SignUp() {
                           </div>
                       </div>
 
-                      <button type='submit' className='bg-pink-700 text-white px-6 py-2 w-full max-w-[150px] rounded-full hover:scale-110 transition-all mx-auto block mt-6 hover:bg-pink-800' >Sign Up</button>
+                      <button type='submit' className='bg-accent-dark text-white font-bold px-6 py-2 w-full max-w-[150px] rounded-full hover:scale-110 transition-all mx-auto block mt-6 hover:bg-tertiary-dark' >SIGN UP</button>
                   </form>
-                  <p className='py-6'>Already have account ?<Link to={"/login"} className='text-pink-700 hover:underline hover:text-pink-900'>Log In</Link></p>
+                  <p className='lg:hidden py-6'>Already have account ?<Link to={"/login"} className='text-pink-700 hover:underline hover:text-pink-900'>Log In</Link></p>
             </div>
+          </div>
           </div>
     </section>
 
