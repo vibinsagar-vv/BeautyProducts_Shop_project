@@ -90,22 +90,24 @@ pauseOnHover
 theme="colored"
 />
     <Header/>
-    <main className="h-[100vh] bg-neutral-light pt-16">
-      <Routes>
-        <Route path="/" element={<Home/>}/>
-        <Route path="/login" element={<Login/>}/>
-        <Route path="/forgot-password" element={<ForgotPasswod/>}/>
-        <Route path="/sign-up" element={<SignUp/>}/>
-        <Route path="/otp-verification" element={<OtpInput/>}/>
-        <Route path="/product-category/:categoryName" element={<CategoryProducts/>}/>
-        <Route path="/product/:id" element={<ProductDetials/>}/>
-        <Route path="/admin-panel/*" element={<AdminPanel/>}/>
-        <Route path="/profile" element={<ProfilePage/>}/>
-        <Route path="/cart" element={<Cart/>}/>
-        <Route path="/search" element={<SearchProducts/>}/>
-      </Routes>
-    </main>
-    <Footer/>
+    <div className="min-h-screen flex flex-col">
+      <main className="flex-grow bg-neutral-light pt-16">
+        <Routes>
+          <Route path="/" element={<Home/>}/>
+          <Route path="/login" element={<Login/>}/>
+          <Route path="/forgot-password" element={<ForgotPasswod/>}/>
+          <Route path="/sign-up" element={<SignUp/>}/>
+          <Route path="/otp-verification" element={<OtpInput/>}/>
+          <Route path="/product-category/:categoryName" element={<CategoryProducts/>}/>
+          <Route path="/product/:id" element={<ProductDetials/>}/>
+          <Route path="/admin-panel/*" element={<AdminPanel/>}/>
+          <Route path="/profile" element={<ProfilePage/>}/>
+          <Route path="/cart" element={<Cart/>}/>
+          <Route path="/search" element={<SearchProducts/>}/>
+        </Routes>
+      </main>
+      <Footer/>
+    </div>
     </Context.Provider>
     </>
   )

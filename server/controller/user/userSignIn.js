@@ -26,7 +26,7 @@ try{
     
     if(checkPassword){
 
-        const token = await jwt.sign({data:{userid:user._id,name:user.name,email:user.email}},process.env.jwtSecrect,{expiresIn:60*60*8})
+        const token = await jwt.sign({data:{userid:user._id,name:user.name,email:user.email}},process.env.jwtSecrect)
         res.json({
             message:"Login successfull",
             data:{token:token,role:user.role},

@@ -59,13 +59,13 @@ export default function Header() {
     console.log((url.pathname !="/login"||url.pathname !="/sign-up"));
     
   return (
-    <header className='h-16 bg-primary-light fixed w-full z-40' >
+    <header className='h-16 bg-tertiary-dark fixed w-full z-40' >
         <div className='w-full h-full container  flex items-center px-6 justify-between'>
             <div className=''>
                 <Link to={"/"}><img src={Logo}  className='w-28 md:w-36 rounded-md mr-5'/></Link>
             </div>
 
-            <div className='hidden md:flex items-center w-full justify-between max-w-sm border-2 border-accent-light bg-neutral-light rounded-full focus-within:shadow pl-5 mx-2 '>
+            <div className='hidden md:flex items-center w-full justify-between max-w-sm border-2 border-primary-light bg-neutral-light rounded-full focus-within:shadow pl-5 mx-2 '>
                 <input type="text" placeholder='search here...' className='w-full outline-none bg-transparent text-textColor-light placeholder-textColor-light' onChange={handleChangeSearch} onBlur={handleblur}/>
                 <div className='min-w-[50px] h-8 bg-accent-light  flex items-center justify-center rounded-r-full text-white' onClick={handleSearch}>
                     <FaSearch/>
@@ -112,9 +112,9 @@ export default function Header() {
                 <div>
                     {
                         userDetials?._id ?(
-                            <button className='px-3 py-1 text-white rounded-full bg-accent-light hover:bg-tertiary-dark text-nowrap' onClick={handleLogOut}>Log Out</button>
+                            <button className='px-3 py-1 text-white rounded-full bg-primary-light hover:bg-tertiary-dark text-nowrap' onClick={handleLogOut}>Log Out</button>
                         ):(((url.pathname !="/login")&&(url.pathname !="/sign-up"))&&(
-                            <Link to={"/login"} className='px-3 py-1 text-white rounded-full bg-accent-light hover:bg-pink-800 '>Log in</Link>
+                            <Link to={"/login"} className='px-3 py-1 text-white rounded-full bg-primary-light hover:bg-pink-800 '>Log in</Link>
                         )
                         )
                     }
