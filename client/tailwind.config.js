@@ -3,6 +3,7 @@ export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
+    'node_modules/flowbite-react/lib/esm/**/*.js'
   ],
   theme: {
     extend: {
@@ -21,7 +22,8 @@ export default {
         },
         accent:{
           "light":"#b76e79",
-          'dark':"#8a4c55"
+          'dark':"#8a4c55",
+          'extra':'#ff4081'
         },
         neutral:{
           "light":"#ffffff",
@@ -33,6 +35,9 @@ export default {
       }
     },
   },
-  plugins: [],
+  plugins: [
+    require('flowbite/plugin'),
+    require('tailwind-scrollbar-hide')
+  ],
 }
 

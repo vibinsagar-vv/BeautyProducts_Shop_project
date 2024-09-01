@@ -1,9 +1,9 @@
 import { Route, Routes, useNavigate } from "react-router-dom"
 import Home from "./components/pages/Home"
 import './App.css'
-import Header from "./components/Header"
+// import Header from "./components/Header"
 import Footer from "./components/Footer"
-import Login from "./components/pages/Login"
+// import Login from "./components/pages/Login"
 import ForgotPasswod from "./components/pages/ForgotPasswod"
 import SignUp from "./components/pages/SignUp"
 import { Bounce, toast, ToastContainer } from 'react-toastify';
@@ -21,7 +21,9 @@ import OtpInput from "./components/pages/OtpInput"
 import ProfilePage from "./components/pages/Profile"
 import Cart from "./components/pages/Cart"
 import SearchProducts from "./components/pages/SearchProducts"
-
+import MyNavbar from "./components/flowbiteHeader"
+import AuthPage from "./components/AuthPage"
+import Log from "./components/Log"
 function App() {
   const dispatch = useDispatch()
   const [cartProductCount,SetCartProductCount] = useState(0)
@@ -89,14 +91,14 @@ transition={Bounce}
 pauseOnHover
 theme="colored"
 />
-    <Header/>
+    <MyNavbar/>
     <div className="min-h-screen flex flex-col">
-      <main className="flex-grow bg-neutral-light pt-16">
+      <main className="flex-grow bg-white pt-16">
         <Routes>
           <Route path="/" element={<Home/>}/>
-          <Route path="/login" element={<Login/>}/>
+          <Route path="/login" element={<AuthPage/>}/>
           <Route path="/forgot-password" element={<ForgotPasswod/>}/>
-          <Route path="/sign-up" element={<SignUp/>}/>
+          <Route path="/sign-up" element={<Log/>}/>
           <Route path="/otp-verification" element={<OtpInput/>}/>
           <Route path="/product-category/:categoryName" element={<CategoryProducts/>}/>
           <Route path="/product/:id" element={<ProductDetials/>}/>

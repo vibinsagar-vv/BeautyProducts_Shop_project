@@ -69,7 +69,7 @@ export default function SignUp() {
                   value={data.name}
                   onChange={handleChange}
                   required
-                  className="block px-2.5 pb-0.5 pt-4 w-full text-sm text-gray-900 bg-transparent border-b-[3px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-accent-dark peer"
+                  className="block ring-0 border-0 px-2.5 pb-0.5 pt-4 w-full text-sm text-gray-900 bg-transparent border-b-[3px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-accent-dark peer"
                   placeholder=" " 
                 />
                 <label 
@@ -87,7 +87,7 @@ export default function SignUp() {
                   value={data.email}
                   onChange={handleChange}
                   required
-                  className="block px-2.5 pb-0.5 pt-4 w-full text-sm text-gray-900 bg-transparent border-b-[3px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-accent-dark peer"
+                  className="block ring-0 border-0 px-2.5 pb-0.5 pt-4 w-full text-sm text-gray-900 bg-transparent border-b-[3px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-accent-dark peer"
                   placeholder=" " 
                 />
                 <label 
@@ -105,7 +105,7 @@ export default function SignUp() {
                   value={data.password}
                   onChange={handleChange}
                   required
-                  className="block px-2.5 pb-0.5 pt-4 w-full text-sm text-gray-900 bg-transparent border-b-[3px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-accent-dark peer"
+                  className="block ring-0 border-0 px-2.5 pb-0.5 pt-4 w-full text-sm text-gray-900 bg-transparent border-b-[3px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-accent-dark peer"
                   placeholder=" " 
                 />
                 <label 
@@ -128,7 +128,7 @@ export default function SignUp() {
                   value={data.confirmPassword}
                   onChange={handleChange}
                   required
-                  className="block px-2.5 pb-0.5 pt-4 w-full text-sm text-gray-900 bg-transparent border-b-[3px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-accent-dark peer"
+                  className="block ring-0 border-0 px-2.5 pb-0.5 pt-4 w-full text-sm text-gray-900 bg-transparent border-b-[3px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-accent-dark peer"
                   placeholder=" " 
                 />
                 <label 

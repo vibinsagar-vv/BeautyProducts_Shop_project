@@ -13,10 +13,6 @@ export default function ProfilePage() {
         if(resData.data.error){
             nav("/")
         }
-
-        if(Role !=="ADMIN"){
-            nav("/")
-        }
     }
     useEffect(()=>{
 
