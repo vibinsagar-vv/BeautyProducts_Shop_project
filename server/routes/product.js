@@ -19,23 +19,15 @@ const GetCategoryWiseProduct = require('../controller/products/getCategoryWisePr
 const DeleteProductCntrl = require('../controller/products/DeleteProduct')
 const getProductDetailCntrl = require('../controller/products/getProductDetails')
 const SearchProductCntrl = require('../controller/products/SearchProduct')
+const Mulstorage = require('../multer/productImageStorage')
 
-const Mulstorage = multer.diskStorage({
-    destination:function(req,file,cb){
-        cb(null,'uploads/ProductImages/')
-    },
-    filename:function(req,file,cb){
-        cb(null,file.originalname)
-
-    }
-})
 
 const upload=multer({storage:Mulstorage})
 const uploadBanner = multer({storage:Bannerstorage})
 
 router.post("/upload-product-image",upload.single('product'),PrdctImageUploadCntrl)
 router.post("/delete-product-image",DeletePrdctImageCntrl)
-router.post("/upload-product",authToken,AuthAdmin,UploadProductCntrl)
+router.post("/upload-product",authToken,AuthAdmin,upload.array('images'),UploadProductCntrl)
 router.get("/get-products",getProductCntrl)
 router.post("/update-product",authToken,AuthAdmin,UpdateProductCntrl)
 router.get("/get-category-product",getCategoryProduct)

@@ -42,3 +42,9 @@
     background-size: cover;
     background-repeat: no-repeat;
 }
+#chk{
+	display: none;
+}
+#chk:checked ~ .signup{
+	transform: translateY(130px);
+}

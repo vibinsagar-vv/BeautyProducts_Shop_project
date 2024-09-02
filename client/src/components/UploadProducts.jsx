@@ -8,17 +8,21 @@ import AXIOS from "axios";
 import { toast } from "react-toastify";
 
 export default function UploadProducts({ onClose, fetchData }) {
+  const [images, setImages] = useState([]);
+  const [imagePreviews, setImagePreviews] = useState([]);
   const [data, SetData] = useState({
     ProductName: "",
     ProductBrand: "",
     category: "",
     subcategory: "",
-    productImage: [],
     description: "",
-    quantity:"",
+    quantity: "",
     price: "",
     sellingPrice: "",
   });
+  console.log("image", data.productImage);
+  console.log("preview", imagePreviews);
+
   const [fullScreenImage, SetFullScreenImage] = useState("");
   const [openFullScreenImage, SetOpenFullScreenImage] = useState(false);
 
@@ -26,17 +30,22 @@ export default function UploadProducts({ onClose, fetchData }) {
     SetData({ ...data, [e.target.name]: e.target.value });
   };
 
-  const handleuploadProduct = async (e) => {
-    const file = e.target.files[0];
-    UploadImage(file);
-    SetData({
-      ...data,
-      productImage: [
-        ...data.productImage,
-        (data.ProductName || "productImage") + "_" + file.name,
-      ],
-    });
-    console.log("test data", data);
+  const handleImageChange = (e) => {
+    const files = Array.from(e.target.files);
+    const newImages = [...images, ...files];
+    setImages(newImages);
+
+    const previews = newImages.map((file) => URL.createObjectURL(file));
+    setImagePreviews(previews);
+  };
+
+  const handleImageDelete = (index) => {
+    const newImages = [...images];
+    const newPreviews = [...imagePreviews];
+    newImages.splice(index, 1);
+    newPreviews.splice(index, 1);
+    setImages(newImages);
+    setImagePreviews(newPreviews);
   };
 
   const handleDeleteProductImage = async (product, index) => {
@@ -53,10 +62,26 @@ export default function UploadProducts({ onClose, fetchData }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("data", data);
+
+    const formData = new FormData();
+
+    for (let key in data) {
+      formData.append(key, data[key]);
+    }
+
+    images.forEach((item) => formData.append("images", item));
+
+    console.log(formData.getAll("images"));
+
     const resData = await AXIOS.post(
       "http://localhost:7800/products/upload-product",
-      data,
-      { headers: { token: localStorage.getItem("token") } }
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          token: localStorage.getItem("token"),
+        },
+      }
     );
     if (resData.data.success) {
       toast.success(resData.data.message);
@@ -202,10 +227,12 @@ export default function UploadProducts({ onClose, fetchData }) {
             </div>
           </div>
 
-          <label className="mt-3">Product Images :</label>
+          <label className="mt-3 text-gray-500 font-semibold">
+            Product Images :
+          </label>
           <label htmlFor="uploadImageInput">
-            <div className="p-2 bg-slate-100 border rounded h-36 w-full flex justify-center items-center cursor-pointer">
-              <div className="text-slate-500 flex justify-center items-center flex-col gap-2">
+            <div className="p-2 group bg-slate-100 hover:bg-pink-50  border hover:border-accent-light rounded h-36 w-full flex justify-center items-center cursor-pointer">
+              <div className="text-slate-500 group-hover:text-accent-dark flex justify-center items-center flex-col gap-2">
                 <span className="text-4xl">
                   <MdUpload />
                 </span>
@@ -213,26 +240,27 @@ export default function UploadProducts({ onClose, fetchData }) {
                 <input
                   className="hidden"
                   type="file"
+                  multiple
                   name="uploadImageInput"
                   id="uploadImageInput"
-                  onChange={handleuploadProduct}
+                  onChange={handleImageChange}
                 />
               </div>
             </div>
           </label>
           <div>
             <div className="flex items-center gap-2 overflow-x-scroll scrollbar-none py-5">
-              {data?.productImage[0] ? (
-                data.productImage.map((product, index) => {
+              {imagePreviews[0] ? (
+                imagePreviews.map((product, index) => {
                   return (
                     <div className="relative group">
                       <div className=" w-32 h-40">
                         <img
                           key={index}
-                          src={`http://localhost:7800/ProductImages/` + product}
+                          src={product}
                           width={100}
                           height={100}
-                          className="bg-slate-100 border flex justify-center items-center cursor-pointer w-fit max-h-40 mx-auto min-h-40 h-fit"
+                          className="bg-white py-4 border flex justify-center items-center cursor-pointer w-fit max-h-40 mx-auto min-h-40 h-fit"
                           alt={product}
                           onClick={() => {
                             SetOpenFullScreenImage(true);
@@ -243,7 +271,7 @@ export default function UploadProducts({ onClose, fetchData }) {
                       <div
                         className="absolute bottom-1 right-1 p-1 text-xs text-white bg-red-600 rounded-full hidden group-hover:block cursor-pointer"
                         onClick={() => {
-                          handleDeleteProductImage(product, index);
+                            handleImageDelete(index)
                         }}
                       >
                         <MdDelete />

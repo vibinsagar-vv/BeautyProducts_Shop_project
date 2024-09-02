@@ -2,7 +2,14 @@ const ProductModel = require('../../models/productModel')
 
 async function UploadProductCntrl(req,res){
     try{
-        const ProductData =await ProductModel.create(req.body)
+        const image =[]
+        req.files.forEach(element => {
+            image.push(element.filename)
+        });
+
+        console.log(image);
+        
+        const ProductData =await ProductModel.create({...req.body,productImage:image})
         res.json({
             data:ProductData,
             success:true,

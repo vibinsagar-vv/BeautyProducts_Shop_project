@@ -197,7 +197,7 @@ export default function AdminEditProduct({ onClose, ProductData, fetchData }) {
 
           <label className="mt-3">Product Images :</label>
           <label htmlFor="uploadImageInput">
-            <div className="p-2 bg-slate-100 border rounded h-36 w-full flex justify-center items-center cursor-pointer">
+            <div className="p-2 bg-pink-100 border rounded h-36 w-full flex justify-center items-center cursor-pointer">
               <div className="text-slate-500 flex justify-center items-center flex-col gap-2">
                 <span className="text-4xl">
                   <MdUpload />

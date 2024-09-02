@@ -1,4 +1,4 @@
-import { Route, Routes, useNavigate } from "react-router-dom"
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom"
 import Home from "./components/pages/Home"
 import './App.css'
 // import Header from "./components/Header"
@@ -24,11 +24,15 @@ import SearchProducts from "./components/pages/SearchProducts"
 import MyNavbar from "./components/flowbiteHeader"
 import AuthPage from "./components/AuthPage"
 import Log from "./components/Log"
+import SlideNavbar from "./components/SlideNavbar"
+import AuthForm from "./components/SlideNavbar"
 function App() {
   const dispatch = useDispatch()
   const [cartProductCount,SetCartProductCount] = useState(0)
-
-
+  const url=useLocation()
+  console.log(url);
+  
+  
   const fetchUserDetials = async()=>{
     try{
     const header={
@@ -108,7 +112,7 @@ theme="colored"
           <Route path="/search" element={<SearchProducts/>}/>
         </Routes>
       </main>
-      <Footer/>
+      {!url.pathname=='/login'&&<Footer/>}
     </div>
     </Context.Provider>
     </>

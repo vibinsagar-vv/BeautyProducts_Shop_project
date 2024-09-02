@@ -98,34 +98,36 @@ export default function MyNavbar() {
                     />
                   }
                 >
-                  <Dropdown.Header>
-                    <span className="block text-sm capitalize">
-                      {userDetials?.name}
-                    </span>
-                    <span className="block truncate text-sm font-medium">
-                      {userDetials?.email}
-                    </span>
-                  </Dropdown.Header>
-                  <Dropdown.Item>
-                    {userDetials?.role === "ADMIN" && (
-                      <Link to={"/admin-panel"}>Dashboard</Link>
-                    )}
-                  </Dropdown.Item>
-                  <Dropdown.Item>
-                    <Link to={"/profile"}>Profile</Link>
-                  </Dropdown.Item>
-                  <Dropdown.Divider />
-                  <Dropdown.Item
-                    className="block lg:hidden bg-primary-light bg-opacity-40 hover:bg-opacity-60 hover:bg-primary-light"
-                    onClick={handleLogOut}
-                  >
-                    <div className="flex justify-center items-center">
-                      Sign out
-                      <span className="text-lg pl-3 pt-1">
-                        <MdOutlineLogout />
+                  <div>
+                    <Dropdown.Header>
+                      <span className="block text-sm capitalize">
+                        {userDetials?.name}
                       </span>
-                    </div>
-                  </Dropdown.Item>
+                      <span className="block truncate text-sm font-medium">
+                        {userDetials?.email}
+                      </span>
+                    </Dropdown.Header>
+                    <Dropdown.Item>
+                      {userDetials?.role === "ADMIN" && (
+                        <Link to={"/admin-panel"}>Dashboard</Link>
+                      )}
+                    </Dropdown.Item>
+                    <Dropdown.Item>
+                      <Link to={"/profile"}>Profile</Link>
+                    </Dropdown.Item>
+                    <Dropdown.Divider />
+                    <Dropdown.Item
+                      className="block lg:hidden bg-primary-light bg-opacity-40 hover:bg-opacity-60 hover:bg-primary-light"
+                      onClick={handleLogOut}
+                    >
+                      <div className="flex justify-center items-center">
+                        Sign out
+                        <span className="text-lg pl-3 pt-1">
+                          <MdOutlineLogout />
+                        </span>
+                      </div>
+                    </Dropdown.Item>
+                  </div>
                 </Dropdown>
               </div>
             )}
@@ -188,8 +190,7 @@ export default function MyNavbar() {
               </button>
             </div>
           ) : (
-            url.pathname != "/login" &&
-            url.pathname != "/sign-up" && (
+            url.pathname != "/login" && (
               <Link to={"/login"} className="lg:flex p-1 hidden">
                 <button className="relative inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-accent-light to-primary-light group-hover:from-accent-light group-hover:to-primary-light hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800">
                   <span className="relative px-1.5 py-1.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
@@ -252,7 +253,17 @@ export default function MyNavbar() {
               </a>
             </li>
             <li className="block lg:hidden">
-              <Link
+              {userDetials?._id ?(<div
+                onClick={handleLogOut}
+                className="block py-2 px-3 cursor-pointer bg-gray-100 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-accent-light md:p-0 dark:text-white md:dark:hover:text-accent-light dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+              >
+                <div className="flex items-center justify-center">
+                  LOG OUT
+                  <span className="py-1 pl-3 text-xl">
+                    <MdOutlineLogout />
+                  </span>
+                </div>
+              </div>):(url.pathname != "/login"&&(<Link
                 to={"/login"}
                 className="block py-2 px-3 bg-gray-100 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-accent-light md:p-0 dark:text-white md:dark:hover:text-accent-light dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
               >
@@ -262,7 +273,7 @@ export default function MyNavbar() {
                     <MdOutlineLogin />
                   </span>
                 </div>
-              </Link>
+              </Link>))}
             </li>
           </ul>
         </div>
