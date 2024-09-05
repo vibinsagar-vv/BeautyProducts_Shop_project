@@ -58,7 +58,7 @@ export default function MyNavbar() {
   };
 
   return (
-    <nav className="fixed z-40 bg-white w-full border-gray-200 dark:bg-gray-900 shadow-md">
+    <nav className="fixed z-40 bg-transparent w-full border-gray-200 dark:bg-gray-900 shadow-md">
       <div className=" max-w-screen flex flex-wrap items-center justify-between mx-auto py-3 md:py-2 px-2 md:px-8">
         <div className="flex items-center space-x-3 rtl:space-x-reverse">
           <Link to={"/"}>
@@ -69,7 +69,7 @@ export default function MyNavbar() {
           <div className="flex items-center justify-center gap-5">
             <div className="pt-1">
               {userDetials?._id && (
-                <Link to={"cart"} className="text-2xl cursor-pointer relative">
+                <Link to={"/cart"} className="text-2xl cursor-pointer relative">
                   <span>
                     <FaCartShopping />
                   </span>
@@ -109,7 +109,7 @@ export default function MyNavbar() {
                     </Dropdown.Header>
                     <Dropdown.Item>
                       {userDetials?.role === "ADMIN" && (
-                        <Link to={"/admin-panel"}>Dashboard</Link>
+                        <Link to={"/dashboard"}>Dashboard</Link>
                       )}
                     </Dropdown.Item>
                     <Dropdown.Item>

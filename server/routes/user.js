@@ -15,6 +15,7 @@ const CountAddToCartPrdctCntrl = require('../controller/Cart/countAddToCartProdu
 const CartViewCntrl = require('../controller/Cart/CartView')
 const updateAddToCartCnrtl = require('../controller/Cart/updateAddToCart')
 const DeleteCartProductCntrl = require('../controller/Cart/DeleteCartProduct')
+const DeleteUserCnrtl = require('../controller/user/deleteUser')
 
 
 
@@ -35,6 +36,7 @@ router.post("/resend-otp",resendOtpCntrl)
 
 router.post("/all-user",authToken,allUserCntrl)
 router.post("/update-user",authToken,updateUserCnrtl)
+router.post("/delete-user",authToken,DeleteUserCnrtl)
 
 //AddToCart
 

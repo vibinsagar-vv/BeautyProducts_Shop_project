@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import AXIOS from 'axios'
+import MyNavbar from '../flowbiteHeader'
+import Footer from '../Footer'
 
 export default function SearchProducts() {
     const [data,SetData] = useState([])
@@ -13,7 +15,11 @@ export default function SearchProducts() {
     useEffect(()=>{fetchData()})
   return (
     <div>
-        Search
+      <MyNavbar/>
+        <div>
+          Search Page
+        </div>
+        <Footer/>
     </div>
   )
 }

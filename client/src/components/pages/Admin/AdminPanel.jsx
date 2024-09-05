@@ -6,6 +6,7 @@ import AllUsers from './AllUsers';
 import AllProducts from './AllProducts';
 import AXIOS from 'axios'
 import BannerUpdate from './Banner/BannerUpdate';
+import SidebarComponent from '../../SideBarFlowbite';
 
 export default function AdminPanel() {
     const user = useSelector(state=>state.user.user)
@@ -28,9 +29,10 @@ export default function AdminPanel() {
     },[user])
 
   return (
-    <div className=' min-h-[calc(100vh-120px)] hidden md:flex'>
-        <aside className='bg-white min-h-full w-full max-w-60 customShadow'>
-            <div className='h-52 flex justify-center items-center flex-col'>
+    <div className='min-h-[100vh]] md:flex'>
+        {/* <aside className='bg-red-200 min-h-full w-full max-w-60 customShadow'> */}
+        <SidebarComponent/>
+            {/* <div className='h-52 flex justify-center items-center flex-col'>
                 <div className='rounded-full shadow-pink-800 shadow-lg text-7xl text-pink-700 cursor-pointer flex justify-center'>
                             {
                                 user?.profilePic?(<img className='w-20 h-20 rounded-full' src={`http://localhost:7800/profilePhotos/${user.profilePic}`} alt={user.name}/>):(
@@ -48,9 +50,9 @@ export default function AdminPanel() {
                     <Link to={"products"} className='px-2 py-1 hover:bg-pink-100'>products</Link>
                     <Link to={"banners"} className='px-2 py-1 hover:bg-pink-100'>Banners</Link>
                 </nav>
-            </div>
-        </aside>
-        <main className=' w-full h-full p-2'>
+            </div> */}
+        {/* </aside> */}
+        <main className='bg-green-500 w-full h-[100vh] overflow-hidden'>
         <Routes>
         <Route path="/all-users" element={<AllUsers/>}/>
         <Route path="/products" element={<AllProducts/>}/>

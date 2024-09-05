@@ -149,9 +149,10 @@ export default function OtpInput({length=4}) {
             setErrormsg(err.response.data.msg) */
 
   return (
-    <section id='signup' className='py-7'>
+    <div className='pt-16 bg-pink-300 min-h-screen'>
+      <section id='signup' className='bg-blur py-7'>
           <div className='mx-auto container p-4'>
-            <div className='bg-white p-5 w-full max-w-sm mx-auto'>
+            <div className='bg-white rounded-md shadow-md shadow-accent-dark p-5 w-full max-w-sm mx-auto'>
             <h1 className='text-center text-3xl font-bold'>OTP Verification</h1>
                 <div className='flex justify-center'>
                 <span className='text-center text-7xl text-pink-700 bg-slate-100 p-2 my-3 rounded-full'><MdMarkEmailRead/></span>
@@ -182,5 +183,6 @@ export default function OtpInput({length=4}) {
             </div>
           </div>
     </section>
+    </div>
   )
 }

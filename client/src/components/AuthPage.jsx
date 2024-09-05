@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import AXIOS from "axios";
 import { toast } from "react-toastify";
 import Context from "../context/context";
+import MyNavbar from "./flowbiteHeader";
 
 export default function AuthPage() {
   const navigate = useNavigate();
@@ -70,7 +71,7 @@ export default function AuthPage() {
   };
 
   console.log(SignIndata);
-  
+
   const SignInHandleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -98,82 +99,99 @@ export default function AuthPage() {
 
   return (
     <div>
+      <MyNavbar/>
+      <div className="pt-16">
       <div className="flex lg:hidden justify-center items-center min-h-[calc(100vh-64px)] bg-gradient-to-b from-accent-dark via-primary-light to-accent-dark font-[Jost]">
-      <div className="relative w-screen h-[calc(100vh-64px)] rounded-lg shadow-[5px_0px_50px_rgba(0,0,0)] bg-cover bg-center overflow-hidden bg-accent-light" >
-        <input type="checkbox" id="chk" className="hidden" />
+        <div className="relative w-screen h-[calc(100vh-64px)] rounded-lg shadow-[5px_0px_50px_rgba(0,0,0)] bg-cover bg-center overflow-hidden bg-accent-light">
+          <input type="checkbox" id="chk" className="hidden" />
 
-        {/* Login Form */}
-        <div className="login absolute  inset-0 transition-transform duration-700 ease-in-out transform translate-y-0">
-          <form onSubmit={SignInHandleSubmit} className="h-[70%] mt-8 flex flex-col items-center justify-center">
-            <label htmlFor="chk" className="text-white text-3xl font-bold mb-36 cursor-pointer transition-transform duration-500">
-              Login
-            </label>
-            
-            <div className="relative w-[70%]">
+          {/* Login Form */}
+          <div className="login absolute  inset-0 transition-transform duration-700 ease-in-out transform translate-y-0">
+            <form
+              onSubmit={SignInHandleSubmit}
+              className="h-[100%] mt-[10%] flex flex-col items-center"
+            >
+              <label
+                htmlFor="chk"
+                className="head text-white text-[60px] font-bold cursor-pointer transition-all duration-500"
+              >
+                Login
+              </label>
+
+              <div className=" w-full h-[90%] flex flex-col pb-[20%] items-center justify-center">
+              <div className="relative w-[70%]">
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={SignIndata.email}
+                  onChange={SignInHandleChange}
+                  className="block ring-0 border-0 px-2.5 pb-0.5 pt-4 w-full text-sm mb-4 text-gray-900 bg-transparent border-b-[3px] border-white appearance-none focus:outline-none focus:ring-0 focus:border-white peer"
+                  placeholder=" "
+                  required
+                />
+                <label
+                  htmlFor="email"
+                  className="absolute text-lg text-white duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0]  px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+                >
+                  Email
+                </label>
+              </div>
+
+              <div className="flex w-[70%]">
+                <div className="relative w-full">
                   <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={SignIndata.email}
+                    type={showSignInPassword ? "text" : "password"}
+                    name="password"
+                    id="password"
+                    value={SignIndata.password}
                     onChange={SignInHandleChange}
                     className="block ring-0 border-0 px-2.5 pb-0.5 pt-4 w-full text-sm mb-4 text-gray-900 bg-transparent border-b-[3px] border-white appearance-none focus:outline-none focus:ring-0 focus:border-white peer"
                     placeholder=" "
-                    required
                   />
                   <label
-                    htmlFor="email"
-                    className="absolute text-lg text-white duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0]  px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
-                  >
-                    Email
-                  </label>
-                </div>
-
-                <div className="flex w-[70%]">
-                  <div className="relative w-full">
-                    <input
-                      type={showSignInPassword ? "text" : "password"}
-                      name="password"
-                      id="password"
-                      value={SignIndata.password}
-                      onChange={SignInHandleChange}
-                      className="block ring-0 border-0 px-2.5 pb-0.5 pt-4 w-full text-sm mb-4 text-gray-900 bg-transparent border-b-[3px] border-white appearance-none focus:outline-none focus:ring-0 focus:border-white peer"
-                      placeholder=" "
-                    />
-                    <label
                     className="absolute text-lg text-white duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0]  px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
                     htmlFor="password"
-                    >
-                      Password
-                    </label>
-                    <div
-                      className="cursor-pointer absolute right-1 top-2 flex items-center text-xl text-pink-200"
-                      onClick={() => SetShowSignInPassword((prev) => !prev)}
-                    >
-                      <span className="hover:text-tertiary-dark">
-                        {showSignInPassword ? <FaEyeSlash /> : <FaEye />}
-                      </span>
-                    </div>
+                  >
+                    Password
+                  </label>
+                  <div
+                    className="cursor-pointer absolute right-1 top-2 flex items-center text-xl text-pink-200"
+                    onClick={() => SetShowSignInPassword((prev) => !prev)}
+                  >
+                    <span className="hover:text-tertiary-dark">
+                      {showSignInPassword ? <FaEyeSlash /> : <FaEye />}
+                    </span>
                   </div>
                 </div>
-                <Link
-                  to={"/forgot-password"}
-                  className="lg:block text-center lg:w-fit w-full   ml-auto hover:underline hover:text-pink-700"
-                >
-                  Forgot password?
-                </Link>
-                <button className="bg-accent-dark text-white font-bold px-6 py-2 w-full max-w-[150px] rounded-full hover:scale-110 transition-all mx-auto block mt-6 hover:bg-tertiary-dark">
-                  LOG IN
-                </button>
-          </form>
-        </div>
+              </div>
+              <Link
+                to={"/forgot-password"}
+                className="lg:block text-center lg:w-fit w-full   ml-auto hover:underline hover:text-pink-700"
+              >
+                Forgot password?
+              </Link>
+              <button className="bg-accent-dark text-white font-bold px-6 py-2 w-full max-w-[150px] rounded-full hover:scale-110 transition-all mx-auto block mt-6 hover:bg-tertiary-dark">
+                LOG IN
+              </button>
+              </div>
+            </form>
+          </div>
 
-        {/* Login Form */}
-        <div className="signup absolute inset-0 h-[590px] bg-[#eee] rounded-[60%_/_10%] transform translate-y-[570px] transition-transform duration-[0.8s] ease-in-out">
-          <form onSubmit={signUpHandleSubmit} className="h-[80%] flex flex-col items-center justify-center">
-            <label htmlFor="chk" className="text-accent-dark text-3xl font-bold mb-16 transform transition-transform duration-500">
-              Sign up
-            </label>
-            <div className="relative w-[70%] mb-4">
+          {/* SignUp Form */}
+          <div className="signup absolute inset-0 h-[calc(100vh-64px)] bg-white rounded-[60%_/_10%] rounded-b-none transform translate-y-[80%] transition-transform duration-[0.8s] ease-in-out">
+            <form
+              onSubmit={signUpHandleSubmit}
+              className="h-[90%] flex flex-col items-center mt-4"
+            >
+              <label
+                htmlFor="chk"
+                className="text-accent-dark text-3xl font-bold mb-[20%] transform transition-transform duration-500"
+              >
+                Sign up
+              </label>
+              <div className=" w-full h-full flex flex-col items-center justify-center pb-[50%]">
+                <div className="relative w-[70%] mb-12">
                   <input
                     type="text"
                     name="name"
@@ -269,10 +287,11 @@ export default function AuthPage() {
                 >
                   SIGN UP
                 </button>
-          </form>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
       <div className="hidden lg:flex items-center justify-center h-[613px] bg-pink-50">
         <div className="relative overflow-hidden w-[854px] max-w-full h-[475px] bg-white rounded-[30px] border-2 border-accent-dark shadow-[0_5px_15px_rgba(0,0,0,0.35)]">
           <div
@@ -546,6 +565,7 @@ export default function AuthPage() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }

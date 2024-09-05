@@ -3,6 +3,7 @@ import AXIOS from 'axios'
 import displayINRCurrency from '../../helpers/displayCurrency'
 import { IoMdClose } from "react-icons/io";
 import Context from '../../context/context';
+import MyNavbar from '../flowbiteHeader';
 
 export default function Cart() {
     const [data,SetData] = useState([])
@@ -64,7 +65,9 @@ export default function Cart() {
     }
     
   return (
-    <div className='container sm:text-2xl md:text-4xl mx-auto p-4'>
+    <div>
+        <MyNavbar/>
+        <div className='container sm:text-2xl md:text-4xl mx-auto pt-16 p-4'>
         <div className='text-center text-xl my-3'>
             {
                 data.length === 0 ? (
@@ -119,6 +122,7 @@ export default function Cart() {
             }
         </div>
 
+    </div>
     </div>
   )
 }

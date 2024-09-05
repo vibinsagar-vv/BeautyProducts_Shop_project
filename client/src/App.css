@@ -19,6 +19,30 @@
 
 
 }
+/* Scrollbar for WebKit browsers */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 4px; /* Thinner scrollbar */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    border-radius: 10px; /* Rounded edges for the track */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    border-radius: 20px; /* More rounded scrollbar handle */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: #ae1414; /* Darker color on hover */
+}
+
+/* Scrollbar for Firefox */
+.custom-scrollbar {
+    border-radius: 10px;
+    scrollbar-width: thin; /* Thin scrollbar */
+    scrollbar-color: #d7d7d7 #ffffff; /* Handle and track color */
+    scroll-behavior: smooth; /* Smooth scrolling */
+}
 .Marck{
     font-family: "Marck Script", cursive;
 }
@@ -46,5 +70,11 @@
 	display: none;
 }
 #chk:checked ~ .signup{
-	transform: translateY(130px);
+	transform: translateY(20%);
+}
+#chk:checked ~ .login form{
+	margin-top: 5%
+}
+#chk:checked ~ .login .head {
+	font-size: 30px;
 }

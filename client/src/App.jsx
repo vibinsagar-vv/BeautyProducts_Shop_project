@@ -26,6 +26,10 @@ import AuthPage from "./components/AuthPage"
 import Log from "./components/Log"
 import SlideNavbar from "./components/SlideNavbar"
 import AuthForm from "./components/SlideNavbar"
+import TableComponent from "./components/TableComponent"
+import SelectionTable from "./components/SimpleTable"
+import DashBoard from "./components/DashBoard"
+import UserPage from "./Users/UserPage"
 function App() {
   const dispatch = useDispatch()
   const [cartProductCount,SetCartProductCount] = useState(0)
@@ -95,25 +99,12 @@ transition={Bounce}
 pauseOnHover
 theme="colored"
 />
-    <MyNavbar/>
-    <div className="min-h-screen flex flex-col">
-      <main className="flex-grow bg-white pt-16">
+      <main className=" bg-white">
         <Routes>
-          <Route path="/" element={<Home/>}/>
-          <Route path="/login" element={<AuthPage/>}/>
-          <Route path="/forgot-password" element={<ForgotPasswod/>}/>
-          <Route path="/sign-up" element={<Log/>}/>
-          <Route path="/otp-verification" element={<OtpInput/>}/>
-          <Route path="/product-category/:categoryName" element={<CategoryProducts/>}/>
-          <Route path="/product/:id" element={<ProductDetials/>}/>
-          <Route path="/admin-panel/*" element={<AdminPanel/>}/>
-          <Route path="/profile" element={<ProfilePage/>}/>
-          <Route path="/cart" element={<Cart/>}/>
-          <Route path="/search" element={<SearchProducts/>}/>
+          <Route path="/*" element={<UserPage/>}/>
+          <Route path="/dashboard/*" element={<DashBoard/>}/>
         </Routes>
       </main>
-      {!url.pathname=='/login'&&<Footer/>}
-    </div>
     </Context.Provider>
     </>
   )

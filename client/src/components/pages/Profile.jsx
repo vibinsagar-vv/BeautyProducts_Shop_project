@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import { FaUserCircle } from "react-icons/fa";
 import { Link, Route, Routes, useNavigate } from 'react-router-dom';
 import AXIOS from 'axios'
+import MyNavbar from '../flowbiteHeader';
 
 export default function ProfilePage() {
     const user = useSelector(state=>state.user.user)
@@ -21,7 +22,9 @@ export default function ProfilePage() {
     },[user])
 
   return (
-    <div className=' min-h-[calc(100vh-120px)] hidden md:flex'>
+    <div>
+        <MyNavbar/>
+        <div className='pt-[66px] min-h-[100vh] hidden md:flex'>
         <aside className='bg-white min-h-full w-full max-w-60 customShadow'>
             <div className='h-52 flex justify-center items-center flex-col'>
                 <div className='rounded-full shadow-pink-800 shadow-lg text-7xl text-pink-700 cursor-pointer flex justify-center'>
@@ -46,6 +49,7 @@ export default function ProfilePage() {
             abcd
         </div>
         </main>
+    </div>
     </div>
   )
 }

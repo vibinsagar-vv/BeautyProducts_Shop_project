@@ -22,12 +22,12 @@ export default function AllProducts() {
   return (
     <div>
         <div>
-            <div className='bg-white py-2 px-4 flex justify-between items-center'>
-                <h2 className='font-bold text-lg '>All Products</h2>
-                <button className='border-2 border-pink-700 text-pink-700 hover:bg-pink-700 hover:text-white transition-all py-1 px-3 rounded-full ' onClick={()=>{SetOpenUploadProduct(true)}}>Upload Product</button>
+            <div className='bg-accent-light py-2 px-4 flex justify-between items-center'>
+                <h2 className='font-bold text-white text-lg '>All Products</h2>
+                <button className='border-2 font-bold border-white text-white hover:bg-pink-50 hover:text-accent-light transition-all py-1 px-3 rounded-full ' onClick={()=>{SetOpenUploadProduct(true)}}>Upload Product</button>
             </div>
 
-            <div className='flex flex-wrap h-[calc(100vh-190px)] gap-5 max-md:gap-20 py-4 overflow-y-scroll'>
+            <div className='flex flex-wrap h-[calc(100vh-190px)] scrollbar-none gap-5 max-md:gap-20 py-4 overflow-y-scroll'>
                 {
                     allProducts.map((product,index)=>{
                         return(
