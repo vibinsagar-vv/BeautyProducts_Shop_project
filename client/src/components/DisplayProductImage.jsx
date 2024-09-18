@@ -11,7 +11,7 @@ export default function DisplayProductImage({imageName,onClose}) {
                     </div>
 
                 <div className=' flex justify-center p-4 max-w-[80vh] max-h-[80vh]'>
-                    <img src={`http://localhost:7800/ProductImages/`+imageName} className='w-full h-full' alt="" />
+                    <img src={imageName} className='w-full h-full' alt="" />
                 </div>
             </div>
         </div>

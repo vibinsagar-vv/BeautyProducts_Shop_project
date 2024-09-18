@@ -9,7 +9,13 @@ const userSchema = new mongoose.Schema({
     },
     password:String,
     profilePic:String,
-    role:String
+    role:String,
+    cart: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "AddToCart"
+    }],
+    Whishlist:[],
+    Buy_products:[]
 },{timestamps:true})
 
 const userModel = mongoose.model("user",userSchema)

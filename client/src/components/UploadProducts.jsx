@@ -124,7 +124,7 @@ export default function UploadProducts({ onClose, fetchData }) {
             />
             <label
               htmlFor="ProductName"
-              className="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+              className="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-1   origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
             >
               Product Name
             </label>
@@ -143,7 +143,7 @@ export default function UploadProducts({ onClose, fetchData }) {
             />
             <label
               htmlFor="ProductBrand"
-              className="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+              className="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-1 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
             >
               Brand Name
             </label>
@@ -162,7 +162,7 @@ export default function UploadProducts({ onClose, fetchData }) {
               >
                 <label
                   htmlFor="category"
-                  className="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+                  className="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-1 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
                 >
                   Category
                 </label>
@@ -197,7 +197,7 @@ export default function UploadProducts({ onClose, fetchData }) {
               >
                 <label
                   htmlFor="subcategory"
-                  className="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+                  className="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-1 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
                 >
                   Sub Category
                 </label>
@@ -300,7 +300,7 @@ export default function UploadProducts({ onClose, fetchData }) {
             />
             <label
               htmlFor="price"
-              className="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+              className="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-1 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
             >
               Price
             </label>
@@ -319,7 +319,7 @@ export default function UploadProducts({ onClose, fetchData }) {
             />
             <label
               htmlFor="sellingPrice"
-              className="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+              className="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-1 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
             >
               Selling Price
             </label>
@@ -337,7 +337,7 @@ export default function UploadProducts({ onClose, fetchData }) {
             />
             <label
               htmlFor="quantity"
-              className="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+              className="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-1 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
             >
               Quantity
             </label>
@@ -353,7 +353,7 @@ export default function UploadProducts({ onClose, fetchData }) {
             />
             <label
               htmlFor="description"
-              className="absolute text-xl font-semibold text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-accent-dark peer-focus:dark:text-accent-dark peer-placeholder-shown:scale-75 peer-placeholder-shown:-translate-y-4 peer-placeholder-shown:top-2"
+              className="absolute text-xl font-semibold text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-1 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-accent-dark peer-focus:dark:text-accent-dark peer-placeholder-shown:scale-75 peer-placeholder-shown:-translate-y-4 peer-placeholder-shown:top-2"
             >
               Description
             </label>

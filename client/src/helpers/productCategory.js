@@ -19,7 +19,7 @@ const productCategory =[
         { id : 6 , label : "Scrubs", value : "Scrubs"},
         { id : 7 , label : "Face Washes", value : "Face Washes"}
     ]},
-    { id : 3 , label : "Hair & Body", value : "Hair & Body",sub:[
+    { id : 3 , label : "Hair & Body", value : "Hair&Body",sub:[
         { id : 1 , label : "Body Lotions", value : "Body Lotions"},
         { id : 2 , label : "Bleaches", value : "Bleaches"},
         { id : 3 , label : "Body Washes", value : "Body Washes"},

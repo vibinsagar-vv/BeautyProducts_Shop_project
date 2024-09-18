@@ -23,7 +23,6 @@ export default function ProfilePage() {
 
   return (
     <div>
-        <MyNavbar/>
         <div className='pt-[66px] min-h-[100vh] hidden md:flex'>
         <aside className='bg-white min-h-full w-full max-w-60 customShadow'>
             <div className='h-52 flex justify-center items-center flex-col'>

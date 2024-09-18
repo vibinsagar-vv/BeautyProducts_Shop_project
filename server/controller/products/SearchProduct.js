@@ -3,6 +3,7 @@ const ProductModel = require("../../models/productModel")
 const SearchProductCntrl = async(req,res) =>{
     try{
         const query = req.query.p
+        
         const regEx = new RegExp(query,'i','g')
         const products = await ProductModel.find({
             "$or":[{

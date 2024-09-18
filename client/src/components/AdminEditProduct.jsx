@@ -7,8 +7,11 @@ import DisplayProductImage from "./DisplayProductImage";
 import AXIOS from "axios";
 import { toast } from "react-toastify";
 import Context from "../context/context";
+import DisplayUpdateImage from "./DisplayUpdateImage";
 
 export default function AdminEditProduct({ onClose, ProductData, fetchData }) {
+  console.log(ProductData);
+  
   const generalContext = useContext(Context);
   const [data, SetData] = useState({
     ...ProductData,
@@ -20,11 +23,35 @@ export default function AdminEditProduct({ onClose, ProductData, fetchData }) {
     price: ProductData?.price,
     sellingPrice: ProductData?.sellingPrice,
   });
-  const [fullScreenImage, SetFullScreenImage] = useState("");
-  const [openFullScreenImage, SetOpenFullScreenImage] = useState(false);
+  const [images, setImages] = useState([]);
 
+  const [imagePreviews, setImagePreviews] = useState([]);
+
+  const [fullScreenImage, SetFullScreenImage] = useState("");
+  const [fullScreenUpdatedImage, SetFullScreenUpdatedImage] = useState("");
+
+  const [openFullScreenImage, SetOpenFullScreenImage] = useState(false);
+  const [openFullScreenUpdatedImage, SetOpenFullScreenUpdatedImage] = useState(false);
   const handleOnChange = (e) => {
     SetData({ ...data, [e.target.name]: e.target.value });
+  };
+
+  const handleImageChange = (e) => {
+    const files = Array.from(e.target.files);
+    const newImages = [...images, ...files];
+    setImages(newImages);
+
+    const previews = newImages.map((file) => URL.createObjectURL(file));
+    setImagePreviews(previews);
+  };
+
+  const handleImageDelete = (index) => {
+    const newImages = [...images];
+    const newPreviews = [...imagePreviews];
+    newImages.splice(index, 1);
+    newPreviews.splice(index, 1);
+    setImages(newImages);
+    setImagePreviews(newPreviews);
   };
 
   const handleuploadProduct = async (e) => {
@@ -38,18 +65,34 @@ export default function AdminEditProduct({ onClose, ProductData, fetchData }) {
     newProductImages.splice(index, 1);
     SetData({ ...data, productImage: newProductImages });
 
-    AXIOS.post("http://localhost:7800/products/delete-product-image", {
-      image: product,
-    });
+    // AXIOS.post("http://localhost:7800/products/delete-product-image", {
+    //   image: product,
+    // });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("data", data);
+
+    const formData = new FormData();
+
+    for (let key in data) {
+      formData.append(key, data[key]);
+    }
+
+    images.forEach((item) => formData.append("images", item));
+
+    console.log(formData.getAll("images"));
+
     const resData = await AXIOS.post(
       "http://localhost:7800/products/update-product",
-      data,
-      { headers: { token: localStorage.getItem("token") } }
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          token: localStorage.getItem("token"),
+        },
+      }
     );
     if (resData.data.success) {
       toast.success(resData.data.message);
@@ -92,7 +135,7 @@ export default function AdminEditProduct({ onClose, ProductData, fetchData }) {
             />
             <label
               htmlFor="ProductName"
-              className="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+              className="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-1 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
             >
               Product Name
             </label>
@@ -111,7 +154,7 @@ export default function AdminEditProduct({ onClose, ProductData, fetchData }) {
             />
             <label
               htmlFor="ProductBrand"
-              className="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+              className="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-1 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
             >
               Brand Name
             </label>
@@ -130,7 +173,7 @@ export default function AdminEditProduct({ onClose, ProductData, fetchData }) {
               >
                 <label
                   htmlFor="category"
-                  className="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+                  className="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-1 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
                 >
                   Category
                 </label>
@@ -165,7 +208,7 @@ export default function AdminEditProduct({ onClose, ProductData, fetchData }) {
               >
                 <label
                   htmlFor="subcategory"
-                  className="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+                  className="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-1 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
                 >
                   Sub Category
                 </label>
@@ -208,43 +251,77 @@ export default function AdminEditProduct({ onClose, ProductData, fetchData }) {
                   type="file"
                   name="uploadImageInput"
                   id="uploadImageInput"
-                  onChange={handleuploadProduct}
+                  multiple
+                  onChange={handleImageChange}
                 />
               </div>
             </div>
           </label>
           <div>
             <div className="flex items-center gap-2 overflow-x-scroll scrollbar-none py-5">
-              {data?.productImage[0] ? (
-                data.productImage.map((product, index) => {
-                  return (
-                    <div className="relative group">
-                      <div className=" w-32 h-40">
-                        <img
-                          key={index}
-                          src={`http://localhost:7800/ProductImages/` + product}
-                          width={100}
-                          height={100}
-                          className="bg-slate-100 border flex justify-center items-center cursor-pointer w-fit max-h-40 mx-auto min-h-40 h-fit"
-                          alt={product}
+              {data?.productImage[0]
+                ? data.productImage.map((product, index) => {
+                    return (
+                      <div className="relative group">
+                        <div className=" w-32 h-40">
+                          <img
+                            key={index}
+                            src={
+                              `http://localhost:7800/ProductImages/` + product
+                            }
+                            width={100}
+                            height={100}
+                            className="bg-slate-100 border flex justify-center items-center cursor-pointer w-fit max-h-40 mx-auto min-h-40 h-fit"
+                            alt={product}
+                            onClick={() => {
+                              SetOpenFullScreenImage(true);
+                              SetFullScreenImage(product);
+                            }}
+                          />
+                        </div>
+                        <div
+                          className="absolute bottom-1 right-1 p-1 text-xs text-white bg-red-600 rounded-full hidden group-hover:block cursor-pointer"
                           onClick={() => {
-                            SetOpenFullScreenImage(true);
-                            SetFullScreenImage(product);
+                            handleDeleteProductImage(product, index);
                           }}
-                        />
+                        >
+                          <MdDelete />
+                        </div>
                       </div>
-                      <div
-                        className="absolute bottom-1 right-1 p-1 text-xs text-white bg-red-600 rounded-full hidden group-hover:block cursor-pointer"
-                        onClick={() => {
-                          handleDeleteProductImage(product, index);
-                        }}
-                      >
-                        <MdDelete />
+                    );
+                  })
+                : ""}
+              {imagePreviews[0]
+                ? imagePreviews.map((product, index) => {
+                    return (
+                      <div className="relative group">
+                        <div className=" w-32 h-40">
+                          <img
+                            key={index}
+                            src={product}
+                            width={100}
+                            height={100}
+                            className="bg-white py-4 border flex justify-center items-center cursor-pointer w-fit max-h-40 mx-auto min-h-40 h-fit"
+                            alt={product}
+                            onClick={() => {
+                              SetOpenFullScreenUpdatedImage(true);
+                              SetFullScreenUpdatedImage(product);
+                            }}
+                          />
+                        </div>
+                        <div
+                          className="absolute bottom-1 right-1 p-1 text-xs text-white bg-red-600 rounded-full hidden group-hover:block cursor-pointer"
+                          onClick={() => {
+                            handleImageDelete(index);
+                          }}
+                        >
+                          <MdDelete />
+                        </div>
                       </div>
-                    </div>
-                  );
-                })
-              ) : (
+                    );
+                  })
+                : ""}
+              {!data.productImage[0] && !imagePreviews[0] && (
                 <p className="text-red-600 text-xs">
                   *Please Upload Product Image
                 </p>
@@ -265,7 +342,7 @@ export default function AdminEditProduct({ onClose, ProductData, fetchData }) {
             />
             <label
               htmlFor="price"
-              className="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+              className="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-1 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
             >
               Price
             </label>
@@ -284,7 +361,7 @@ export default function AdminEditProduct({ onClose, ProductData, fetchData }) {
             />
             <label
               htmlFor="sellingPrice"
-              className="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+              className="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-1 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
             >
               Selling Price
             </label>
@@ -302,7 +379,7 @@ export default function AdminEditProduct({ onClose, ProductData, fetchData }) {
             />
             <label
               htmlFor="quantity"
-              className="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+              className="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-1 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
             >
               Quantity
             </label>
@@ -319,7 +396,7 @@ export default function AdminEditProduct({ onClose, ProductData, fetchData }) {
             />
             <label
               htmlFor="description"
-              className="absolute text-xl font-semibold text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-accent-dark peer-focus:dark:text-accent-dark peer-placeholder-shown:scale-75 peer-placeholder-shown:-translate-y-4 peer-placeholder-shown:top-2"
+              className="absolute text-xl font-semibold text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-1 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-accent-dark peer-focus:dark:text-accent-dark peer-placeholder-shown:scale-75 peer-placeholder-shown:-translate-y-4 peer-placeholder-shown:top-2"
             >
               Description
             </label>
@@ -336,6 +413,12 @@ export default function AdminEditProduct({ onClose, ProductData, fetchData }) {
         <DisplayProductImage
           onClose={() => SetOpenFullScreenImage(false)}
           imageName={fullScreenImage}
+        />
+      )}
+      {openFullScreenUpdatedImage && (
+        <DisplayUpdateImage
+          onClose={() => SetOpenFullScreenUpdatedImage(false)}
+          imageName={fullScreenUpdatedImage}
         />
       )}
     </div>

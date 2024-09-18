@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import moment from "moment";
 import UploadProducts from "../../UploadProducts";
 import AdminEditProduct from "../../AdminEditProduct";
+import noImage from '../../../assest/logo/no-photo.png'
 
 // Global Filter component for search
 const GlobalFilter = ({ globalFilter, setGlobalFilter }) => (
@@ -58,7 +59,7 @@ const ProductsTable = () => {
         accessor: "productImage",
         Cell: ({ value }) => (
           <img
-            src={`http://localhost:7800/ProductImages/${value[0]}`}
+            src={value[0]?(`http://localhost:7800/ProductImages/${value[0]}`):(noImage)}
             alt="Product"
             className="object-scale-down w-16 h-16"
           />

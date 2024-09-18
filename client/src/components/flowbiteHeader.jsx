@@ -40,15 +40,15 @@ export default function MyNavbar() {
   };
 
   const handleSearch = (e) => {
-    SetSearch(e.target.value);
-    if (search) {
-      console.log("insearch", search);
+    const {value} =e.target
+    if (value) {
+      console.log("insearch", value);
 
-      nav(`/search?p=${search}`);
+      nav(`/search?p=${value}`);
     } else {
       nav("/");
     }
-    console.log(search);
+    console.log(value);
   };
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -58,7 +58,7 @@ export default function MyNavbar() {
   };
 
   return (
-    <nav className="fixed z-40 bg-transparent w-full border-gray-200 dark:bg-gray-900 shadow-md">
+    <nav className="fixed z-40 bg-white w-full border-gray-200 dark:bg-gray-900 shadow-md">
       <div className=" max-w-screen flex flex-wrap items-center justify-between mx-auto py-3 md:py-2 px-2 md:px-8">
         <div className="flex items-center space-x-3 rtl:space-x-reverse">
           <Link to={"/"}>
@@ -220,7 +220,7 @@ export default function MyNavbar() {
               id="search-navbar"
               className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-accent-light focus:border-accent-light dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-accent-light dark:focus:border-accent-light"
               placeholder="Search..."
-              onChange={(e) => handleSearch(e)}
+              onChange={handleSearch}
             />
           </div>
           <ul

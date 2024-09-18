@@ -6,6 +6,7 @@ import AddToCart from '../helpers/AddToCart';
 import Heading from '../helpers/Heading';
 import Context from '../context/context';
 import { toast } from 'react-toastify';
+import noImage from '../assest/logo/no-photo.png'
 
 export default function VerticalCardProduct({ category, heading }) {
   const [data, SetData] = useState([]);
@@ -50,11 +51,15 @@ export default function VerticalCardProduct({ category, heading }) {
             className="ml-3 md:ml-0 flex-shrink-0 w-72 sm:w-[45%] md:w-[30%] lg:w-[22%] bg-white shadow-accent-dark shadow-lg rounded-lg overflow-hidden hover:shadow-accent-dark hover:shadow-2xl transition-shadow duration-300 ease-in-out"
           >
             <div className="relative h-48 md:h-60 lg:h-72 bg-primary-light flex items-center justify-center overflow-hidden">
-              <img
+              {product.productImage[0]?(<img
                 src={`http://localhost:7800/ProductImages/${product.productImage[0]}`}
                 alt={product?.ProductName}
                 className="p-4 w-full h-full transform object-scale-down hover:scale-110 transition-transform duration-500 ease-in-out"
-              />
+              />):(<img
+                src={noImage}
+                alt={product?.ProductName}
+                className="p-4 w-full h-full transform object-scale-down hover:scale-110 transition-transform duration-500 ease-in-out"
+              />)}
               {product?.isNew && (
                 <span className="absolute top-2 right-2 bg-accent-light text-white text-xs px-2 py-1 rounded-full">
                   New

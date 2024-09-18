@@ -3,14 +3,14 @@ const ProductModel = require("../../models/productModel")
 
 async function getCategoryProduct(req,res){
     try{
-        const productCategory = await ProductModel.distinct("category")
+        const productCategory = await ProductModel.distinct("subcategory")
 
 
         //array to store one Product from each category
         const productByCategory = []
 
         for(const category of productCategory){
-            const product = await ProductModel.findOne({category:category})
+            const product = await ProductModel.findOne({subcategory:category})
 
             if(product){
                 productByCategory.push(product)

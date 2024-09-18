@@ -1,4 +1,5 @@
 const AddToCartModel = require("../../models/cartProduct")
+const userModel = require("../../models/userModel")
 
 const AddToCartCntrl = async(req,res) =>{
     try{
@@ -21,7 +22,13 @@ const AddToCartCntrl = async(req,res) =>{
             UserId:curentUser,
             Quantity:1
         }
-        const newCart =await AddToCartModel.create(payload)
+        const newCart =await new AddToCartModel(payload)
+
+        await newCart.save()
+
+        await userModel.findByIdAndUpdate(curentUser,{
+            $push:{cart:newCart._id}
+        })
 
         res.json({
             data:newCart,

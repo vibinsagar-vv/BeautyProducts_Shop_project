@@ -34,6 +34,8 @@ export default function Cart() {
             
         }
     }
+    console.log(data);
+    
     useEffect(()=>{
         fetchData()
     },[])
@@ -66,7 +68,6 @@ export default function Cart() {
     
   return (
     <div>
-        <MyNavbar/>
         <div className='container sm:text-2xl md:text-4xl mx-auto pt-16 p-4'>
         <div className='text-center text-xl my-3'>
             {

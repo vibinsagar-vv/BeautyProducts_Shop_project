@@ -99,7 +99,6 @@ export default function AuthPage() {
 
   return (
     <div>
-      <MyNavbar/>
       <div className="pt-16">
       <div className="flex lg:hidden justify-center items-center min-h-[calc(100vh-64px)] bg-gradient-to-b from-accent-dark via-primary-light to-accent-dark font-[Jost]">
         <div className="relative w-screen h-[calc(100vh-64px)] rounded-lg shadow-[5px_0px_50px_rgba(0,0,0)] bg-cover bg-center overflow-hidden bg-accent-light">

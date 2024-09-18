@@ -10,25 +10,38 @@ import SearchProducts from "../components/pages/SearchProducts";
 import SelectionTable from "../components/SimpleTable";
 import { Route, Routes } from "react-router-dom";
 import Home from "../components/pages/Home";
+import ProductView from "../components/pages/ProductView";
+import SubCategoryProducts from "../components/pages/SubCategoryProducts";
+import MyNavbar from "../components/flowbiteHeader";
 
 export default function UserPage() {
   return (
     <div>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<AuthPage />} />
-        <Route path="/forgot-password" element={<ForgotPasswod />} />
-        <Route path="/otp-verification" element={<OtpInput />} />
-        <Route
-          path="/product-category/:categoryName"
-          element={<CategoryProducts />}
-        />
-        <Route path="/product/:id" element={<ProductDetials />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/search" element={<SearchProducts />} />
-        <Route path="/table" element={<SelectionTable />} />
-      </Routes>
+      <div>
+        <MyNavbar />
+      </div>
+      <main>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<AuthPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswod />} />
+          <Route path="/otp-verification" element={<OtpInput />} />
+          <Route
+            path="/product-category/:categoryName"
+            element={<CategoryProducts />}
+          />
+          <Route
+            path="/product-subcategory/:subcategoryName"
+            element={<SubCategoryProducts />}
+          />
+
+          <Route path="/product/:id" element={<ProductDetials />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/search" element={<SearchProducts />} />
+          <Route path="/table" element={<SelectionTable />} />
+        </Routes>
+      </main>
     </div>
   );
 }

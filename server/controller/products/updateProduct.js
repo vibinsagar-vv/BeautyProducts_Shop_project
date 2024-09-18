@@ -2,9 +2,24 @@ const ProductModel = require("../../models/productModel")
 
 async function UpdateProductCntrl(req,res){
     try{
+        const {_id,productImage,...restBody} = req.body
+        const image =[]
+        if(productImage){
+            const imageArray = productImage.split(',')
+        image =[...imageArray]
+        }
+
+        // console.log(imageArray,'fgg');
+        // console.log(productImage,'gg',typeof(productImage),'ff');
         
-        const {_id,...restBody} = req.body
-        const updatedProduct = await ProductModel.findByIdAndUpdate(_id,restBody)
+        
+       if(req.files){
+        req.files.forEach(element => {
+            image.push(element.filename)
+        });
+       }
+        
+        const updatedProduct = await ProductModel.findByIdAndUpdate(_id,{...restBody,productImage:image})
 
         res.json({
             data:updatedProduct,
