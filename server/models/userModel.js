@@ -14,7 +14,10 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "AddToCart"
     }],
-    Whishlist:[],
+    Whishlist: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Products"
+      }],
     Buy_products:[]
 },{timestamps:true})
 

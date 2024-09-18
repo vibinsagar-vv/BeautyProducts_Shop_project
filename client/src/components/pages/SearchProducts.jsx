@@ -8,14 +8,66 @@ import SearchProductCard from '../../helpers/SearchProductCard'
 import displayINRCurrency from '../../helpers/displayCurrency'
 import AddToCart from '../../helpers/AddToCart'
 import Context from '../../context/context'
+import { FaHeart, FaRegHeart } from "react-icons/fa"; // Heart icons
 
 export default function SearchProducts() {
     const [data,SetData] = useState([])
+    const [wishlist, SetWishlist] = useState([]);
     const nav = useNavigate();
     const params = useLocation()
     const { fetchUserAddToCart } = useContext(Context)
     console.log("params",params);
     const search = (params.search.split('='))[1]
+
+    // Fetch wishlist
+  const fetchWishlist = async () => {
+    try {
+      const response = await AXIOS.get(
+        "http://localhost:7800/user/get-wishlist",
+        { headers: { token: localStorage.getItem("token") } }
+      );
+      console.log(response);
+
+      SetWishlist(response?.data?.wishlist.map((item) => item._id));
+    } catch (error) {
+      console.error("Error fetching wishlist:", error);
+    }
+  };
+
+   // Toggle wishlist
+   const toggleWishlist = async (e, productId) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    if (!localStorage.getItem("token")) {
+      toast.error("Please login...");
+      return nav("/login");
+    }
+
+    try {
+      if (wishlist.includes(productId)) {
+        await AXIOS.post(
+          "http://localhost:7800/user/remove-from-wishlist",
+          {
+            productId,
+          },
+          { headers: { token: localStorage.getItem("token") } }
+        );
+        SetWishlist(wishlist.filter((id) => id !== productId));
+      } else {
+        await AXIOS.post(
+          "http://localhost:7800/user/add-to-wishlist",
+          {
+            productId,
+          },
+          { headers: { token: localStorage.getItem("token") } }
+        );
+        SetWishlist([...wishlist, productId]);
+      }
+    } catch (error) {
+      console.error("Error toggling wishlist:", error);
+    }
+  };
     
     const fetchProduct = async() => {
       if(localStorage.getItem('token')){
@@ -39,7 +91,8 @@ export default function SearchProducts() {
 
 
   useEffect(()=>{
-      fetchProduct()
+      fetchProduct();
+      fetchWishlist();
   },[])
 
   return (
@@ -47,7 +100,6 @@ export default function SearchProducts() {
         <div className='md:max-w-7xl p-8 justify-center md:justify-start flex flex-wrap h-[calc(100vh)] scrollbar-none gap-6 mx-auto md:gap-x-36 gap-y-10 lg:gap-y-20 max-md:gap-20 py-4 overflow-y-scroll'>
                 {
                     data.filter((product)=>{
-                      console.log(product);
                       
                       return (product.ProductName.toLowerCase().match(search.toLowerCase())||product.category.toLowerCase().match(search.toLowerCase())||product.subcategory.toLowerCase().match(search.toLowerCase())||product.ProductBrand.toLowerCase().match(search.toLowerCase()))
                     }).map((product,index)=>{
@@ -67,6 +119,20 @@ export default function SearchProducts() {
                               alt={product?.ProductName}
                               className="p-4 w-full h-full transform object-scale-down hover:scale-110 transition-transform duration-500 ease-in-out"
                             />)}
+                            <div className="absolute top-2 left-2">
+                {/* Heart icon for wishlist */}
+                {wishlist.includes(product?._id) ? (
+                  <FaHeart
+                    className="text-pink-500 text-2xl cursor-pointer"
+                    onClick={(e) => toggleWishlist(e, product._id)}
+                  />
+                ) : (
+                  <FaRegHeart
+                    className="text-accent-light text-2xl cursor-pointer"
+                    onClick={(e) => toggleWishlist(e, product._id)}
+                  />
+                )}
+              </div>
                             {product?.isNew && (
                               <span className="absolute top-2 right-2 bg-accent-light text-white text-xs px-2 py-1 rounded-full">
                                 New

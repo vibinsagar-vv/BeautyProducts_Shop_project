@@ -16,6 +16,9 @@ const CartViewCntrl = require('../controller/Cart/CartView')
 const updateAddToCartCnrtl = require('../controller/Cart/updateAddToCart')
 const DeleteCartProductCntrl = require('../controller/Cart/DeleteCartProduct')
 const DeleteUserCnrtl = require('../controller/user/deleteUser')
+const AddToWishListCntrl = require('../controller/WishList/AddToWishListCntrl')
+const RemoveWishListCntrl = require('../controller/WishList/RemoveWishListCntrl')
+const GetWishListCntrl = require('../controller/WishList/GetWishListCntrl')
 
 
 
@@ -45,6 +48,12 @@ router.get("/countAddToCart",authToken,CountAddToCartPrdctCntrl)
 router.get("/view-cart-product",authToken,CartViewCntrl)
 router.post("/update-cart",authToken,updateAddToCartCnrtl)
 router.post("/delete-cart-product",authToken,DeleteCartProductCntrl)
+
+//wishList
+
+router.post('/add-to-wishlist',authToken,AddToWishListCntrl)
+router.post('/remove-from-wishlist',authToken,RemoveWishListCntrl)
+router.get('/get-wishlist',authToken,GetWishListCntrl)
 
 module.exports = router
 

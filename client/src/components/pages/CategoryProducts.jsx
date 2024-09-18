@@ -7,9 +7,11 @@ import AXIOS from "axios";
 import Heading from "../../helpers/Heading";
 import displayINRCurrency from "../../helpers/displayCurrency";
 import AddToCart from "../../helpers/AddToCart";
+import { FaHeart, FaRegHeart } from "react-icons/fa"; // Heart icons
 
 export default function CategoryProducts() {
   const [data, setData] = useState([]);
+  const [wishlist, SetWishlist] = useState([]);
   const params = useParams();
   const nav = useNavigate();
   const category = params.categoryName;
@@ -28,14 +30,65 @@ export default function CategoryProducts() {
     }
   };
 
+  // Fetch wishlist
+  const fetchWishlist = async () => {
+    try {
+      const response = await AXIOS.get(
+        "http://localhost:7800/user/get-wishlist",
+        { headers: { token: localStorage.getItem("token") } }
+      );
+      console.log(response);
+
+      SetWishlist(response?.data?.wishlist.map((item) => item._id));
+    } catch (error) {
+      console.error("Error fetching wishlist:", error);
+    }
+  };
+
+   // Toggle wishlist
+   const toggleWishlist = async (e, productId) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    if (!localStorage.getItem("token")) {
+      toast.error("Please login...");
+      return nav("/login");
+    }
+
+    try {
+      if (wishlist.includes(productId)) {
+        await AXIOS.post(
+          "http://localhost:7800/user/remove-from-wishlist",
+          {
+            productId,
+          },
+          { headers: { token: localStorage.getItem("token") } }
+        );
+        SetWishlist(wishlist.filter((id) => id !== productId));
+      } else {
+        await AXIOS.post(
+          "http://localhost:7800/user/add-to-wishlist",
+          {
+            productId,
+          },
+          { headers: { token: localStorage.getItem("token") } }
+        );
+        SetWishlist([...wishlist, productId]);
+      }
+    } catch (error) {
+      console.error("Error toggling wishlist:", error);
+    }
+  };
+
   const fetchData = async () => {
     const resData = await AXIOS.get(
-      `http://localhost:7800/products//get-subcategory-product/` + category
+      `http://localhost:7800/products/get-subcategory-product/` + category
     );
     setData(resData.data.data);
   };
   useEffect(() => {
     fetchData();
+    fetchWishlist();
   }, []);
   console.log(data);
 
@@ -94,6 +147,20 @@ export default function CategoryProducts() {
                     className="p-4 w-full h-full transform object-scale-down hover:scale-110 transition-transform duration-500 ease-in-out"
                   />
                 )}
+                 <div className="absolute top-2 left-2">
+                {/* Heart icon for wishlist */}
+                {wishlist.includes(item?._id) ? (
+                  <FaHeart
+                    className="text-pink-500 text-2xl cursor-pointer"
+                    onClick={(e) => toggleWishlist(e, item._id)}
+                  />
+                ) : (
+                  <FaRegHeart
+                    className="text-accent-light text-2xl cursor-pointer"
+                    onClick={(e) => toggleWishlist(e, item._id)}
+                  />
+                )}
+              </div>
               </div>
               <div className="p-4 flex flex-col justify-between h-40 lg:h-48">
                 <h2 className="font-semibold text-lg lg:text-xl text-gray-800 truncate">
