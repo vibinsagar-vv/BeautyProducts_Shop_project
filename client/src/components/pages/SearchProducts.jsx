@@ -107,7 +107,7 @@ export default function SearchProducts() {
                           <Link
                           to={`/product/${product?._id}`}
                           key={index}
-                          className="ml-3 md:ml-0 max-h-[460px]  w-72 sm:w-[30%] md:w-[25%] lg:w-[25%] bg-white shadow-accent-dark shadow-lg rounded-lg overflow-hidden hover:shadow-accent-dark hover:shadow-2xl transition-shadow duration-300 ease-in-out"
+                          className="ml-3 md:ml-0 max-h-[370px] md:max-h-[460px]  w-72 sm:w-[30%] md:w-[25%] lg:w-[25%] bg-white shadow-accent-dark shadow-lg rounded-lg overflow-hidden hover:shadow-accent-dark hover:shadow-2xl transition-shadow duration-300 ease-in-out"
                         >
                           <div className="relative h-48 md:h-60 lg:max-h-72 bg-primary-light flex items-center justify-center overflow-hidden">
                             {product.productImage[0]?(<img

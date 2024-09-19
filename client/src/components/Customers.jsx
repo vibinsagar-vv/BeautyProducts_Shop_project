@@ -222,6 +222,7 @@ const UsersTable = () => {
       </div>
 
       {/* Table */}
+      <div className="overflow-x-scroll">
       <table
         {...getTableProps()}
         className="min-w-full divide-y divide-gray-200 mt-4"
@@ -254,7 +255,7 @@ const UsersTable = () => {
           {page.map((row) => {
             prepareRow(row);
             return (
-              <tr {...row.getRowProps()}>
+              <tr className="" {...row.getRowProps()}>
                 {row.cells.map((cell) => (
                   <td
                     {...cell.getCellProps()}
@@ -268,6 +269,7 @@ const UsersTable = () => {
           })}
         </tbody>
       </table>
+      </div>
 
       {/* Pagination */}
       <div className="flex justify-between items-center my-4">

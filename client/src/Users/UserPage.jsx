@@ -13,6 +13,9 @@ import Home from "../components/pages/Home";
 import ProductView from "../components/pages/ProductView";
 import SubCategoryProducts from "../components/pages/SubCategoryProducts";
 import MyNavbar from "../components/flowbiteHeader";
+import WishList from "../components/pages/WishList";
+import UpdateProfilePage from "../components/UpdateProfilePage";
+import ProductBuyPage from "../components/pages/BuyProduct";
 
 export default function UserPage() {
   return (
@@ -36,10 +39,13 @@ export default function UserPage() {
           />
 
           <Route path="/product/:id" element={<ProductDetials />} />
-          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/profile/*" element={<ProfilePage />} />
+          <Route path="/updateProfile" element={<UpdateProfilePage/>}/>
           <Route path="/cart" element={<Cart />} />
           <Route path="/search" element={<SearchProducts />} />
           <Route path="/table" element={<SelectionTable />} />
+          <Route path="/wishlist" element={<WishList/>}/>
+          <Route path="/buy" element={<ProductBuyPage />}/>
         </Routes>
       </main>
     </div>

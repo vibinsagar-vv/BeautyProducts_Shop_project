@@ -58,7 +58,7 @@ export default function MyNavbar() {
   };
 
   return (
-    <nav className="fixed z-40 bg-white w-full border-gray-200 dark:bg-gray-900 shadow-md">
+    <nav className="fixed z-40 bg-transparent w-full border-gray-200 dark:bg-gray-900 shadow-md">
       <div className=" max-w-screen flex flex-wrap items-center justify-between mx-auto py-3 md:py-2 px-2 md:px-8">
         <div className="flex items-center space-x-3 rtl:space-x-reverse">
           <Link to={"/"}>
@@ -109,11 +109,11 @@ export default function MyNavbar() {
                     </Dropdown.Header>
                     <Dropdown.Item>
                       {userDetials?.role === "ADMIN" && (
-                        <Link to={"/dashboard"}>Dashboard</Link>
+                        <Link className="w-full flex" to={"/dashboard"}>Dashboard</Link>
                       )}
                     </Dropdown.Item>
                     <Dropdown.Item>
-                      <Link to={"/profile"}>Profile</Link>
+                      <Link className="w-full flex" to={"/profile"}>Profile</Link>
                     </Dropdown.Item>
                     <Dropdown.Divider />
                     <Dropdown.Item
@@ -245,12 +245,12 @@ export default function MyNavbar() {
               </Link>
             </li>
             <li>
-              <a
-                href="#"
+              <Link
+                to={"/wishlist"}
                 className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-accent-light md:p-0 dark:text-white md:dark:hover:text-accent-light dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
               >
-                Services
-              </a>
+                Wishlist
+              </Link>
             </li>
             <li className="block lg:hidden">
               {userDetials?._id ?(<div

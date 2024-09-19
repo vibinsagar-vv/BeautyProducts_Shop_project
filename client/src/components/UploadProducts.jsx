@@ -248,8 +248,8 @@ export default function UploadProducts({ onClose, fetchData }) {
               </div>
             </div>
           </label>
-          <div>
-            <div className="flex items-center gap-2 overflow-x-scroll scrollbar-none py-5">
+          <div className="flex">
+            <div className="flex max-w-xl items-center gap-2 overflow-x-scroll scrollbar-none py-5">
               {imagePreviews[0] ? (
                 imagePreviews.map((product, index) => {
                   return (

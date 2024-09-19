@@ -1,4 +1,5 @@
 const express = require('express')
+const multer = require('multer')
 const router = express.Router()
 const userSignUpCntrl = require('../controller/user/userSignUp')
 const userSignInCntrl = require('../controller/user/userSignIn')
@@ -19,21 +20,27 @@ const DeleteUserCnrtl = require('../controller/user/deleteUser')
 const AddToWishListCntrl = require('../controller/WishList/AddToWishListCntrl')
 const RemoveWishListCntrl = require('../controller/WishList/RemoveWishListCntrl')
 const GetWishListCntrl = require('../controller/WishList/GetWishListCntrl')
+const ChangeProfilePicCntrl = require('../controller/user/ChangeProfilePicCntrl')
+const ProfilePicstorage = require('../multer/profilePicStorage')
+const UpdateProfileCntrl = require('../controller/user/UpdateProfileCntrl')
 
-
+const upload=multer({storage:ProfilePicstorage})
 
 router.get("/checkauth",authToken,verifyToken)
 router.post("/sign-up",userSignUpCntrl)
 router.post("/login",userSignInCntrl)
 router.get("/user-detials",authToken,userDetialCntrl)
 router.get("/logOut",userLogOut)
+router.post("/changeProfilePic",authToken,upload.single('profile'),ChangeProfilePicCntrl)
 
 //OTP 
 
 router.post("/generate-otp",generateOtpCntrl)
 router.post("/resend-otp",resendOtpCntrl)
 
+//User
 
+router.post("/update-profile",authToken,UpdateProfileCntrl)
 
 //admin
 

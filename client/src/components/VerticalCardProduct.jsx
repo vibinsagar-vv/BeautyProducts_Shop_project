@@ -91,12 +91,15 @@ export default function VerticalCardProduct({ category, heading }) {
     fetchData();
     fetchWishlist();
   }, []);
+  
 
   return (
     <div className="container mx-auto md:px-4 my-6">
       <Heading text={heading} />
       <div className="flex gap-4 md:gap-10 lg:gap-12 overflow-x-auto  md:flex-wrap md:justify-center pb-16">
         {data.map((product, index) => (
+          
+          
           <Link
             to={`/product/${product?._id}`}
             key={index}
@@ -116,6 +119,9 @@ export default function VerticalCardProduct({ category, heading }) {
                   className="p-4 w-full h-full transform object-scale-down hover:scale-110 transition-transform duration-500 ease-in-out"
                 />
               )}
+              {(product.quantity==0) && (<div className="absolute w-full h-full bg-gray-400 bg-opacity-55 flex justify-center items-center">
+                  <span className="text-xl font-bold bg-white px-3 text-gray-700 rounded-full">Out Of Stock</span>
+              </div>)}
               <div className="absolute top-2 left-2">
                 {/* Heart icon for wishlist */}
                 {wishlist.includes(product?._id) ? (
@@ -147,7 +153,7 @@ export default function VerticalCardProduct({ category, heading }) {
                     {displayINRCurrency(product?.price)}
                   </p>
                 </div>
-                {localStorage.getItem("token") && (
+                {localStorage.getItem("token") && (!product.quantity==0) && (
                   <button
                     className="py-1.5 px-4 bg-accent-light text-white font-semibold rounded-full hover:bg-tertiary-dark hover:text-white transition-colors duration-300"
                     onClick={(e) => handleAddToCart(e, product?._id)}

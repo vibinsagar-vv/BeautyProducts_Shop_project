@@ -32,6 +32,7 @@ import DashBoard from "./components/DashBoard"
 import UserPage from "./Users/UserPage"
 function App() {
   const dispatch = useDispatch()
+  const [userDetial,SetUserDetial] = useState({})
   const [cartProductCount,SetCartProductCount] = useState(0)
   const url=useLocation()
   console.log(url);
@@ -43,9 +44,12 @@ function App() {
       token:localStorage.getItem('token')||""
     }
     const resData = await AXIOS.get("http://localhost:7800/user/user-detials",{headers:header})
+    SetUserDetial(resData.data.data)
+    
     if(resData.data.success){
         dispatch(setUserDetials(resData.data.data))
     }
+    return resData.data
     // if(resData.data.error){
     //     console.log(resData.data.message);
     // }
@@ -82,6 +86,7 @@ function App() {
   return (
     <>
     <Context.Provider value={{
+      userDetial,
       fetchUserDetials, //user detial fetch
       fetchProduct,
       cartProductCount, //cart product count

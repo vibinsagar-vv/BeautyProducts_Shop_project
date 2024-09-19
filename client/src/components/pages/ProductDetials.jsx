@@ -7,7 +7,7 @@ import AddToCart from "../../helpers/AddToCart";
 import Context from "../../context/context";
 import MyNavbar from "../flowbiteHeader";
 import Footer from "../Footer";
-import noImage from '../../assest/logo/no-photo.png'
+import noImage from "../../assest/logo/no-photo.png";
 export default function ProductDetials() {
   const [activeImage, SetActiveImage] = useState("");
 
@@ -16,11 +16,14 @@ export default function ProductDetials() {
     ProductName: "",
     ProductBrand: "",
     category: "",
+    subcategory: "",
     price: "",
     sellingPrice: "",
     productImage: [],
     description: "",
   });
+
+  const [related, setRelated] = useState([]);
 
   const params = useParams();
   const { fetchUserAddToCart } = useContext(Context);
@@ -39,6 +42,10 @@ export default function ProductDetials() {
     }
   };
 
+  const handleBuy = () => {
+    nav("/buy", { state: { product: data } });
+  };
+
   const fetchProductDetail = async () => {
     const resData = await AXIOS.post(
       "http://localhost:7800/products/product-detials",
@@ -52,9 +59,18 @@ export default function ProductDetials() {
     SetActiveImage(imageUrl);
   };
 
+  const fetchRelatedProducts = async () => {
+    const resData = await fetchCategoryWiseProduct(data.subcategory);
+    setRelated(resData.data);
+  };
+
   useEffect(() => {
     fetchProductDetail();
-  }, []);
+  }, [params.id]);
+
+  useEffect(() => {
+    fetchProductDetail();
+  }, [data]);
   return (
     <div>
       <div className="min-h-[calc(100vh-64px)] pt-16">
@@ -63,15 +79,19 @@ export default function ProductDetials() {
             {/* product image */}
             <div className="h-96 flex flex-col lg:flex-row-reverse gap-4 mb-10">
               <div className="h-[300px] w-[300px] lg:h-96 lg:w-96 bg- border-2 rounded-lg border-accent-light p-4">
-                {data.productImage[0]?(<img
-                  src={`http://localhost:7800/ProductImages/${activeImage}`}
-                  alt=""
-                  className="h-full w-full object-scale-down mix-blend-multiply"
-                />):(<img
-                  src={noImage}
-                  alt=""
-                  className="h-full w-full object-scale-down mix-blend-multiply"
-                />)}
+                {data.productImage[0] ? (
+                  <img
+                    src={`http://localhost:7800/ProductImages/${activeImage}`}
+                    alt=""
+                    className="h-full w-full object-scale-down mix-blend-multiply"
+                  />
+                ) : (
+                  <img
+                    src={noImage}
+                    alt=""
+                    className="h-full w-full object-scale-down mix-blend-multiply"
+                  />
+                )}
               </div>
               <div className="h-full">
                 <div className="flex gap-2 lg:flex-col overflow-scroll scrollbar-none h-full">
@@ -123,7 +143,10 @@ export default function ProductDetials() {
                 </p>
               </div>
               <div className="flex gap-4 items-center my-8">
-                <button className="px-4 py-2 bg-[#ea9791] text-white font-bold text-lg rounded-full shadow-lg transition-colors hover:bg-[#a26865] min-w-[180px]">
+                <button
+                  onClick={handleBuy}
+                  className="px-4 py-2 bg-[#ea9791] text-white font-bold text-lg rounded-full shadow-lg transition-colors hover:bg-[#a26865] min-w-[180px]"
+                >
                   Buy
                 </button>
                 <button
@@ -139,10 +162,12 @@ export default function ProductDetials() {
               </div>
             </div>
           </div>
-          <div className="bg-accent-light w-full mt-8 flex items-center justify-center text-4xl capitalize font-bold font-serif">recomended products</div>
+          <div className="bg-accent-light w-full mt-8 flex items-center justify-center text-4xl capitalize font-bold font-serif">
+            recomended products
+          </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 }

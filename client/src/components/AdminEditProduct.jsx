@@ -106,7 +106,7 @@ export default function AdminEditProduct({ onClose, ProductData, fetchData }) {
 
   return (
     <div className="fixed bg-pink-400 bg-opacity-50 w-full h-full top-0 left-0 right-0 bottom-0 flex justify-center items-center">
-      <div className="bg-white shadow-md shadow-accent-dark hover:shadow-accent-dark hover:shadow-lg p-4 pb-10 rounded w-full max-w-2xl h-full max-h-[80%] overflow-hidden">
+      <div className="bg-white shadow-md shadow-accent-dark hover:shadow-accent-dark hover:shadow-lg p-4 pb-10 rounded w-full max-w-2xl h-full max-h-[80%] scrollbar-none overflow-hidden">
         <div className="flex justify-between items-center pb-3">
           <h2 className="font-bold text-lg">Update Product</h2>
           <div
@@ -120,7 +120,7 @@ export default function AdminEditProduct({ onClose, ProductData, fetchData }) {
         <form
           onSubmit={handleSubmit}
           encType="multipart/form-data"
-          className="grid p-4 gap-2 overflow-y-scroll h-full"
+          className="grid w-2xl p-4 gap-2 overflow-y-scroll overflow-hidden h-full"
         >
           <div className="relative">
             <input
@@ -257,8 +257,8 @@ export default function AdminEditProduct({ onClose, ProductData, fetchData }) {
               </div>
             </div>
           </label>
-          <div>
-            <div className="flex items-center gap-2 overflow-x-scroll scrollbar-none py-5">
+          <div className="flex">
+            <div className="flex max-w-xl items-center gap-2 overflow-x-scroll scrollbar-none py-5">
               {data?.productImage[0]
                 ? data.productImage.map((product, index) => {
                     return (
@@ -412,7 +412,7 @@ export default function AdminEditProduct({ onClose, ProductData, fetchData }) {
       {openFullScreenImage && (
         <DisplayProductImage
           onClose={() => SetOpenFullScreenImage(false)}
-          imageName={fullScreenImage}
+          imageName={`http://localhost:7800/ProductImages/${fullScreenImage}`}
         />
       )}
       {openFullScreenUpdatedImage && (

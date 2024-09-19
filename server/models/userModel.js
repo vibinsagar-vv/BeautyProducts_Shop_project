@@ -7,9 +7,21 @@ const userSchema = new mongoose.Schema({
         unique:true,
         required:true
     },
+    phoneNumber:String,
+    dateOfBirth:String,
+    gender:String,
     password:String,
     profilePic:String,
     role:String,
+    address:{
+        house:String,
+        country:String,
+        state:String,
+        district:String,
+        city:String,
+        street:String,
+        pincode:String
+    },
     cart: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "AddToCart"

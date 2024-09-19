@@ -3,7 +3,7 @@ import { IoIosCloseCircle } from "react-icons/io";
 import AXIOS from 'axios'
 import { toast } from 'react-toastify';
 
-export default function ChangeUserRole({name,email,role,onClose,userid,callFun}) {
+export default function   ChangeUserRole({name,email,role,onClose,userid,callFun}) {
     const header={
         token:localStorage.getItem('token')||""
       }
