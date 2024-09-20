@@ -87,14 +87,22 @@ export default function ProfilePage() {
               </div>
 
               <div className=" px-3 pb-4 mt-8  bg-transparent dark:bg-gray-800">
-            <ul className="space-y-2 font-medium text-center text-gray-600">
+            <ul className="space-y-4 text-lg font-medium text-center text-gray-600">
               {/* Menu items */}
               <li>
-               <Link to={"/profile"} className="flex items-center justify-center p-2 rounded-lg dark:text-gray-400 bg-gray-100 hover:bg-accent-light dark:hover:bg-gray-700 group hover:text-white">Profile</Link>
+                <span></span>
+               <Link to={"/profile"} className="flex items-center justify-center p-2 rounded-lg dark:text-gray-400 border-b-4 hover:bg-accent-light dark:hover:bg-gray-700 group hover:text-white">Profile</Link>
               </li>
               
               {/* Add more menu items as needed */}
-              
+              <li>
+                <span></span>
+               <Link to={"/wishlist"} className="flex items-center justify-center p-2 rounded-lg dark:text-gray-400 border-b-4 hover:bg-accent-light dark:hover:bg-gray-700 group hover:text-white">My Wishlist</Link>
+              </li>
+              <li>
+                <span></span>
+               <Link to={"/cart"} className="flex items-center justify-center p-2 rounded-lg dark:text-gray-400 border-b-4 hover:bg-accent-light dark:hover:bg-gray-700 group hover:text-white">My Cart</Link>
+              </li>
             </ul>
           </div>
             </div>
