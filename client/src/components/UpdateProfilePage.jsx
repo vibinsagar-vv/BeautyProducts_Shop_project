@@ -29,7 +29,7 @@ export default function UpdateProfilePage() {
     },
   });
 
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const fetchUserDetails = async () => {
@@ -73,29 +73,33 @@ export default function UpdateProfilePage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    // setLoading(true);
     try {
       const resData = await axios.post(
         `http://localhost:7800/user/update-profile`,
         { user },
         { headers: { token: localStorage.getItem("token") } }
       );
+      console.log(resData);
+      
       if (resData.data.success) {
+        console.log(resData.data);
+        
         toast.success(resData.data.message);
       }
       if (resData.data.error) {
         toast.error(resData.data.message);
       }
 
-      setLoading(false);
+      // setLoading(false);
       navigate("/profile");
     } catch (error) {
       console.log(error);
 
-      setLoading(false);
+      // setLoading(false);
     }
-  };
-  console.log("user", user?.address);
+  }
+  // console.log("user", user?.address);
 
   return (
     <div className="min-h-screen w-full flex justify-center items-center">
@@ -165,7 +169,7 @@ export default function UpdateProfilePage() {
                 <option value="male"  >Male</option>
                 <option value="female">Female</option>
                 <option value="other">Other</option>
-                <option className="group-focus:hidden" selected value="">select Gender</option>
+                <option className="group-focus:hidden" selected >select Gender</option>
               </select>
             </div>
           </div>

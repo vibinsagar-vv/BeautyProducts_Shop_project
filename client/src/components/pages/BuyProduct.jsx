@@ -10,16 +10,16 @@ export default function ProductBuyPage() {
   const context = useContext(Context);
   const [edit, SetEdit] = useState(false);
   const [address, setAddress] = useState("");
-  const [newAdress, SetnewAddress] = useState({
-    name: "",
-    house: "",
-    country: "",
-    state: "",
-    district: "",
-    city: "",
-    street: "",
-    pincode: "",
-  });
+  // const [newAdress, SetnewAdress] = useState({
+  //   name: "",
+  //   house: "",
+  //   country: "",
+  //   state: "",
+  //   district: "",
+  //   city: "",
+  //   street: "",
+  //   pincode: "",
+  // });
   const [user, SetUser] = useState({
     name: "",
     email: "",
@@ -42,8 +42,8 @@ export default function ProductBuyPage() {
     },
   });
   const [quantity, setQuantity] = useState(1);
-  const [selectedAddress, setSelectedAddress] = useState("default");
-  const [newAddress, setNewAddress] = useState("");
+  // const [selectedAddress, setSelectedAddress] = useState("default");
+  // const [newAdress, SetnewAdress] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("CashOnDelivery");
   const [step, setStep] = useState(1); // State to track the current step
   const navigate = useNavigate();
@@ -52,9 +52,15 @@ export default function ProductBuyPage() {
 
   const fetchUser = async () => {
     const userData = await context.fetchUserDetials();
-    SetUser(userData.data);
+    SetUser(userData.data)
+    console.log(user?.name)
+    
+      setAddress(
+        `${user?.name},${user?.address?.house},${user?.address?.street},${user?.address?.city},${user?.address?.district},${user?.address?.state},${user?.address?.country},${user?.address?.pincode}`
+      )
     console.log(user?.address);
-  };
+  }
+
   const proceedToNextStep = () => {
     setStep(step + 1);
   };
@@ -87,52 +93,74 @@ export default function ProductBuyPage() {
         [name]: value,
       }));
     }
+    // SetnewAdress((prev) => ({
+    //   ...prev,
+    //   [name]: value,
+    // }));
   };
 
-  const handleEditSubmit = (e) => {
-    e.preventDefault();
-    SetEdit(false);
-  };
-  const handleNewSumit = (e) => {
-    console.log("new", newAddress);
+  // const handleEditSubmit = (e) => {
+  //   e.preventDefault();
+  //   setAddress(
+  //     `${newAdress?.name},${newAdress?.house},${newAdress?.street},${newAdress?.city},${newAdress?.district},${newAdress?.state},${newAdress?.country},${newAdress?.pincode}`
+  //   );
+  //   // setSelectedAddress("default");
+    
+  //   SetEdit(false);
+  // };
+  // const handleNewSumit = (e) => {
+  //   // console.log("new", newAdress);
 
-    e.preventDefault();
-    setAddress(
-      `${newAddress?.name},${newAddress?.house},${newAddress?.street},${newAddress?.city},${newAddress?.district},${newAddress?.state},${newAddress?.country},${newAddress?.pincode}`
-    );
-    setSelectedAddress("default");
-  };
+  //   e.preventDefault();
+  //   setAddress(
+  //     `${newAdress?.name},${newAdress?.house},${newAdress?.street},${newAdress?.city},${newAdress?.district},${newAdress?.state},${newAdress?.country},${newAdress?.pincode}`
+  //   );
+  //   // setSelectedAddress("default");
+  // };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     console.log("test", name, value);
 
-    setNewAddress((prevUser) => ({
-      ...prevUser,
-      [name]: value,
-    }));
-    console.log("add", newAddress);
+    if (name.includes("address.")) {
+      const addressField = name.split(".")[1];
+      SetUser((prevUser) => ({
+        ...prevUser,
+        address: {
+          ...prevUser.address,
+          [addressField]: value,
+        },
+      }));
+    } else if (name.includes("accountDetails.")) {
+      const accountField = name.split(".")[1];
+      SetUser((prevUser) => ({
+        ...prevUser,
+        accountDetails: {
+          ...prevUser.accountDetails,
+          [accountField]: value,
+        },
+      }));
+    } else {
+      SetUser((prevUser) => ({
+        ...prevUser,
+        [name]: value,
+      }));
+    }
+    // console.log("add", newAdress);
   };
 
   useEffect(() => {
-    fetchUser();
-  }, []);
+    fetchUser()
+  },[])
 
-  useEffect(() => {
-    if (user) {
-      setAddress(
-        `${user?.name},${user?.address?.house},${user?.address?.street},${user?.address?.city},${user?.address?.district},${user?.address?.state},${user?.address?.country},${user?.address?.pincode}`
-      );
-      // console.log("address",address)
-    }
-  }, [user]);
+  
 
   const handleBuyNow = async () => {
     try {
       const response = await axios.post("/buyProduct", {
         productId: product._id,
         quantity,
-        address: selectedAddress === "new" ? newAddress : selectedAddress,
+        data: user,
         paymentMethod,
       });
       if (response.status === 200) {
@@ -144,11 +172,9 @@ export default function ProductBuyPage() {
       console.error("Error:", error);
     }
   };
-  
 
   return (
     <div>
-      <MyNavbar />
       <div className="min-h-[calc(100vh-64px)] pt-16">
         <div className="container mx-auto p-4 lg:flex lg:gap-4">
           {/* Left Side - Address and Order */}
@@ -163,30 +189,20 @@ export default function ProductBuyPage() {
             {/* Address Section */}
             <div className="bg-white border mb-4 p-4 rounded-md shadow-md">
               <h3 className="text-lg font-bold">Delivery Address</h3>
-              {newAddress && (
-                <div className="py-3">
-                  <span className="mr-4">Default Address</span>
-                  <input
-                    type="radio"
-                    onClick={() =>
-                      {setAddress(
-                        `${user?.name},${user?.address?.house},${user?.address?.street},${user?.address?.city},${user?.address?.district},${user?.address?.state},${user?.address?.country},${user?.address?.pincode}`
-                      )
-                    setSelectedAddress("default")}
-                    }
-                  />
-                </div>
-              )}
-              {selectedAddress === "default" && !newAddress && (
+              {/* {user?.name && (
                 <p className="font-bold cursor-pointer w-full text-right">
                   <span onClick={() => SetEdit(true)}>Edit</span>
                 </p>
-              )}
-              {selectedAddress === "default" && (
-                <form onSubmit={handleEditSubmit}>
+              )} */}
+              {address && (
+                <form >
                   <div className="mt-4">
                     <div className="relative flex mb-4 items-center justify-between p-4 border rounded-md">
-                      {address && <p className="max-w-[400px]">{address}</p>}
+                      {address && (
+                        <p className="flex-wrap  text-wrap flex-col bg-green-200 w-[400px] max-w-[400px]">
+                          {address}
+                        </p>
+                      )}
                       {/* <p>{`${user?.address?.house}, ${user?.address?.street}, ${user?.address?.city}`}</p> */}
                       <button
                         onClick={proceedToNextStep}
@@ -195,164 +211,166 @@ export default function ProductBuyPage() {
                         Deliver Here
                       </button>
                     </div>
-                    {edit && (
-                      <div>
-                        <div className="grid grid-cols-2 gap-4">
-                          <div>
-                            <label
-                              htmlFor="name"
-                              className="block mb-1 font-semibold"
-                            >
-                              Full Name
-                            </label>
-                            <input
-                              required
-                              type="text"
-                              name="name"
-                              value={user?.name || ""}
-                              onChange={handleEdit}
-                              className="w-full p-2 border rounded"
-                            />
-                          </div>
-                          <div>
-                            <label
-                              htmlFor="address.house"
-                              className="block mb-1 font-semibold"
-                            >
-                              House Name/No.
-                            </label>
-                            <input
-                              required
-                              type="text"
-                              name="address.house"
-                              value={user?.address?.house || ""}
-                              onChange={handleEdit}
-                              className="w-full p-2 border rounded"
-                            />
-                          </div>
-                          <div>
-                            <label
-                              htmlFor="address.country"
-                              className="block mb-1 font-semibold"
-                            >
-                              Country
-                            </label>
-                            <input
-                              required
-                              type="text"
-                              name="address.country"
-                              value={user?.address?.country || ""}
-                              onChange={handleEdit}
-                              className="w-full p-2 border rounded"
-                            />
-                          </div>
-                          <div>
-                            <label
-                              htmlFor="address.state"
-                              className="block mb-1 font-semibold"
-                            >
-                              State
-                            </label>
-                            <input
-                              required
-                              type="text"
-                              name="address.state"
-                              value={user?.address?.state || ""}
-                              onChange={handleEdit}
-                              className="w-full p-2 border rounded"
-                            />
-                          </div>
-                          <div>
-                            <label
-                              htmlFor="address.district"
-                              className="block mb-1 font-semibold"
-                            >
-                              District
-                            </label>
-                            <input
-                              required
-                              type="text"
-                              name="address.district"
-                              value={user?.address?.district || ""}
-                              onChange={handleEdit}
-                              className="w-full p-2 border rounded"
-                            />
-                          </div>
-                          <div>
-                            <label
-                              htmlFor="address.city"
-                              className="block mb-1 font-semibold"
-                            >
-                              City
-                            </label>
-                            <input
-                              required
-                              type="text"
-                              name="address.city"
-                              value={user?.address?.city || ""}
-                              onChange={handleEdit}
-                              className="w-full p-2 border rounded"
-                            />
-                          </div>
-                          <div>
-                            <label
-                              htmlFor="address.street"
-                              className="block mb-1 font-semibold"
-                            >
-                              Street
-                            </label>
-                            <input
-                              required
-                              type="text"
-                              name="address.street"
-                              value={user?.address?.street || ""}
-                              onChange={handleEdit}
-                              className="w-full p-2 border rounded"
-                            />
-                          </div>
-                          <div>
-                            <label
-                              htmlFor="address.pincode"
-                              className="block mb-1 font-semibold"
-                            >
-                              Pincode
-                            </label>
-                            <input
-                              required
-                              type="text"
-                              name="address.pincode"
-                              value={user?.address?.pincode || ""}
-                              onChange={handleEdit}
-                              className="w-full p-2 border rounded"
-                            />
-                          </div>
-                        </div>
+                    {/* {edit && (
+                      
                         <div>
-                          <button
-                            className="w-full bg-accent-light py-4 my-8 text-white text-xl font-bold rounded"
-                            type="submit"
-                          >
-                            Save Address
-                          </button>
+                          <div className="grid grid-cols-2 gap-4">
+                            <div>
+                              <label
+                                htmlFor="name"
+                                className="block mb-1 font-semibold"
+                              >
+                                Full Name
+                              </label>
+                              <input
+                                required
+                                type="text"
+                                name="name"
+                                value={user?.address?.name || ""}
+                                onChange={handleEdit}
+                                className="w-full p-2 border rounded"
+                              />
+                            </div>
+                            <div>
+                              <label
+                                htmlFor="house"
+                                className="block mb-1 font-semibold"
+                              >
+                                House Name/No.
+                              </label>
+                              <input
+                                required
+                                type="text"
+                                name="house"
+                                value={address?.house || ""}
+                                onChange={handleEdit}
+                                className="w-full p-2 border rounded"
+                              />
+                            </div>
+                            <div>
+                              <label
+                                htmlFor="country"
+                                className="block mb-1 font-semibold"
+                              >
+                                Country
+                              </label>
+                              <input
+                                required
+                                type="text"
+                                name="country"
+                                value={address?.country || ""}
+                                onChange={handleEdit}
+                                className="w-full p-2 border rounded"
+                              />
+                            </div>
+                            <div>
+                              <label
+                                htmlFor="state"
+                                className="block mb-1 font-semibold"
+                              >
+                                State
+                              </label>
+                              <input
+                                required
+                                type="text"
+                                name="state"
+                                value={address?.state || ""}
+                                onChange={handleEdit}
+                                className="w-full p-2 border rounded"
+                              />
+                            </div>
+                            <div>
+                              <label
+                                htmlFor="district"
+                                className="block mb-1 font-semibold"
+                              >
+                                District
+                              </label>
+                              <input
+                                required
+                                type="text"
+                                name="district"
+                                value={address?.district || ""}
+                                onChange={handleEdit}
+                                className="w-full p-2 border rounded"
+                              />
+                            </div>
+                            <div>
+                              <label
+                                htmlFor="city"
+                                className="block mb-1 font-semibold"
+                              >
+                                City
+                              </label>
+                              <input
+                                required
+                                type="text"
+                                name="city"
+                                value={address?.city || ""}
+                                onChange={handleEdit}
+                                className="w-full p-2 border rounded"
+                              />
+                            </div>
+                            <div>
+                              <label
+                                htmlFor="street"
+                                className="block mb-1 font-semibold"
+                              >
+                                Street
+                              </label>
+                              <input
+                                required
+                                type="text"
+                                name="street"
+                                value={address?.street || ""}
+                                onChange={handleEdit}
+                                className="w-full p-2 border rounded"
+                              />
+                            </div>
+                            <div>
+                              <label
+                                htmlFor="pincode"
+                                className="block mb-1 font-semibold"
+                              >
+                                Pincode
+                              </label>
+                              <input
+                                required
+                                type="text"
+                                name="pincode"
+                                value={address?.pincode || ""}
+                                onChange={handleEdit}
+                                className="w-full p-2 border rounded"
+                              />
+                            </div>
+                          </div>
+                          <div>
+                            <button
+                              className="w-full bg-accent-light py-4 my-8 text-white text-xl font-bold rounded"
+                              type="submit"
+                            >
+                              Save Address
+                            </button>
+                          </div>
                         </div>
-                      </div>
-                    )}
-                    <div
+                      
+                    )} */}
+                    {!edit   && <div
                       onClick={() => setSelectedAddress("new")}
                       className="bg-white cursor-pointer text-accent-light border p-4 rounded-md shadow-md"
                     >
-                      <h2 className="text-lg flex items-center font-semibold">
+                      <h2 onClick={()=>SetEdit(true)} className="text-lg flex items-center font-semibold">
                         <span className="text-3xl pb-10 max-h-3 mr-4 text-center ">
-                          +
+                          
                         </span>{" "}
-                        Add New Address
+                        Edit Address
                       </h2>
-                    </div>
+                    </div>}
                   </div>
                 </form>
               )}
-              {selectedAddress === "new" && (
-                <form onSubmit={handleNewSumit}>
+              {edit && (
+                <form  className="mt-5">
                   <div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
@@ -488,13 +506,17 @@ export default function ProductBuyPage() {
               {step >= 2 && (
                 <div>
                   <div className="flex justify-between">
-                  <div className="mt-4">
-                    <p>Product: {product?.ProductName}</p>
-                    <p>Price: ₹{product?.sellingPrice}</p>
-                  </div>
-                  <div className="flex justify-center items-center w-40 h-40 mr-14">
-                    <img className="max-h-32 object-scale-down" src={`http://localhost:7800/ProductImages/${product.productImage[0]}`} alt="" />
-                  </div>
+                    <div className="mt-4">
+                      <p>Product: {product?.ProductName}</p>
+                      <p>Price: ₹{product?.sellingPrice}</p>
+                    </div>
+                    <div className="flex justify-center items-center w-40 h-40 mr-14">
+                      <img
+                        className="max-h-32 object-scale-down"
+                        src={`http://localhost:7800/ProductImages/${product.productImage[0]}`}
+                        alt=""
+                      />
+                    </div>
                   </div>
                   <button
                     className="bg-[#ea9791] text-white px-6 py-2 mt-4 rounded-full font-semibold"

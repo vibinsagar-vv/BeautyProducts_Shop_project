@@ -2,13 +2,13 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import AXIOS from "axios";
 import displayINRCurrency from "../../helpers/displayCurrency";
-import VerticalCardProduct from "../VerticalCardProduct";
 import AddToCart from "../../helpers/AddToCart";
 import Context from "../../context/context";
-import MyNavbar from "../flowbiteHeader";
 import Footer from "../Footer";
+import horizontal from '../..//assest/logo/horizontalLine.png'
 import noImage from "../../assest/logo/no-photo.png";
 import fetchCategoryWiseProduct from "../../helpers/fetchCategoryWiseProduct";
+import Heading from "../../helpers/Heading";
 export default function ProductDetials() {
   const [activeImage, SetActiveImage] = useState("");
 
@@ -172,9 +172,10 @@ export default function ProductDetials() {
             </div>
           </div>
           {related[1]&&(<div>
-            <div className="bg-accent-light w-full my-8 flex items-center justify-center text-4xl capitalize font-bold font-serif">
-            related products
-          </div>
+            <div className='pb-5 mt-5'>
+        <h2 className='text-2xl lg:text-5xl capitalize text-center Marck font-semibold pt-4 pb-3'>{"related Products"}</h2>
+        <div className='flex justify-center items-center'><img className='w-36' src={horizontal} alt="" /></div>
+        </div>
           <div className="md:max-w-7xl h-[320px] overflow-hidden">
             <div className="w-full px-8 h-[320px] py-4 justify-start flex scrollbar-none mx-auto md:gap-x-36 gap-10  overflow-x-scroll ">
               {related[0] &&
