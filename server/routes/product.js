@@ -1,6 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const multer = require('multer')
+// const Razorpay = require("razorpay");
+// const crypto = require("crypto");
 const PrdctImageUploadCntrl = require('../controller/products/prdctImageUpload')
 const DeletePrdctImageCntrl = require('../controller/products/deletePrdctImage')
 const authToken = require('../common/authToken')
@@ -37,6 +39,7 @@ router.post("/category-product",GetCategoryWiseProduct)
 router.post("/delete-product",authToken,AuthAdmin,DeleteProductCntrl)
 router.post("/product-detials",getProductDetailCntrl)
 router.get("/search",SearchProductCntrl)
+
 /* banner routes */
 
 router.post("/upload-banner",authToken,AuthAdmin,UploadBannerCntrl)
@@ -44,6 +47,49 @@ router.post("/upload-banner-image",uploadBanner.single('banner'),BannerImageUplo
 router.get("/get-banners",getBannerCntrl)
 router.post("/delete-banner",authToken,AuthAdmin,DeleteBannerCntrl)
 
+/* payment routes */
 
+// const razorpay = new Razorpay({
+//     key_id: process.env.RAZORPAY_KEY_ID,
+//     key_secret: process.env.RAZORPAY_SECRET,
+//   });
+  
+  // router.post("/order", async (req, res) => {
+  //   try {
+  //     const { amount, currency, receipt } = req.body;
+  //     const options = {
+  //       amount: amount, // Amount should be in currency subunits
+  //       currency: currency,
+  //       receipt: receipt,
+  //     };
+  
+  //     const order = await razorpay.orders.create(options);
+  //     if (!order) return res.status(500).send("Order creation failed");
+  
+  //     res.json(order);
+  //   } catch (err) {
+  //     console.error("Order creation error:", err);
+  //     res.status(500).send("Error in order creation");
+  //   }
+  // });
+  
+  // router.post("/order/validate", async (req, res) => {
+  //   try {
+  //     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+  //     const expectedSignature = crypto
+  //       .createHmac("sha256", process.env.RAZORPAY_SECRET)
+  //       .update(`${razorpay_order_id}|${razorpay_payment_id}`)
+  //       .digest("hex");
+  
+  //     if (expectedSignature === razorpay_signature) {
+  //       return res.json({ msg: "success", orderId: razorpay_order_id, paymentId: razorpay_payment_id });
+  //     } else {
+  //       return res.status(400).json({ msg: "Transaction is not legit!" });
+  //     }
+  //   } catch (err) {
+  //     console.error("Payment validation error:", err);
+  //     res.status(500).send("Error in payment validation");
+  //   }
+  // });
 
 module.exports = router

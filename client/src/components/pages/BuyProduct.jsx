@@ -1,29 +1,50 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import MyNavbar from "../flowbiteHeader";
+import logo from "../../assest/logo/logoIcon.png"
 import Footer from "../Footer";
 import axios from "axios";
 import Context from "../../context/context";
+import { toast } from "react-toastify";
+import displayINRCurrency from "../../helpers/displayCurrency";
 
 export default function ProductBuyPage() {
   const refelemnt = useRef();
+  const [popUp, setpopUp] = useState(false);
   const context = useContext(Context);
   const [edit, SetEdit] = useState(false);
-  const [address, setAddress] = useState("");
-  // const [newAdress, SetnewAdress] = useState({
-  //   name: "",
-  //   house: "",
-  //   country: "",
-  //   state: "",
-  //   district: "",
-  //   city: "",
-  //   street: "",
-  //   pincode: "",
-  // });
+  const [currentUser, SetCurrentUser] = useState({
+    name: "",
+    email: "",
+  });
+
+  const [editAddress, setEditAddress] = useState({
+    name: "",
+    email: "",
+    phoneNumber: "",
+    altphoneNumber: "",
+    dateOfBirth: "",
+    gender: "",
+    address: {
+      house: "",
+      country: "",
+      state: "",
+      district: "",
+      city: "",
+      street: "",
+      pincode: "",
+    },
+    accountDetails: {
+      accountNumber: "",
+      bankName: "",
+      ifscCode: "",
+    },
+  });
   const [user, SetUser] = useState({
     name: "",
     email: "",
     phoneNumber: "",
+    altphoneNumber: "",
     dateOfBirth: "",
     gender: "",
     address: {
@@ -42,134 +63,195 @@ export default function ProductBuyPage() {
     },
   });
   const [quantity, setQuantity] = useState(1);
-  // const [selectedAddress, setSelectedAddress] = useState("default");
-  // const [newAdress, SetnewAdress] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("CashOnDelivery");
   const [step, setStep] = useState(1); // State to track the current step
   const navigate = useNavigate();
   const location = useLocation();
-  const product = location.state?.product;
+  const [product, setProduct] = useState([]);
+  // const product = location.state?.product;
+
+  const startEdit = () => {
+    SetEdit(true);
+    setEditAddress({ ...user }); // Copy the original address to the edit state
+    console.log("123", product);
+  };
+
+  const handleEditAddressChange = (e) => {
+    const { name, value } = e.target;
+    console.log("test", name, value);
+
+    if (name.includes("address.")) {
+      const addressField = name.split(".")[1];
+      setEditAddress((prevUser) => ({
+        ...prevUser,
+        address: {
+          ...prevUser.address,
+          [addressField]: value,
+        },
+      }));
+    } else if (name.includes("accountDetails.")) {
+      const accountField = name.split(".")[1];
+      setEditAddress((prevUser) => ({
+        ...prevUser,
+        accountDetails: {
+          ...prevUser.accountDetails,
+          [accountField]: value,
+        },
+      }));
+    } else {
+      setEditAddress((prevUser) => ({
+        ...prevUser,
+        [name]: value,
+      }));
+    }
+  };
+
+  const changeAddressSubmit = (e) => {
+    e.preventDefault();
+    SetUser((prevUser) => ({
+      ...editAddress,
+    }));
+    SetEdit(false); // Exit edit mode
+    toast.success("Address updated successfully!");
+  };
 
   const fetchUser = async () => {
     const userData = await context.fetchUserDetials();
-    SetUser(userData.data)
-    console.log(user?.name)
-    
-      setAddress(
-        `${user?.name},${user?.address?.house},${user?.address?.street},${user?.address?.city},${user?.address?.district},${user?.address?.state},${user?.address?.country},${user?.address?.pincode}`
-      )
-    console.log(user?.address);
-  }
+    SetUser(userData.data);
+    SetCurrentUser({ name: userData.data.name, email: userData.data.email });
+    setProduct(location.state?.product);
+  };
+  console.log("1111", product);
 
   const proceedToNextStep = () => {
     setStep(step + 1);
   };
 
-  const handleEdit = (e) => {
-    const { name, value } = e.target;
-    console.log("test", name, value);
-
-    if (name.includes("address.")) {
-      const addressField = name.split(".")[1];
-      SetUser((prevUser) => ({
-        ...prevUser,
-        address: {
-          ...prevUser.address,
-          [addressField]: value,
-        },
-      }));
-    } else if (name.includes("accountDetails.")) {
-      const accountField = name.split(".")[1];
-      SetUser((prevUser) => ({
-        ...prevUser,
-        accountDetails: {
-          ...prevUser.accountDetails,
-          [accountField]: value,
-        },
-      }));
-    } else {
-      SetUser((prevUser) => ({
-        ...prevUser,
-        [name]: value,
-      }));
-    }
-    // SetnewAdress((prev) => ({
-    //   ...prev,
-    //   [name]: value,
-    // }));
-  };
-
-  // const handleEditSubmit = (e) => {
-  //   e.preventDefault();
-  //   setAddress(
-  //     `${newAdress?.name},${newAdress?.house},${newAdress?.street},${newAdress?.city},${newAdress?.district},${newAdress?.state},${newAdress?.country},${newAdress?.pincode}`
-  //   );
-  //   // setSelectedAddress("default");
-    
-  //   SetEdit(false);
-  // };
-  // const handleNewSumit = (e) => {
-  //   // console.log("new", newAdress);
-
-  //   e.preventDefault();
-  //   setAddress(
-  //     `${newAdress?.name},${newAdress?.house},${newAdress?.street},${newAdress?.city},${newAdress?.district},${newAdress?.state},${newAdress?.country},${newAdress?.pincode}`
-  //   );
-  //   // setSelectedAddress("default");
-  // };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    console.log("test", name, value);
-
-    if (name.includes("address.")) {
-      const addressField = name.split(".")[1];
-      SetUser((prevUser) => ({
-        ...prevUser,
-        address: {
-          ...prevUser.address,
-          [addressField]: value,
-        },
-      }));
-    } else if (name.includes("accountDetails.")) {
-      const accountField = name.split(".")[1];
-      SetUser((prevUser) => ({
-        ...prevUser,
-        accountDetails: {
-          ...prevUser.accountDetails,
-          [accountField]: value,
-        },
-      }));
-    } else {
-      SetUser((prevUser) => ({
-        ...prevUser,
-        [name]: value,
-      }));
-    }
-    // console.log("add", newAdress);
-  };
-
   useEffect(() => {
-    fetchUser()
-  },[])
+    fetchUser();
+  }, []);
 
-  
+  // const handleBuyNow = async () => {
+  //   try {
+  //     const response = await axios.post("/buyProduct", {
+  //       productId: product._id,
+  //       quantity,
+  //       data: user,
+  //       paymentMethod,
+  //     });
+  //     if (response.status === 200) {
+  //       navigate("/orderSuccess");
+  //     } else {
+  //       console.log("Error in purchasing");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //   }
+  // };
+  let TotalQty;
+  if(product?.length==1){
+    TotalQty=quantity
+  }
+  else{
+  TotalQty= product.reduce((prev, curr) => {
+    console.log(curr);
 
-  const handleBuyNow = async () => {
+    return prev + parseInt(curr.Quantity);
+  }, 0)};
+
+  let TotalPrice;
+  if(product?.length==1){
+    TotalPrice=product[0].ProductId.sellingPrice*quantity
+  }else{
+  TotalPrice= product.reduce((prev, curr) => {
+    console.log(curr);
+
+    return prev + parseInt(curr.Quantity * curr.ProductId.sellingPrice);
+  }, 0)};
+  console.log("888", TotalPrice);
+
+  let amount; // Set amount in paise for ₹500
+  if(product.length==1){
+    amount=(product[0].ProductId.sellingPrice*quantity)+3
+  }else{
+   amount= (TotalPrice + 3)
+  }
+  const currency = "INR";
+  const receiptId = "qwsaq1";
+
+  const paymentHandler = async (e) => {
+    e.preventDefault();
+
     try {
-      const response = await axios.post("/buyProduct", {
-        productId: product._id,
-        quantity,
-        data: user,
-        paymentMethod,
+      const response = await axios.post("http://localhost:7800/products/order", {
+          products:product,
+          user:user,
+          amount,
+          currency,
+          receipt: receiptId,
+
+        },{
+        headers: {
+          "Content-Type": "application/json",
+        }},
+      );
+
+      const order = await response.json();
+      if (!order.id) throw new Error("Order creation failed");
+
+      const options = {
+        key: "rzp_test_G0q4GHafjeesTR", // Enter your Razorpay Key ID
+        amount: amount, // Amount is in currency subunits (paise)
+        currency: currency,
+        name: "Zenglow",
+        description: "Test Transaction",
+        image: logo,
+        order_id: order.id, // This is the order ID returned from the server
+        handler: async function (response) {
+          const validateRes = await fetch("http://localhost:5000/order/validate", {
+            method: "POST",
+            body: JSON.stringify(response),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          const jsonRes = await validateRes.json();
+          if (jsonRes.msg === "success") {
+            alert("Payment successful!");
+          } else {
+            alert("Payment verification failed");
+            
+          }
+        },
+        prefill: {
+          name: "Web Dev Matrix",
+          email: "webdevmatrix@example.com",
+          contact: "9000000000",
+        },
+        notes: {
+          address: "Razorpay Corporate Office",
+        },
+        theme: {
+          color: "#3399cc",
+        },
+        // Enabling only UPI payment method
+        method: {
+          upi: true,
+          card: true, // Optional: include card payments if you also want card options
+          netbanking: true, // Optional: include netbanking if you also want netbanking options
+        },
+      };
+
+      const rzp1 = new window.Razorpay(options);
+      rzp1.on("payment.failed", function (response) {
+        alert("Payment Failed");
+        console.error("Error:", response.error);
       });
-      if (response.status === 200) {
-        navigate("/orderSuccess");
-      } else {
-        console.log("Error in purchasing");
-      }
+
+      rzp1.open();
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Payment initiation error:", error);
+      alert("Oops! Something went wrong. Payment Failed");
     }
   };
 
@@ -182,200 +264,70 @@ export default function ProductBuyPage() {
             {/* User Info */}
             <div className="bg-[#F8C5C1] p-4 rounded-md shadow-md mb-4">
               <h2 className="text-lg font-bold">
-                {user?.name} ({user?.email})
+                {currentUser?.name} ({currentUser?.email})
               </h2>
             </div>
 
             {/* Address Section */}
             <div className="bg-white border mb-4 p-4 rounded-md shadow-md">
               <h3 className="text-lg font-bold">Delivery Address</h3>
-              {/* {user?.name && (
-                <p className="font-bold cursor-pointer w-full text-right">
-                  <span onClick={() => SetEdit(true)}>Edit</span>
-                </p>
-              )} */}
-              {address && (
-                <form >
-                  <div className="mt-4">
-                    <div className="relative flex mb-4 items-center justify-between p-4 border rounded-md">
-                      {address && (
-                        <p className="flex-wrap  text-wrap flex-col bg-green-200 w-[400px] max-w-[400px]">
-                          {address}
-                        </p>
+
+              {/* Display the current address */}
+              {user.address ? (
+                <div className="mt-4">
+                  <div className="relative md:flex mb-4 items-center justify-between p-4 border rounded-md">
+                    <p className="flex-wrap text-wrap flex-col md:w-[400px] md:max-w-[400px]">
+                      <p className="capitalize">{`${user?.name},`}</p>
+                      <span className="capitalize">{`${user.address.house}, ${user.address.street}, ${user.address.city}, ${user.address.district}, ${user.address.state}, ${user.address.country} - ${user.address.pincode}`}</span>
+                      {user?.address?.landmark && (
+                        <p>{`Mob:${user?.address.landmark}`}</p>
                       )}
-                      {/* <p>{`${user?.address?.house}, ${user?.address?.street}, ${user?.address?.city}`}</p> */}
-                      <button
-                        onClick={proceedToNextStep}
-                        className="bg-[#ea9791] text-white px-4 py-2 rounded-md"
-                      >
-                        Deliver Here
-                      </button>
-                    </div>
-                    {/* {edit && (
-                      
-                        <div>
-                          <div className="grid grid-cols-2 gap-4">
-                            <div>
-                              <label
-                                htmlFor="name"
-                                className="block mb-1 font-semibold"
-                              >
-                                Full Name
-                              </label>
-                              <input
-                                required
-                                type="text"
-                                name="name"
-                                value={user?.address?.name || ""}
-                                onChange={handleEdit}
-                                className="w-full p-2 border rounded"
-                              />
-                            </div>
-                            <div>
-                              <label
-                                htmlFor="house"
-                                className="block mb-1 font-semibold"
-                              >
-                                House Name/No.
-                              </label>
-                              <input
-                                required
-                                type="text"
-                                name="house"
-                                value={address?.house || ""}
-                                onChange={handleEdit}
-                                className="w-full p-2 border rounded"
-                              />
-                            </div>
-                            <div>
-                              <label
-                                htmlFor="country"
-                                className="block mb-1 font-semibold"
-                              >
-                                Country
-                              </label>
-                              <input
-                                required
-                                type="text"
-                                name="country"
-                                value={address?.country || ""}
-                                onChange={handleEdit}
-                                className="w-full p-2 border rounded"
-                              />
-                            </div>
-                            <div>
-                              <label
-                                htmlFor="state"
-                                className="block mb-1 font-semibold"
-                              >
-                                State
-                              </label>
-                              <input
-                                required
-                                type="text"
-                                name="state"
-                                value={address?.state || ""}
-                                onChange={handleEdit}
-                                className="w-full p-2 border rounded"
-                              />
-                            </div>
-                            <div>
-                              <label
-                                htmlFor="district"
-                                className="block mb-1 font-semibold"
-                              >
-                                District
-                              </label>
-                              <input
-                                required
-                                type="text"
-                                name="district"
-                                value={address?.district || ""}
-                                onChange={handleEdit}
-                                className="w-full p-2 border rounded"
-                              />
-                            </div>
-                            <div>
-                              <label
-                                htmlFor="city"
-                                className="block mb-1 font-semibold"
-                              >
-                                City
-                              </label>
-                              <input
-                                required
-                                type="text"
-                                name="city"
-                                value={address?.city || ""}
-                                onChange={handleEdit}
-                                className="w-full p-2 border rounded"
-                              />
-                            </div>
-                            <div>
-                              <label
-                                htmlFor="street"
-                                className="block mb-1 font-semibold"
-                              >
-                                Street
-                              </label>
-                              <input
-                                required
-                                type="text"
-                                name="street"
-                                value={address?.street || ""}
-                                onChange={handleEdit}
-                                className="w-full p-2 border rounded"
-                              />
-                            </div>
-                            <div>
-                              <label
-                                htmlFor="pincode"
-                                className="block mb-1 font-semibold"
-                              >
-                                Pincode
-                              </label>
-                              <input
-                                required
-                                type="text"
-                                name="pincode"
-                                value={address?.pincode || ""}
-                                onChange={handleEdit}
-                                className="w-full p-2 border rounded"
-                              />
-                            </div>
-                          </div>
-                          <div>
-                            <button
-                              className="w-full bg-accent-light py-4 my-8 text-white text-xl font-bold rounded"
-                              type="submit"
-                            >
-                              Save Address
-                            </button>
-                          </div>
-                        </div>
-                      
-                    )} */}
-                    {!edit   && <div
-                      onClick={() => setSelectedAddress("new")}
+                      <p className="">{`Email:${user?.email}`}</p>
+                      <p>{`Mob:${user?.phoneNumber}`}</p>
+                      {user?.altphoneNumber && (
+                        <p>{`Mob:${user?.altphoneNumber}`}</p>
+                      )}
+                    </p>
+                    <button
+                      onClick={proceedToNextStep}
+                      className="bg-[#ea9791] text-white px-4 py-2 mt-3 md:mt-0 rounded-md"
+                    >
+                      Deliver Here
+                    </button>
+                  </div>
+
+                  {/* Edit Address button */}
+                  {!edit && (
+                    <div
+                      onClick={startEdit} // Start editing address
                       className="bg-white cursor-pointer text-accent-light border p-4 rounded-md shadow-md"
                     >
-                      <h2 onClick={()=>SetEdit(true)} className="text-lg flex items-center font-semibold">
-                        <span className="text-3xl pb-10 max-h-3 mr-4 text-center ">
-                          
-                        </span>{" "}
+                      <h2 className="text-lg flex items-center font-semibold">
                         Edit Address
                       </h2>
-                    </div>}
-                  </div>
-                </form>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div
+                  onClick={startEdit} // Start editing address
+                  className="bg-white cursor-pointer text-accent-light border mt-2 p-4 rounded-md shadow-md"
+                >
+                  <h2 className="text-lg flex items-center font-semibold">
+                    + Add Address
+                  </h2>
+                </div>
               )}
+
+              {/* Edit Address Form */}
               {edit && (
-                <form  className="mt-5">
+                <form onSubmit={changeAddressSubmit} className="mt-5">
                   <div>
                     <div className="grid grid-cols-2 gap-4">
+                      {/* Full Name */}
                       <div>
                         <label
-                          htmlFor="house"
+                          htmlFor="name"
                           className="block mb-1 font-semibold"
                         >
                           Full Name
@@ -383,116 +335,175 @@ export default function ProductBuyPage() {
                         <input
                           type="text"
                           name="name"
-                          onChange={handleChange}
+                          value={editAddress?.name}
+                          onChange={handleEditAddressChange}
                           className="w-full p-2 border rounded"
                         />
                       </div>
+
+                      {/* House Name/No */}
                       <div>
                         <label
-                          htmlFor="house"
+                          htmlFor="address.house"
                           className="block mb-1 font-semibold"
                         >
                           House Name/No.
                         </label>
                         <input
                           type="text"
-                          name="house"
-                          onChange={handleChange}
+                          name="address.house"
+                          value={editAddress?.address?.house}
+                          onChange={handleEditAddressChange}
                           className="w-full p-2 border rounded"
                         />
                       </div>
+
+                      {/* Country */}
                       <div>
                         <label
-                          htmlFor="country"
+                          htmlFor="address.country"
                           className="block mb-1 font-semibold"
                         >
                           Country
                         </label>
                         <input
                           type="text"
-                          name="country"
-                          onChange={handleChange}
+                          name="address.country"
+                          value={editAddress?.address?.country}
+                          onChange={handleEditAddressChange}
                           className="w-full p-2 border rounded"
                         />
                       </div>
+
+                      {/* State */}
                       <div>
                         <label
-                          htmlFor="state"
+                          htmlFor="address.state"
                           className="block mb-1 font-semibold"
                         >
                           State
                         </label>
                         <input
                           type="text"
-                          name="state"
-                          onChange={handleChange}
+                          name="address.state"
+                          value={editAddress?.address?.state}
+                          onChange={handleEditAddressChange}
                           className="w-full p-2 border rounded"
                         />
                       </div>
+
+                      {/* District */}
                       <div>
                         <label
-                          htmlFor="district"
+                          htmlFor="address.district"
                           className="block mb-1 font-semibold"
                         >
                           District
                         </label>
                         <input
                           type="text"
-                          name="district"
-                          onChange={handleChange}
+                          name="address.district"
+                          value={editAddress?.address?.district}
+                          onChange={handleEditAddressChange}
                           className="w-full p-2 border rounded"
                         />
                       </div>
+
+                      {/* City */}
                       <div>
                         <label
-                          htmlFor="city"
+                          htmlFor="address.city"
                           className="block mb-1 font-semibold"
                         >
                           City
                         </label>
                         <input
                           type="text"
-                          name="city"
-                          onChange={handleChange}
+                          name="address.city"
+                          value={editAddress?.address?.city}
+                          onChange={handleEditAddressChange}
                           className="w-full p-2 border rounded"
                         />
                       </div>
+
+                      {/* Street */}
                       <div>
                         <label
-                          htmlFor="street"
+                          htmlFor="address.street"
                           className="block mb-1 font-semibold"
                         >
                           Street
                         </label>
                         <input
                           type="text"
-                          name="street"
-                          onChange={handleChange}
+                          name="address.street"
+                          value={editAddress?.address?.street}
+                          onChange={handleEditAddressChange}
                           className="w-full p-2 border rounded"
                         />
                       </div>
+
+                      {/* Pincode */}
                       <div>
                         <label
-                          htmlFor="pincode"
+                          htmlFor="address.pincode"
                           className="block mb-1 font-semibold"
                         >
                           Pincode
                         </label>
                         <input
                           type="text"
-                          name="pincode"
-                          onChange={handleChange}
+                          name="address.pincode"
+                          value={editAddress?.address?.pincode}
+                          onChange={handleEditAddressChange}
                           className="w-full p-2 border rounded"
                         />
                       </div>
-                    </div>
-                    <div>
-                      <button
-                        className="w-full bg-accent-light py-4 my-8 text-white text-xl font-bold rounded"
-                        type="submit"
-                      >
-                        Save Address
-                      </button>
+                      <div>
+                        <label
+                          htmlFor="name"
+                          className="block mb-1 font-semibold"
+                        >
+                          Email
+                        </label>
+                        <input
+                          type="email"
+                          name="email"
+                          value={editAddress?.email}
+                          onChange={handleEditAddressChange}
+                          className="w-full p-2 border rounded"
+                        />
+                      </div>
+                      <div>
+                        <label
+                          htmlFor="name"
+                          className="block mb-1 font-semibold"
+                        >
+                          Phone Number
+                        </label>
+                        <input
+                          type="tel"
+                          name="phoneNumber"
+                          value={editAddress?.phoneNumber}
+                          onChange={handleEditAddressChange}
+                          className="w-full p-2 border rounded"
+                        />
+                      </div>
+
+                      {/* Submit Button */}
+                      <div className="col-span-2">
+                        <button
+                          onClick={() => {
+                            if (!user?.address) {
+                              setpopUp(true);
+                            }
+                          }}
+                          className="w-full bg-accent-light py-4 my-8 text-white text-xl font-bold rounded"
+                          type="submit"
+                        >
+                          Save Address
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </form>
@@ -502,22 +513,55 @@ export default function ProductBuyPage() {
             {/* Order Summery */}
 
             <div className="bg-white border mb-4 p-4 rounded-md shadow-md">
-              <h2 className="text-lg font-semibold">2. Order Summary</h2>
+              <div className="flex justify-between mb-4">
+                <h2 className="text-xl font-bold">Order Summary</h2>
+                {product.length >1 && step >= 2 && (<button onClick={()=>{navigate("/cart")}} className="border border-gray-300 text-gray-700 px-2 shadow-md rounded">Edit</button>)}
+              </div>
               {step >= 2 && (
                 <div>
-                  <div className="flex justify-between">
-                    <div className="mt-4">
-                      <p>Product: {product?.ProductName}</p>
-                      <p>Price: ₹{product?.sellingPrice}</p>
-                    </div>
-                    <div className="flex justify-center items-center w-40 h-40 mr-14">
-                      <img
-                        className="max-h-32 object-scale-down"
-                        src={`http://localhost:7800/ProductImages/${product.productImage[0]}`}
-                        alt=""
-                      />
-                    </div>
-                  </div>
+                  {product.map((products) => {
+                    return (
+                      <div className="flex justify-between">
+                        <div className="mt-4">
+                          <p>Product: {products?.ProductId?.ProductName}</p>
+                          <p>Price: ₹{products?.ProductId?.sellingPrice}</p>
+                          {product.length == 1 ? (
+                            <div className="flex items-center gap-3 mt-2">
+                              {quantity > 1 && (
+                                <button
+                                  className="border-2 border-pink-800 font-extrabold text-pink-700 hover:bg-pink-800 hover:text-white w-6 h-6 flex justify-center items-center rounded"
+                                  onClick={() => setQuantity((pre) => pre - 1)}
+                                >
+                                  -
+                                </button>
+                              )}
+                              <span className="font-medium">{quantity}</span>
+                              {products?.ProductId?.quantity > quantity && (
+                                <button
+                                  className="border-2 border-pink-800 font-extrabold text-pink-700 hover:bg-pink-800 hover:text-white w-6 h-6 flex justify-center items-center rounded"
+                                  onClick={() => setQuantity((pre) => pre + 1)}
+                                >
+                                  +
+                                </button>
+                              )}
+                            </div>
+                          ) : (
+                            <span className="font-medium">
+                              Quantity : {products?.Quantity}
+                            </span>
+                          )}
+                        </div>
+
+                        <div className="flex justify-center items-center w-40 h-40 mr-14">
+                          <img
+                            className="max-h-32 object-scale-down"
+                            src={`http://localhost:7800/ProductImages/${products?.ProductId?.productImage[0]}`}
+                            alt=""
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
                   <button
                     className="bg-[#ea9791] text-white px-6 py-2 mt-4 rounded-full font-semibold"
                     onClick={proceedToNextStep}
@@ -567,27 +611,39 @@ export default function ProductBuyPage() {
           </div>
 
           {/* Right Side - Price Summary */}
-          <div className="lg:w-1/3 lg:max-h-[260px] lg:sticky top-20 bg-white p-4 border rounded-md shadow-md">
-            <div>
-              <h3 className="text-lg font-bold mb-4">Price Details</h3>
-              <div className="flex justify-between py-2 border-b">
-                <p>Price (1 item)</p>
-                <p>{product.sellingPrice}</p>
-              </div>
-              <div className="flex justify-between py-2 border-b">
-                <p>Delivery Charges</p>
-                <p className="text-green-600">FREE</p>
-              </div>
-              <div className="flex justify-between py-2 border-b">
-                <p>Platform Fee</p>
-                <p>₹3</p>
-              </div>
-              <div className="flex justify-between py-2 font-bold">
-                <p>Total Payable</p>
-                <p>{product.sellingPrice + 3}</p>
+          {step >= 3 && (
+            <div className="lg:w-1/3 lg:max-h-[260px] lg:sticky top-20 bg-white p-4 border rounded-md shadow-md">
+              <div>
+                <h3 className="text-lg font-bold mb-4">Price Details</h3>
+
+                {product.length == 1 ? (
+                  <div className="flex justify-between py-2 border-b">
+                    <p>Price {`(${quantity} items)`}</p>
+                    <p>{displayINRCurrency(product[0].ProductId.sellingPrice*quantity)}</p>
+                  </div>
+                ) : (
+                  <div className="flex justify-between py-2 border-b">
+                    <p>Price {`(${TotalQty} item)`}</p>
+                    <p className="text-sm">{displayINRCurrency(TotalPrice)}</p>
+                  </div>
+                )}
+
+                <div className="flex justify-between py-2 border-b">
+                  <p>Delivery Charges</p>
+                  <p className="text-green-600">FREE</p>
+                </div>
+                <div className="flex justify-between py-2 border-b">
+                  <p>Platform Fee</p>
+                  <p>₹3</p>
+                </div>
+                <div className="flex justify-between py-2 font-bold">
+                  <p>Total Payable</p>
+                  {TotalPrice+3
+                  }
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
         {/* Footer Buttons */}
         <div className="container mx-auto p-4 flex justify-between">
@@ -607,6 +663,30 @@ export default function ProductBuyPage() {
           </button>
         </div>
       </div>
+      {popUp && (
+        <div className="fixed top-0 flex pt-60 justify-center min-w-full min-h-[100vh] bg-slate-100 bg-opacity-70 ">
+          <div className="w-72 max-h-48 mx-auto p-10 bg-white border rounded-2xl">
+            <h1 className="mb-2">Do you want to set this as "Home Adress" ?</h1>
+            <div className="flex justify-between">
+              <button
+                className="bg-green-600 text-white px-3 py-1 m-4"
+                onClick={() => {
+                  updateUser();
+                  setpopUp(false);
+                }}
+              >
+                Yes
+              </button>
+              <button
+                onClick={() => setpopUp(false)}
+                className="bg-red-600 text-white px-3 py-1 m-4"
+              >
+                No
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <Footer />
     </div>
   );

@@ -1,6 +1,6 @@
 const user = require('../../models/userModel')
 
-const UpdateProfileCntrl = async(req,res)=>{
+const   UpdateProfileCntrl = async(req,res)=>{
     try{
     const userId = req.userid
     const userData =req.body

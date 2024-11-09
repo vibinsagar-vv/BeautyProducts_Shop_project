@@ -44,7 +44,7 @@ export default function ProductDetials() {
   };
 
   const handleBuy = () => {
-    nav("/buy", { state: { product: data } });
+    nav("/buy", { state: { product: [{ProductId:data}] } });
   };
 
   const fetchProductDetail = async () => {
