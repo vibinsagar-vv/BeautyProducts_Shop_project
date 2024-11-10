@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import MyNavbar from "../flowbiteHeader";
-import logo from "../../assest/logo/logoIcon.png"
+import logo from "../../assest/logo/logoIcon.png";
 import Footer from "../Footer";
 import axios from "axios";
 import Context from "../../context/context";
@@ -149,33 +149,29 @@ export default function ProductBuyPage() {
   //   }
   // };
   let TotalQty;
-  if(product?.length==1){
-    TotalQty=quantity
-  }
-  else{
-  TotalQty= product.reduce((prev, curr) => {
-    console.log(curr);
+  if (product?.length == 1) {
+    TotalQty = quantity;
+  } else {
+    TotalQty = product.reduce((prev, curr) => {
+      console.log(curr);
 
-    return prev + parseInt(curr.Quantity);
-  }, 0)};
+      return prev + parseInt(curr.Quantity);
+    }, 0);
+  }
 
   let TotalPrice;
-  if(product?.length==1){
-    TotalPrice=product[0].ProductId.sellingPrice*quantity
-  }else{
-  TotalPrice= product.reduce((prev, curr) => {
-    console.log(curr);
+  if (product?.length == 1) {
+    TotalPrice = product[0].ProductId.sellingPrice * quantity;
+  } else {
+    TotalPrice = product.reduce((prev, curr) => {
+      console.log(curr);
 
-    return prev + parseInt(curr.Quantity * curr.ProductId.sellingPrice);
-  }, 0)};
+      return prev + parseInt(curr.Quantity * curr.ProductId.sellingPrice);
+    }, 0);
+  }
   console.log("888", TotalPrice);
 
-  let amount; // Set amount in paise for ₹500
-  if(product.length==1){
-    amount=(product[0].ProductId.sellingPrice*quantity)+3
-  }else{
-   amount= (TotalPrice + 3)
-  }
+  let amount = (TotalPrice+3) * 100; // Set amount in paise for ₹500
   const currency = "INR";
   const receiptId = "qwsaq1";
 
@@ -183,20 +179,27 @@ export default function ProductBuyPage() {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:7800/products/order", {
-          products:product,
-          user:user,
+      const response = await axios.post(
+        "http://localhost:7800/products/order",
+        {
+          products: product,
+          user: user,
           amount,
           currency,
           receipt: receiptId,
-
-        },{
-        headers: {
-          "Content-Type": "application/json",
-        }},
+          quantity: TotalQty,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
       );
+      console.log(response);
 
-      const order = await response.json();
+      const order = await response.data;
+      console.log("10", order);
+
       if (!order.id) throw new Error("Order creation failed");
 
       const options = {
@@ -208,25 +211,33 @@ export default function ProductBuyPage() {
         image: logo,
         order_id: order.id, // This is the order ID returned from the server
         handler: async function (response) {
-          const validateRes = await fetch("http://localhost:5000/order/validate", {
-            method: "POST",
-            body: JSON.stringify(response),
-            headers: {
-              "Content-Type": "application/json",
+          const validateRes = await axios.post(
+            "http://localhost:7800/products/order_validate",
+            {
+              data:response,
+              products: product,
+              user: user,
+              amount,
+              currency,
+              receipt: receiptId,
+              quantity: TotalQty,
             },
-          });
-          const jsonRes = await validateRes.json();
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          const jsonRes = await validateRes.data;
           if (jsonRes.msg === "success") {
             alert("Payment successful!");
           } else {
             alert("Payment verification failed");
-            
           }
         },
         prefill: {
-          name: "Web Dev Matrix",
-          email: "webdevmatrix@example.com",
-          contact: "9000000000",
+          email: currentUser.email,
+          contact: user.phoneNumber,
         },
         notes: {
           address: "Razorpay Corporate Office",
@@ -234,12 +245,7 @@ export default function ProductBuyPage() {
         theme: {
           color: "#3399cc",
         },
-        // Enabling only UPI payment method
-        method: {
-          upi: true,
-          card: true, // Optional: include card payments if you also want card options
-          netbanking: true, // Optional: include netbanking if you also want netbanking options
-        },
+        
       };
 
       const rzp1 = new window.Razorpay(options);
@@ -250,6 +256,8 @@ export default function ProductBuyPage() {
 
       rzp1.open();
     } catch (error) {
+      console.log(error);
+
       console.error("Payment initiation error:", error);
       alert("Oops! Something went wrong. Payment Failed");
     }
@@ -515,7 +523,16 @@ export default function ProductBuyPage() {
             <div className="bg-white border mb-4 p-4 rounded-md shadow-md">
               <div className="flex justify-between mb-4">
                 <h2 className="text-xl font-bold">Order Summary</h2>
-                {product.length >1 && step >= 2 && (<button onClick={()=>{navigate("/cart")}} className="border border-gray-300 text-gray-700 px-2 shadow-md rounded">Edit</button>)}
+                {product.length > 1 && step >= 2 && (
+                  <button
+                    onClick={() => {
+                      navigate("/cart");
+                    }}
+                    className="border border-gray-300 text-gray-700 px-2 shadow-md rounded"
+                  >
+                    Edit
+                  </button>
+                )}
               </div>
               {step >= 2 && (
                 <div>
@@ -616,17 +633,10 @@ export default function ProductBuyPage() {
               <div>
                 <h3 className="text-lg font-bold mb-4">Price Details</h3>
 
-                {product.length == 1 ? (
-                  <div className="flex justify-between py-2 border-b">
-                    <p>Price {`(${quantity} items)`}</p>
-                    <p>{displayINRCurrency(product[0].ProductId.sellingPrice*quantity)}</p>
-                  </div>
-                ) : (
-                  <div className="flex justify-between py-2 border-b">
-                    <p>Price {`(${TotalQty} item)`}</p>
-                    <p className="text-sm">{displayINRCurrency(TotalPrice)}</p>
-                  </div>
-                )}
+                <div className="flex justify-between py-2 border-b">
+                  <p>Price {`(${TotalQty} items)`}</p>
+                  <p>{displayINRCurrency(TotalPrice)}</p>
+                </div>
 
                 <div className="flex justify-between py-2 border-b">
                   <p>Delivery Charges</p>
@@ -638,8 +648,7 @@ export default function ProductBuyPage() {
                 </div>
                 <div className="flex justify-between py-2 font-bold">
                   <p>Total Payable</p>
-                  {TotalPrice+3
-                  }
+                  {displayINRCurrency(TotalPrice + 3)}
                 </div>
               </div>
             </div>
@@ -649,7 +658,7 @@ export default function ProductBuyPage() {
         <div className="container mx-auto p-4 flex justify-between">
           {step >= 4 && (
             <button
-              onClick={handleBuyNow}
+              onClick={paymentHandler}
               className="bg-[#ea9791] text-white px-6 py-2 rounded-md font-semibold hover:bg-[#a26865]"
             >
               Buy Now

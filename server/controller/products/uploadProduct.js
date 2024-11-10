@@ -9,7 +9,7 @@ async function UploadProductCntrl(req,res){
 
         console.log(image);
         
-        const ProductData =await ProductModel.create({...req.body,productImage:image})
+        const ProductData =await ProductModel.create({...req.body,TotalSaleQuantity:0,productImage:image})
         res.json({
             data:ProductData,
             success:true,
