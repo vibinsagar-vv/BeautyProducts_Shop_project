@@ -16,6 +16,7 @@ import MyNavbar from "../components/flowbiteHeader";
 import WishList from "../components/pages/WishList";
 import UpdateProfilePage from "../components/UpdateProfilePage";
 import ProductBuyPage from "../components/pages/BuyProduct";
+import Orders from "../components/pages/Orders";
 
 export default function UserPage() {
   return (
@@ -42,6 +43,7 @@ export default function UserPage() {
           <Route path="/profile/*" element={<ProfilePage />} />
           <Route path="/updateProfile" element={<UpdateProfilePage/>}/>
           <Route path="/cart" element={<Cart />} />
+          <Route path="/my_orders" element={<Orders/>}/>
           <Route path="/search" element={<SearchProducts />} />
           <Route path="/table" element={<SelectionTable />} />
           <Route path="/wishlist" element={<WishList/>}/>

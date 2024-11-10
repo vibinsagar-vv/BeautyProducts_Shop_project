@@ -26,6 +26,7 @@ const getSubCategoryProduct = require('../controller/products/getSubCategoryPrdt
 const OrderDetialsModel = require('../models/OrderDetialsModel');
 const ProductModel = require('../models/productModel');
 const userModel = require('../models/userModel');
+const AddToCartModel = require('../models/cartProduct');
 
 
 const upload=multer({storage:Mulstorage})
@@ -129,7 +130,7 @@ const razorpay = new Razorpay({
           await ProductModel.updateOne({_id:item.ProductId._id},{quantity:newQuantity,TotalSaleQuantity:TotalSaleQty})
         });
         if(products.length>1){
-          userModel.de
+          await AddToCartModel.findOneAndDelete({UserId:user._id})
         }
       }
       

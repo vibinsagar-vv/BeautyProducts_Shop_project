@@ -1,24 +1,44 @@
-const AddToCartModel = require("../../models/cartProduct")
+const AddToCartModel = require("../../models/cartProduct");
+const userModel = require("../../models/userModel");
 
 const DeleteCartProductCntrl=async(req,res)=>{
-    try{
+    try {
         const curentUser = req.userid
-        const CartProductId = req.body._id
+        const productId = req.body._id // Assuming you pass the productId in the request body
+        
+        // Find the user's cart and remove the product from the products array
+        const updatedCart = await AddToCartModel.findOneAndUpdate(
+            { UserId: curentUser },
+            { $pull: { products: { _id: productId } } },
+            { new: true } // Return the updated document
+        ).populate("products.ProductId");
 
-        const deleteproduct = await AddToCartModel.deleteOne({_id:CartProductId,UserId:curentUser})
+        console.log(updatedCart);
+        
+
+        const usercart = await userModel.findOneAndUpdate({_id:curentUser},{cart:updatedCart.products})
+        
+        if (!updatedCart) {
+            return res.status(404).json({
+                success: false,
+                error: true,
+                message: "Cart not found or product does not exist in cart"
+            });
+        }
 
         res.json({
-            data:deleteproduct,
-            message:"Product Deleted From Cart",
-            success:true,
-            error:false
-        })
-    }catch(error){
+            data: updatedCart,
+            success: true,
+            error: false,
+            message: "Product removed from cart"
+        });
+        
+    } catch (error) {
         res.status(500).json({
-            success:false,
-            error:true,
-            message:error.message ||error
-        })
+            success: false,
+            error: true,
+            message: error.message || error
+        });
     }
 }
 

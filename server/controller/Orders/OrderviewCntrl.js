@@ -1,22 +1,21 @@
 const AddToCartModel = require("../../models/cartProduct")
+const OrderDetialsModel = require("../../models/OrderDetialsModel")
 const userModel = require("../../models/userModel")
 
-const CartViewCntrl = async(req,res) =>{
+const OrderviewCntrl = async(req,res) =>{
     try{
         const curentUser =req.userid
-        const cart = await AddToCartModel.findOne({
-            UserId:curentUser
-        }).populate("products.ProductId")
+        const orders = await OrderDetialsModel.find({
+            userid:curentUser
+        })      
         
-        
-
-        const cartproduct=cart.products
+        console.log(orders);
         
         res.json({
-            data:cartproduct,
+            data:orders,
             success:true,
             error:false,
-            message:"cart product data"
+            message:"order list"
         })
 
     }catch(error){
@@ -28,4 +27,4 @@ const CartViewCntrl = async(req,res) =>{
     }
 }
 
-module.exports = CartViewCntrl
+module.exports = OrderviewCntrl

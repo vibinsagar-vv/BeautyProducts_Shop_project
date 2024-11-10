@@ -23,6 +23,8 @@ const GetWishListCntrl = require('../controller/WishList/GetWishListCntrl')
 const ChangeProfilePicCntrl = require('../controller/user/ChangeProfilePicCntrl')
 const ProfilePicstorage = require('../multer/profilePicStorage')
 const UpdateProfileCntrl = require('../controller/user/UpdateProfileCntrl')
+const UpdateAdressCntrl = require('../controller/user/UpdateAdressContrl')
+const OrderviewCntrl = require('../controller/Orders/OrderviewCntrl')
 
 const upload=multer({storage:ProfilePicstorage})
 
@@ -41,6 +43,7 @@ router.post("/resend-otp",resendOtpCntrl)
 //User
 
 router.post("/update-profile",authToken,UpdateProfileCntrl)
+router.post("/update-adress",authToken,UpdateAdressCntrl)
 
 //admin
 
@@ -61,6 +64,11 @@ router.post("/delete-cart-product",authToken,DeleteCartProductCntrl)
 router.post('/add-to-wishlist',authToken,AddToWishListCntrl)
 router.post('/remove-from-wishlist',authToken,RemoveWishListCntrl)
 router.get('/get-wishlist',authToken,GetWishListCntrl)
+
+//Orders
+
+router.get("/view-orders",authToken,OrderviewCntrl)
+
 
 module.exports = router
 

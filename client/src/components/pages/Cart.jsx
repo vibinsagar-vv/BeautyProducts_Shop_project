@@ -151,14 +151,14 @@ export default function Cart() {
                           <span className="font-medium">
                             {product?.Quantity}
                           </span>
-                          <button
+                          {product?.Quantity < product?.ProductId?.quantity && (<button
                             className="border-2 border-pink-800 font-extrabold text-pink-700 hover:bg-pink-800 hover:text-white w-6 h-6 flex justify-center items-center rounded"
                             onClick={() =>
                               increaseQty(product?._id, product?.Quantity)
                             }
                           >
                             +
-                          </button>
+                          </button>)}
                         </div>
                       </div>
                     </div>

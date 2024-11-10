@@ -76,6 +76,17 @@ export default function ProductBuyPage() {
     console.log("123", product);
   };
 
+  const updateuser =async(e) =>{
+    e.preventDefault();
+    const resData = await axios.post(
+      `http://localhost:7800/user/update-adress`,
+      { user },
+      { headers: { token: localStorage.getItem("token") } }
+    );
+    toast.success(resData.data.message)
+    setpopUp(false)
+  }
+
   const handleEditAddressChange = (e) => {
     const { name, value } = e.target;
     console.log("test", name, value);
@@ -679,10 +690,7 @@ export default function ProductBuyPage() {
             <div className="flex justify-between">
               <button
                 className="bg-green-600 text-white px-3 py-1 m-4"
-                onClick={() => {
-                  updateUser();
-                  setpopUp(false);
-                }}
+                onClick={updateuser}
               >
                 Yes
               </button>

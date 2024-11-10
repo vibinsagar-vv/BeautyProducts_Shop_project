@@ -7,19 +7,34 @@ const updateAddToCartCnrtl = async(req,res) =>{
 
         const qty = req.body.Quantity
         
-        const updateCart = await AddToCartModel.findByIdAndUpdate({_id:cartPrdctId},{Quantity:qty})
+        // Update the quantity of the specific product
+        const updatedCart = await AddToCartModel.findOneAndUpdate(
+            { UserId: curentUser, "products._id": cartPrdctId },
+            { $set: { "products.$.Quantity": qty } }, // Use positional operator $ to access the matched product
+            { new: true } // Return the updated document
+        ).populate("products.ProductId");
+
+        if (!updatedCart) {
+            return res.status(404).json({
+                success: false,
+                error: true,
+                message: "Cart or product not found"
+            });
+        }
+
         res.json({
-            data:updateCart,
-            message:"Product Updated",
-            success:true,
-            error:false
-        })
-    }catch(error){
+            data: updatedCart,
+            success: true,
+            error: false,
+            message: "Product quantity updated successfully"
+        });
+
+    } catch (error) {
         res.status(500).json({
-            success:false,
-            error:true,
-            message:error.message ||error
-        })
+            success: false,
+            error: true,
+            message: error.message || error
+        });
     }
 }
 module.exports = updateAddToCartCnrtl
