@@ -7,6 +7,8 @@ import Context from "../../context/context";
 import Heading from "../../helpers/Heading";
 import ProfileDetials from "../ProfileDetials";
 import UpdateProfilePage from "../UpdateProfilePage";
+import Orders from "./Orders";
+import OrderDetial from "./OrderDetials";
 
 export default function ProfilePage() {
   const context = useContext(Context);
@@ -56,12 +58,12 @@ export default function ProfilePage() {
         >
           <aside
             id="logo-sidebar"
-            className={`fixed pt-10 left-0 z-40 w-64 h-full transition-transform transform ${
+            className={`fixed pt-10 left-0 z-3 w-64 h-full transition-transform transform ${
               isSidebarOpen ? "translate-x-0" : "-translate-x-full"
             } bg-primary-light border-r border-gray-200 md:translate-x-0 dark:bg-gray-800 dark:border-gray-700`}
             aria-label="Sidebar"
           >
-            <div className="h-full px-3 pb-4 overflow-y-auto bg-transparent dark:bg-gray-800">
+            <div className="h-full scrollbar-none px-3 pb-4 overflow-y-auto bg-transparent dark:bg-gray-800">
               <div className="h-52 flex justify-center items-center flex-col">
                 <div className="rounded-full shadow-accent-light shadow-lg text-7xl text-white cursor-pointer flex justify-center">
                   {user?.profilePic ? (
@@ -80,28 +82,32 @@ export default function ProfilePage() {
                 <p className="text-[12px] mb-8 cursor-pointer">{user?.role}</p>
                 <a
                   onClick={() => SetOpenChangePic(true)}
-                  className="text-[12px] underline text-white hover:text-blue-400 cursor-pointer"
+                  className="text-[12px] underline text-accent-dark hover:text-blue-400 cursor-pointer"
                 >
                   Change profile picture
                 </a>
               </div>
 
               <div className=" px-3 pb-4 mt-8  bg-transparent dark:bg-gray-800">
-            <ul className="space-y-4 text-lg font-medium text-center text-gray-600">
+            <ul className="space-y-4 text-lg font-medium text-center text-white">
               {/* Menu items */}
               <li>
                 <span></span>
-               <Link to={"/profile"} className="flex items-center justify-center p-2 rounded-lg dark:text-gray-400 border-b-4 hover:bg-accent-light dark:hover:bg-gray-700 group hover:text-white">Profile</Link>
+               <Link to={"/profile"} className="flex items-center justify-center p-2 rounded-lg dark:text-gray-400 shadow-md bg-accent-light dark:hover:bg-gray-700 group hover:bg-accent-dark">Profile</Link>
               </li>
               
               {/* Add more menu items as needed */}
               <li>
                 <span></span>
-               <Link to={"/wishlist"} className="flex items-center justify-center p-2 rounded-lg dark:text-gray-400 border-b-4 hover:bg-accent-light dark:hover:bg-gray-700 group hover:text-white">My Wishlist</Link>
+               <Link to={"/wishlist"} className="flex items-center justify-center p-2 rounded-lg dark:text-gray-400 shadow-md bg-accent-light dark:hover:bg-gray-700 group hover:bg-accent-dark">My Wishlist</Link>
               </li>
               <li>
                 <span></span>
-               <Link to={"/cart"} className="flex items-center justify-center p-2 rounded-lg dark:text-gray-400 border-b-4 hover:bg-accent-light dark:hover:bg-gray-700 group hover:text-white">My Cart</Link>
+               <Link to={"/cart"} className="flex items-center justify-center p-2 rounded-lg dark:text-gray-400 shadow-md bg-accent-light dark:hover:bg-gray-700 group hover:bg-accent-dark">My Cart</Link>
+              </li>
+              <li>
+                <span></span>
+               <Link to={"/profile/my_orders"} className="flex items-center justify-center p-2 rounded-lg dark:text-gray-400 shadow-md bg-accent-light dark:hover:bg-gray-700 group hover:bg-accent-dark">My Orders</Link>
               </li>
             </ul>
           </div>
@@ -112,6 +118,7 @@ export default function ProfilePage() {
             <Routes>
                 <Route path="/" element={<ProfileDetials/>}/>
                 <Route path="/update-profile" element={<UpdateProfilePage/>}/>
+                <Route path="/my_orders" element={<Orders/>}/>
             </Routes>
           </main>
         </div>

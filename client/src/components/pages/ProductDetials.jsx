@@ -144,7 +144,7 @@ export default function ProductDetials() {
                 </p>
               </div>
               {!data.quantity == 0 ? (
-                <div className="flex gap-4 items-center my-8">
+                localStorage.getItem("token") &&(<div className="flex gap-4 items-center my-8">
                   <button
                     onClick={handleBuy}
                     className="px-4 py-2 bg-[#ea9791] text-white font-bold text-lg rounded-full shadow-lg transition-colors hover:bg-[#a26865] min-w-[180px]"
@@ -157,7 +157,7 @@ export default function ProductDetials() {
                   >
                     Add To Cart
                   </button>
-                </div>
+                </div>)
               ) : (
                 <div className="flex gap-4 items-center my-8">
                   <button className="px-16 py-2 bg-gray-500 text-white font-bold text-lg rounded-full shadow-lg transition-colors min-w-[180px]">

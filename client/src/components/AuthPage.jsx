@@ -190,7 +190,7 @@ export default function AuthPage() {
                 Sign up
               </label>
               <div className=" w-full h-full flex flex-col items-center justify-center pb-[50%]">
-                <div className="relative w-[70%] mb-12">
+                <div className="relative w-[70%] mb-4">
                   <input
                     type="text"
                     name="name"

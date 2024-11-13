@@ -19,11 +19,11 @@ export default function ProfileDetials() {
       }, []);
 
   return (
-    <div className="relative w-full">
-        <div className="absolute flex justify-center items-center w-20 h-10 top-10 right-10 p-2  bg-green-400 rounded-full hover:text-white cursor-pointer"><Link to={"update-profile"}><span className="text-xl flex items-center text-center" ><MdEdit/><span className="text-base">Edit</span></span></Link></div>
-      <div className="w-full  p-6 ">
+    <div className=" w-full">
+        <div className="absolute flex justify-center items-center w-8 h-8 md:w-20 md:h-10 top-3 right-2 md:top-10 md:right-10 md:p-2  bg-green-400 rounded-full hover:text-white cursor-pointer"><Link to={"update-profile"}><span className="text-xl flex items-center text-center" ><MdEdit/><span className="text-base hidden md:block">Edit</span></span></Link></div>
+      <div className="w-full  md:p-6 ">
         <Heading text={"Profile"} />
-        <div className="p-4">
+        <div className="md:p-4 overflow-scroll scrollbar-none">
           <div className="text-lg font-bold bg-accent-light py-2 my-10 text-center">
             Personal Information
           </div>

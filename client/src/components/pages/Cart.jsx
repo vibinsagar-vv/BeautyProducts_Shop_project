@@ -92,7 +92,12 @@ export default function Cart() {
       <div className="container sm:text-2xl md:text-4xl mx-auto pt-16 p-4">
         <div className="text-center text-xl my-3">
           {data.length === 0 ? (
-            <p className="bg-white py-5">No Data</p>
+            <div>
+              
+              <p className="bg-white py-5 text-4xl font-bold">Your cart is empty!</p>
+              <p className="text-base font-semibold">Explore our wide selection and find something you like</p>
+              <button onClick={()=>nav("/")} className="bg-primary-light my-6 w-[250px] rounded-full shadow-md py-1 px-4">Add Products</button>
+            </div>
           ) : (
             <div className="flex flex-col lg:flex-row gap-10 lg:justify-between">
               <div className="w-full max-w-3xl ">

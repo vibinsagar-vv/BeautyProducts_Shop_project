@@ -96,14 +96,14 @@ export default function VerticalCardProduct({ category, heading }) {
   return (
     <div className="container mx-auto md:px-4 my-6">
       <Heading text={heading} />
-      <div className="flex gap-4 md:gap-10 lg:gap-12 scrollbar-none overflow-x-auto  md:flex-wrap justify-center pb-16">
+      <div className="flex gap-4 md:gap-10 lg:gap-12 scrollbar-none overflow-x-auto  md:flex-wrap sm:justify-between md:justify-center pb-16">
         {data.map((product, index) => (
           
           
           <Link
             to={`/product/${product?._id}`}
             key={index}
-            className="ml-3 md:ml-0 flex-shrink-0 w-72 sm:w-[45%] md:w-[30%] lg:w-[22%] bg-white shadow-accent-dark shadow-lg rounded-lg overflow-hidden hover:shadow-accent-dark hover:shadow-2xl transition-shadow duration-300 ease-in-out"
+            className="ml-3 md:ml-0 flex-shrink-0 w-60 sm:w-[45%] md:w-[30%] lg:w-[22%] bg-white shadow-accent-dark shadow-lg rounded-lg overflow-hidden hover:shadow-accent-dark hover:shadow-2xl transition-shadow duration-300 ease-in-out"
           >
             <div className="relative h-48 md:h-60 lg:h-72 bg-primary-light flex items-center justify-center overflow-hidden">
               {product.productImage[0] ? (
