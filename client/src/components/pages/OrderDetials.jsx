@@ -49,7 +49,7 @@ export default function OrderDetail() {
                   />
                 </div>
               </div>
-              <div className="p-4 flex border-l-[1px] flex-col gap-2">
+              <div className="p-4 flex w-[250px] bg-green-200 border-l-[1px] flex-col gap-2">
                 <h1 className="md:text-3xl text-xl h-auto flex  capitalize font-semibold">
                   {product?.ProductId?.ProductName}
                 </h1>
@@ -79,35 +79,41 @@ export default function OrderDetail() {
               </div>
             </div>
           </div>
-          {/* Horizontal Stepper */}
-          <ol className="flex items-center mt-16 md:pl-10  w-full mb-8">
-            {steps.map((step, index) => (
-              <li
-                key={index}
-                className={`flex w-full items-center ${
-                  index < currentStep
-                    ? "text-green-600 dark:text-green-500 after:border-pink-900"
-                    : ""
-                } ${
-                  index < steps.length - 1 // Only apply "after" styles if not the last step
-                    ? "after:content-[''] after:w-full after:h-1 after:border-b  after:border-4 after:inline-block dark:after:border-gray-700"
-                    : ""
-                }`}
-              >
-                <span
-                  className={`flex items-center justify-center ${index==steps.length-1 ? "w-10 h-10 lg:h-12 lg:w-12":"w-20 h-10 lg:h-12 lg:w-22"} rounded-full  ${
-                    index <= currentStep
-                      ? "bg-orange-100 border-2 border-pink-900 text-pink-900 0"
-                      : "bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-100"
+          <div className="flex items-center justify-center mt-16 pl-10 md:pl-0  w-[395px] md:w-[425px]">
+            {/* Horizontal Stepper */}
+            <ol className="flex items-center mt-16 md:pl-10  w-full mb-8">
+              {steps.map((step, index) => (
+                <li
+                  key={index}
+                  className={`flex w-full items-center ${
+                    index < currentStep
+                      ? "text-green-600 dark:text-green-500 after:border-pink-900"
+                      : ""
+                  } ${
+                    index < steps.length - 1 // Only apply "after" styles if not the last step
+                      ? "after:content-[''] after:w-full after:h-1 after:border-b  after:border-4 after:inline-block dark:after:border-gray-700"
+                      : ""
                   }`}
                 >
-                  {React.createElement(step.icon, {
-                    className: "text-lg lg:text-xl",
-                  })}
-                </span>
-              </li>
-            ))}
-          </ol>
+                  <span
+                    className={`flex items-center justify-center ${
+                      index == steps.length - 1
+                        ? "w-10 h-10 lg:h-12 lg:w-12"
+                        : "w-20 h-10 lg:h-12 lg:w-24"
+                    } rounded-full  ${
+                      index <= currentStep
+                        ? "bg-orange-100 border-2 border-pink-900 text-pink-900 0"
+                        : "bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-100"
+                    }`}
+                  >
+                    {React.createElement(step.icon, {
+                      className: "text-lg lg:text-xl",
+                    })}
+                  </span>
+                </li>
+              ))}
+            </ol>
+          </div>
         </div>
       </div>
     </div>

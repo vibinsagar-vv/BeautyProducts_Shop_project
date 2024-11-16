@@ -129,7 +129,7 @@ export default function Orders() {
                         </div>
                         <div className="flex md:p-6 p-2 items-center">
                           <div className="">
-                            <h2 className="md:text-lg pb-3 text-sm flex items-center justify-start font-medium ">
+                            <h2 className="md:text-lg pb-3 text-sm flex items-center justify-start font-semibold ">
                               {item.order_status}
                             </h2>
                             <h2 className="md:text-lg text-xs flex items-center font-medium ">
