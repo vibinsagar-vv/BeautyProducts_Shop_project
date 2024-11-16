@@ -127,12 +127,12 @@ export default function Orders() {
                         <div className="md:px-2 hidden md:flex items-center py-2 text-start">
                           <h4>{displayINRCurrency(product?.Quantity*product?.ProductId?.sellingPrice)}</h4>
                         </div>
-                        <div className="flex md:p-6 p-1 items-center">
+                        <div className="flex md:p-6 p-2 items-center">
                           <div className="">
-                            <h2 className="md:text-lg pb-3 text-sm flex items-center font-medium ">
+                            <h2 className="md:text-lg pb-3 text-sm flex items-center justify-start font-medium ">
                               {item.order_status}
                             </h2>
-                            <h2 className="md:text-lg text-sm flex items-center font-medium ">
+                            <h2 className="md:text-lg text-xs flex items-center font-medium ">
                               {new Date(item.updatedAt).toLocaleDateString(
                                 "en-GB"
                               )}
