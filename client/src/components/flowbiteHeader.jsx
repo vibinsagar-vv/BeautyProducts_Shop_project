@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { MdMenu, MdClose } from "react-icons/md";
 import Logo from "../assest/logo/Logo.png";
@@ -15,9 +15,88 @@ import Context from "../context/context";
 import { MdOutlineLogout, MdOutlineLogin } from "react-icons/md";
 
 export default function MyNavbar() {
+  const [data, SetData] = useState([]);
+  const [wishlist, SetWishlist] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const nav = useNavigate();
+  const params = useLocation();
+
+  useEffect(() => {
+    fetchProduct();
+  }, []);
+
+  const fetchProduct = async () => {
+    try {
+      const resData = await AXIOS.get(
+        "http://localhost:8200/products/get-products"
+      );
+      SetData(resData?.data.data || []);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
+
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+
+    if (value) {
+      const lowerValue = value.toLowerCase();
+
+      // Filter matching products, categories, and subcategories
+      const productSuggestions = data.filter((product) =>
+        product.ProductName.toLowerCase().includes(lowerValue)
+      );
+
+      const categorySuggestions = Array.from(
+        new Set(
+          data
+            .filter((product) =>
+              product.category.toLowerCase().includes(lowerValue)
+            )
+            .map((product) => product.category)
+        )
+      ).map((category) => ({ type: "category", value: category }));
+
+      const subcategorySuggestions = Array.from(
+        new Set(
+          data
+            .filter((product) =>
+              product.subcategory.toLowerCase().includes(lowerValue)
+            )
+            .map((product) => product.subcategory)
+        )
+      ).map((subcategory) => ({ type: "subcategory", value: subcategory }));
+
+      // Combine all suggestions
+      setSuggestions([
+        ...productSuggestions.map((product) => ({
+          type: "product",
+          product,
+        })),
+        ...categorySuggestions,
+        ...subcategorySuggestions,
+      ]);
+    } else {
+      setSuggestions([]);
+    }
+  };
+
+  const handleSuggestionClick = (suggestion) => {
+    if (suggestion.type === "product") {
+      nav(`/product/${suggestion.product._id}`);
+    } else if (suggestion.type === "category") {
+      nav(`/product-category/${suggestion.value}`);
+    } else if (suggestion.type === "subcategory") {
+      nav(`/product-subcategory/${suggestion.value}`);
+    }
+    setSuggestions([]);
+  };
+
+  //-----------------------------------------------------------------------------------------
   const [menuDisplay, SetMenuDisplay] = useState(false);
   const [search, SetSearch] = useState("");
-  const nav = useNavigate();
   const url = useLocation();
   const userDetials = useSelector((state) => state?.user?.user);
   // console.log('userhead',user);
@@ -25,9 +104,11 @@ export default function MyNavbar() {
 
   const context = useContext(Context);
 
-  const handleLogOut = async () => {
+  const handleLogOut = async (email) => {
+    console.log(email);
+    
     localStorage.clear();
-    const resData = await AXIOS.get("http://localhost:7800/user/logOut");
+    const resData = await AXIOS.post("http://localhost:8200/user/logOut",{email:email});
     if (resData.data.success) {
       toast.success(resData.data.message);
       dispatch(setUserDetials(null));
@@ -40,7 +121,7 @@ export default function MyNavbar() {
   };
 
   const handleSearch = (e) => {
-    const {value} =e.target
+    const { value } = e.target;
     if (value) {
       console.log("insearch", value);
 
@@ -91,7 +172,7 @@ export default function MyNavbar() {
                       alt="User settings"
                       img={
                         userDetials?.profilePic
-                          ? `http://localhost:7800/profilePhotos/${userDetials.profilePic}`
+                          ? `http://localhost:8200/profilePhotos/${userDetials.profilePic}`
                           : UserLogo
                       }
                       rounded
@@ -107,18 +188,22 @@ export default function MyNavbar() {
                         {userDetials?.email}
                       </span>
                     </Dropdown.Header>
+                    {userDetials?.role === "ADMIN" && (
+                      <Dropdown.Item>
+                        <Link className="w-full flex" to={"/dashboard"}>
+                          Dashboard
+                        </Link>
+                      </Dropdown.Item>
+                    )}
                     <Dropdown.Item>
-                      {userDetials?.role === "ADMIN" && (
-                        <Link className="w-full flex" to={"/dashboard"}>Dashboard</Link>
-                      )}
-                    </Dropdown.Item>
-                    <Dropdown.Item>
-                      <Link className="w-full flex" to={"/profile"}>Profile</Link>
+                      <Link className="w-full flex" to={"/profile"}>
+                        Profile
+                      </Link>
                     </Dropdown.Item>
                     <Dropdown.Divider />
                     <Dropdown.Item
                       className="block lg:hidden bg-primary-light bg-opacity-40 hover:bg-opacity-60 hover:bg-primary-light"
-                      onClick={handleLogOut}
+                      onClick={()=>handleLogOut(userDetials?.email)}
                     >
                       <div className="flex justify-center items-center">
                         Sign out
@@ -153,13 +238,49 @@ export default function MyNavbar() {
                 />
                 <span className="sr-only">Search icon</span>
               </div>
-              <input
-                type="text"
-                id="search-navbar"
-                className="block w-full p-2 ps-10 text-sm text-gray-900 border border-primary-light rounded-lg bg-orange-50 focus:ring-accent-light focus:border-accent-light dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-accent-light dark:focus:border-accent-light"
-                placeholder="Search..."
-                onChange={handleSearch}
-              />
+              <div className="relative mx-auto">
+                <input
+                  type="text"
+                  id="search-navbar"
+                  className="block w-full p-2 ps-10 text-sm text-gray-900 border border-primary-light rounded-lg bg-orange-50 focus:ring-accent-light focus:border-accent-light dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-accent-light dark:focus:border-accent-light"
+                  placeholder="Search..."
+                  value={searchTerm || search}
+                  onChange={handleSearchChange}
+                />
+                {suggestions.length > 0 && (
+                  <div className="absolute z-10 w-full bg-white border rounded-lg shadow-lg max-h-60 overflow-y-auto mt-2">
+                    {suggestions.map((suggestion, index) => (
+                      <div
+                        key={index}
+                        className="p-3 hover:bg-gray-100 cursor-pointer"
+                        onClick={() => handleSuggestionClick(suggestion)}
+                      >
+                        {suggestion.type === "product" && (
+                          <>
+                            <p className="text-base font-semibold">
+                              {suggestion.product.ProductName}
+                            </p>
+                            <p className="text-sm text-gray-500">
+                              {suggestion.product.category} -{" "}
+                              {suggestion.product.subcategory}
+                            </p>
+                          </>
+                        )}
+                        {suggestion.type === "category" && (
+                          <p className="text-lg font-semibold text-pink-900">
+                            {suggestion.value}
+                          </p>
+                        )}
+                        {suggestion.type === "subcategory" && (
+                          <p className="text-base font-semibold text-orange-700">
+                            {suggestion.value}
+                          </p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
             {/* Mobile Menu Button */}
             <button
@@ -181,7 +302,7 @@ export default function MyNavbar() {
           {userDetials?._id ? (
             <div className="lg:flex p-1 hidden">
               <button
-                onClick={handleLogOut}
+                onClick={()=>handleLogOut(userDetials?.email)}
                 className="relative inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-accent-light to-primary-light group-hover:from-accent-light group-hover:to-primary-light hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800"
               >
                 <span className="relative px-1.5 py-1.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
@@ -215,13 +336,49 @@ export default function MyNavbar() {
                 aria-hidden="true"
               />
             </div>
-            <input
-              type="text"
-              id="search-navbar"
-              className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-accent-light focus:border-accent-light dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-accent-light dark:focus:border-accent-light"
-              placeholder="Search..."
-              onChange={handleSearch}
-            />
+            <div className="relative mx-auto">
+              <input
+                type="text"
+                id="search-navbar"
+                className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-accent-light focus:border-accent-light dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-accent-light dark:focus:border-accent-light"
+                placeholder="Search..."
+                value={searchTerm || search}
+                onChange={handleSearchChange}
+              />
+              {suggestions.length > 0 && (
+                <div className="absolute z-10 w-full bg-white border rounded-lg shadow-lg max-h-60 overflow-y-auto mt-2">
+                  {suggestions.map((suggestion, index) => (
+                    <div
+                      key={index}
+                      className="p-3 hover:bg-gray-100 cursor-pointer"
+                      onClick={() => handleSuggestionClick(suggestion)}
+                    >
+                      {suggestion.type === "product" && (
+                        <>
+                          <p className="text-lg font-semibold">
+                            {suggestion.product.ProductName}
+                          </p>
+                          <p className="text-sm text-gray-500">
+                            {suggestion.product.category} -{" "}
+                            {suggestion.product.subcategory}
+                          </p>
+                        </>
+                      )}
+                      {suggestion.type === "category" && (
+                        <p className="text-lg font-semibold text-pink-900">
+                          {suggestion.value}
+                        </p>
+                      )}
+                      {suggestion.type === "subcategory" && (
+                        <p className="text-lg font-semibold text-orange-700">
+                          {suggestion.value}
+                        </p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
           <ul
             onClick={toggleMenu}
@@ -253,27 +410,33 @@ export default function MyNavbar() {
               </Link>
             </li>
             <li className="block lg:hidden">
-              {userDetials?._id ?(<div
-                onClick={handleLogOut}
-                className="block py-2 px-3 cursor-pointer bg-gray-100 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-accent-light md:p-0 dark:text-white md:dark:hover:text-accent-light dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-              >
-                <div className="flex items-center justify-center">
-                  LOG OUT
-                  <span className="py-1 pl-3 text-xl">
-                    <MdOutlineLogout />
-                  </span>
+              {userDetials?._id ? (
+                <div
+                  onClick={()=>handleLogOut(userDetials?.email)}
+                  className="block py-2 px-3 cursor-pointer bg-gray-100 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-accent-light md:p-0 dark:text-white md:dark:hover:text-accent-light dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                >
+                  <div className="flex items-center justify-center">
+                    LOG OUT
+                    <span className="py-1 pl-3 text-xl">
+                      <MdOutlineLogout />
+                    </span>
+                  </div>
                 </div>
-              </div>):(url.pathname != "/login"&&(<Link
-                to={"/login"}
-                className="block py-2 px-3 bg-gray-100 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-accent-light md:p-0 dark:text-white md:dark:hover:text-accent-light dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-              >
-                <div className="flex items-center justify-center">
-                  LOG IN
-                  <span className="py-1 pl-3 text-xl">
-                    <MdOutlineLogin />
-                  </span>
-                </div>
-              </Link>))}
+              ) : (
+                url.pathname != "/login" && (
+                  <Link
+                    to={"/login"}
+                    className="block py-2 px-3 bg-gray-100 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-accent-light md:p-0 dark:text-white md:dark:hover:text-accent-light dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                  >
+                    <div className="flex items-center justify-center">
+                      LOG IN
+                      <span className="py-1 pl-3 text-xl">
+                        <MdOutlineLogin />
+                      </span>
+                    </div>
+                  </Link>
+                )
+              )}
             </li>
           </ul>
         </div>

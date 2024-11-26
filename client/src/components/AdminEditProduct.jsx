@@ -11,7 +11,7 @@ import DisplayUpdateImage from "./DisplayUpdateImage";
 
 export default function AdminEditProduct({ onClose, ProductData, fetchData }) {
   console.log(ProductData);
-  
+
   const generalContext = useContext(Context);
   const [data, SetData] = useState({
     ...ProductData,
@@ -31,7 +31,8 @@ export default function AdminEditProduct({ onClose, ProductData, fetchData }) {
   const [fullScreenUpdatedImage, SetFullScreenUpdatedImage] = useState("");
 
   const [openFullScreenImage, SetOpenFullScreenImage] = useState(false);
-  const [openFullScreenUpdatedImage, SetOpenFullScreenUpdatedImage] = useState(false);
+  const [openFullScreenUpdatedImage, SetOpenFullScreenUpdatedImage] =
+    useState(false);
   const handleOnChange = (e) => {
     SetData({ ...data, [e.target.name]: e.target.value });
   };
@@ -65,7 +66,7 @@ export default function AdminEditProduct({ onClose, ProductData, fetchData }) {
     newProductImages.splice(index, 1);
     SetData({ ...data, productImage: newProductImages });
 
-    // AXIOS.post("http://localhost:7800/products/delete-product-image", {
+    // AXIOS.post("http://localhost:8200/products/delete-product-image", {
     //   image: product,
     // });
   };
@@ -85,7 +86,7 @@ export default function AdminEditProduct({ onClose, ProductData, fetchData }) {
     console.log(formData.getAll("images"));
 
     const resData = await AXIOS.post(
-      "http://localhost:7800/products/update-product",
+      "http://localhost:8200/products/update-product",
       formData,
       {
         headers: {
@@ -267,7 +268,7 @@ export default function AdminEditProduct({ onClose, ProductData, fetchData }) {
                           <img
                             key={index}
                             src={
-                              `http://localhost:7800/ProductImages/` + product
+                              `http://localhost:8200/ProductImages/` + product
                             }
                             width={100}
                             height={100}
@@ -412,7 +413,7 @@ export default function AdminEditProduct({ onClose, ProductData, fetchData }) {
       {openFullScreenImage && (
         <DisplayProductImage
           onClose={() => SetOpenFullScreenImage(false)}
-          imageName={`http://localhost:7800/ProductImages/${fullScreenImage}`}
+          imageName={`http://localhost:8200/ProductImages/${fullScreenImage}`}
         />
       )}
       {openFullScreenUpdatedImage && (

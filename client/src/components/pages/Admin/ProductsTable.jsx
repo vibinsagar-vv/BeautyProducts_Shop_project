@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import moment from "moment";
 import UploadProducts from "../../UploadProducts";
 import AdminEditProduct from "../../AdminEditProduct";
-import noImage from '../../../assest/logo/no-photo.png'
+import noImage from "../../../assest/logo/no-photo.png";
 
 // Global Filter component for search
 const GlobalFilter = ({ globalFilter, setGlobalFilter }) => (
@@ -38,7 +38,7 @@ const ProductsTable = () => {
     if (localStorage.getItem("token")) {
       try {
         const resData = await axios.get(
-          "http://localhost:7800/products/get-products"
+          "http://localhost:8200/products/get-products"
         );
         setAllProducts(resData?.data.data || []);
       } catch (error) {
@@ -59,7 +59,11 @@ const ProductsTable = () => {
         accessor: "productImage",
         Cell: ({ value }) => (
           <img
-            src={value[0]?(`http://localhost:7800/ProductImages/${value[0]}`):(noImage)}
+            src={
+              value[0]
+                ? `http://localhost:8200/ProductImages/${value[0]}`
+                : noImage
+            }
             alt="Product"
             className="object-scale-down w-16 h-16"
           />
@@ -163,7 +167,7 @@ const ProductsTable = () => {
 
   const handleDelete = async (productId) => {
     const resData = await axios.post(
-      "http://localhost:7800/products/delete-product",
+      "http://localhost:8200/products/delete-product",
       { _id: productId },
       { headers: { token: localStorage.getItem("token") } }
     );
@@ -180,24 +184,24 @@ const ProductsTable = () => {
 
   return (
     <div className="p-4">
-      <div className="py-2 px-4 flex justify-between items-center">
+      <div className="py-2 md:px-4 md:flex  md:justify-between items-center">
         <h2 className="font-bold text-tertiary-dark text-3xl">ALL PRODUCTS</h2>
         <button
-          className="border-2 font-bold border-accent-light text-accent-light hover:bg-accent-light hover:text-white transition-all py-1 px-3 rounded-full "
+          className="border-2 mt-6 md:mt-0 font-bold border-accent-light text-accent-light hover:bg-accent-light hover:text-white transition-all py-1 px-3 rounded-full "
           onClick={() => {
             SetOpenUploadProduct(true);
           }}
         >
-          Upload Product
+          Add Product
         </button>
       </div>
       {/* Search Input and Entries Selector */}
-      <div className="flex justify-between items-center my-4">
+      <div className="md:flex md:justify-between items-center my-4">
         <GlobalFilter
           globalFilter={globalFilter}
           setGlobalFilter={setGlobalFilter}
         />
-        <div>
+        <div className="mt-6 md:mt-0">
           <span className="text-sm text-gray-700">
             Show{" "}
             <select

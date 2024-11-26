@@ -7,7 +7,7 @@ export default function BannerProduct() {
   const [currentBannerImage, SetCurrentBannerImage] = useState(1);
   const fetchBanner = async () => {
     const resData = await AXIOS.get(
-      "http://localhost:7800/products/get-banners"
+      "http://localhost:8200/products/get-banners"
     );
     SetAllBanner(resData?.data.data || []);
   };
@@ -64,7 +64,7 @@ export default function BannerProduct() {
                 }}
               >
                 <img
-                  src={`http://localhost:7800/Banners/${banner.BannerImage}`}
+                  src={`http://localhost:8200/Banners/${banner.BannerImage}`}
                   alt=""
                   className="w-full h-full"
                 />

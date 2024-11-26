@@ -53,7 +53,7 @@ export default function UploadProducts({ onClose, fetchData }) {
     newProductImages.splice(index, 1);
     SetData({ ...data, productImage: newProductImages });
 
-    AXIOS.post("http://localhost:7800/products/delete-product-image", {
+    AXIOS.post("http://localhost:8200/products/delete-product-image", {
       image: product,
       imageName: data?.ProductName || "ProductName",
     });
@@ -74,7 +74,7 @@ export default function UploadProducts({ onClose, fetchData }) {
     console.log(formData.getAll("images"));
 
     const resData = await AXIOS.post(
-      "http://localhost:7800/products/upload-product",
+      "http://localhost:8200/products/upload-product",
       formData,
       {
         headers: {
@@ -271,7 +271,7 @@ export default function UploadProducts({ onClose, fetchData }) {
                       <div
                         className="absolute bottom-1 right-1 p-1 text-xs text-white bg-red-600 rounded-full hidden group-hover:block cursor-pointer"
                         onClick={() => {
-                            handleImageDelete(index)
+                          handleImageDelete(index);
                         }}
                       >
                         <MdDelete />

@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
         unique: true,
         required: true
     },
+    online:Boolean,
     phoneNumber: String,
     altphoneNumber: String,
     dateOfBirth: String,

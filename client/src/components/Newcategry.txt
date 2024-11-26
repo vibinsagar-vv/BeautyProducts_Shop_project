@@ -10,7 +10,7 @@ export default function CategoryList() {
 
   const fetchCategoryProduct = async () => {
     SetLoading(true);
-    const resData = await AXIOS.get('http://localhost:7800/products/get-category-product');
+    const resData = await AXIOS.get('http://localhost:8200/products/get-category-product');
     SetLoading(false);
     SetCategoryProduct(resData.data.data);
   };
@@ -41,7 +41,7 @@ export default function CategoryList() {
             >
               <div className="w-32  h-32 md:w-40 md:h-52 rounded-2xl overflow-hidden p-4 border-2 border-accent-light shadow-lg bg-white group-hover:shadow-xl  flex items-center justify-center">
                 <img
-                  src={`http://localhost:7800/ProductImages/${product?.productImage[0]}`}
+                  src={`http://localhost:8200/ProductImages/${product?.productImage[0]}`}
                   alt={product?.category}
                   className="max-h-20 object-contain transition-transform duration-300 group-hover:scale-110"
                 />

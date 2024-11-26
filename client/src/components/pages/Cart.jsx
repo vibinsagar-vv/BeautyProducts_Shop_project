@@ -9,13 +9,13 @@ import { useNavigate } from "react-router-dom";
 export default function Cart() {
   const [data, SetData] = useState([]);
   const context = useContext(Context);
-  const nav = useNavigate()
+  const nav = useNavigate();
   const TotalQty = data.reduce((prev, curr) => {
     console.log(curr);
 
     return prev + parseInt(curr.Quantity);
   }, 0);
-  
+
   const TotalPrice = data.reduce((prev, curr) => {
     console.log(curr);
 
@@ -23,9 +23,9 @@ export default function Cart() {
   }, 0);
 
   const handleBuy = () => {
-    console.log("66",data);
-    
-    nav("/buy", { state: { product: data } });
+    console.log("66", data);
+
+    nav("/buy", { state: { product: data,from:'cart' } });
   };
 
   const fetchData = async () => {
@@ -34,7 +34,7 @@ export default function Cart() {
         token: localStorage.getItem("token") || "",
       };
       const resData = await AXIOS.get(
-        "http://localhost:7800/user/view-cart-product",
+        "http://localhost:8200/user/view-cart-product",
         { headers: header }
       );
       if (resData.data.success) {
@@ -52,7 +52,7 @@ export default function Cart() {
 
   const handleDeleteCartPrduct = async (id) => {
     const resData = await AXIOS.post(
-      "http://localhost:7800/user/delete-cart-product",
+      "http://localhost:8200/user/delete-cart-product",
       { _id: id },
       { headers: { token: localStorage.getItem("token") || "" } }
     );
@@ -65,7 +65,7 @@ export default function Cart() {
 
   const increaseQty = async (id, qty) => {
     const resData = await AXIOS.post(
-      "http://localhost:7800/user/update-cart",
+      "http://localhost:8200/user/update-cart",
       { Quantity: qty + 1, Id: id },
       { headers: { token: localStorage.getItem("token") || "" } }
     );
@@ -77,7 +77,7 @@ export default function Cart() {
   const decreaseQty = async (id, qty) => {
     if (qty > 1) {
       const resData = await AXIOS.post(
-        "http://localhost:7800/user/update-cart",
+        "http://localhost:8200/user/update-cart",
         { Quantity: qty - 1, Id: id },
         { headers: { token: localStorage.getItem("token") || "" } }
       );
@@ -88,15 +88,23 @@ export default function Cart() {
   };
 
   return (
-    <div>
+    <div className="min-h-[100vh]">
       <div className="container sm:text-2xl md:text-4xl mx-auto pt-16 p-4">
         <div className="text-center text-xl my-3">
           {data.length === 0 ? (
             <div>
-              
-              <p className="bg-white py-5 text-4xl font-bold">Your cart is empty!</p>
-              <p className="text-base font-semibold">Explore our wide selection and find something you like</p>
-              <button onClick={()=>nav("/")} className="bg-primary-light my-6 w-[250px] rounded-full shadow-md py-1 px-4">Add Products</button>
+              <p className="bg-white py-5 text-4xl font-bold">
+                Your cart is empty!
+              </p>
+              <p className="text-base font-semibold">
+                Explore our wide selection and find something you like
+              </p>
+              <button
+                onClick={() => nav("/")}
+                className="bg-primary-light my-6 w-[250px] rounded-full shadow-md py-1 px-4"
+              >
+                Add Products
+              </button>
             </div>
           ) : (
             <div className="flex flex-col lg:flex-row gap-10 lg:justify-between">
@@ -117,7 +125,7 @@ export default function Cart() {
                       </div>
                       <div className="flex items-center justify-center min-w-32 h-32 p-2">
                         <img
-                          src={`http://localhost:7800/ProductImages/${product?.ProductId.productImage[0]}`}
+                          src={`http://localhost:8200/ProductImages/${product?.ProductId.productImage[0]}`}
                           alt=""
                           className="w-full h-full object-scale-down mix-blend-multiply"
                         />
@@ -156,14 +164,16 @@ export default function Cart() {
                           <span className="font-medium">
                             {product?.Quantity}
                           </span>
-                          {product?.Quantity < product?.ProductId?.quantity && (<button
-                            className="border-2 border-pink-800 font-extrabold text-pink-700 hover:bg-pink-800 hover:text-white w-6 h-6 flex justify-center items-center rounded"
-                            onClick={() =>
-                              increaseQty(product?._id, product?.Quantity)
-                            }
-                          >
-                            +
-                          </button>)}
+                          {product?.Quantity < product?.ProductId?.quantity && (
+                            <button
+                              className="border-2 border-pink-800 font-extrabold text-pink-700 hover:bg-pink-800 hover:text-white w-6 h-6 flex justify-center items-center rounded"
+                              onClick={() =>
+                                increaseQty(product?._id, product?.Quantity)
+                              }
+                            >
+                              +
+                            </button>
+                          )}
                         </div>
                       </div>
                     </div>

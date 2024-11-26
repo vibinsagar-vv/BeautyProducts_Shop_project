@@ -8,7 +8,6 @@ const DeletePrdctImageCntrl = require('../controller/products/deletePrdctImage')
 const authToken = require('../common/authToken')
 const AuthAdmin = require('../common/authAdmin')
 const UploadProductCntrl = require('../controller/products/uploadProduct')
-const getProductCntrl = require('../controller/products/getProduct')
 const UpdateProductCntrl = require('../controller/products/updateProduct')
 const ImageName = require('../controller/products/imagename')
 const getCategoryProduct = require('../controller/products/getCategoryProductOne')
@@ -27,29 +26,30 @@ const OrderDetialsModel = require('../models/OrderDetialsModel');
 const ProductModel = require('../models/productModel');
 const userModel = require('../models/userModel');
 const AddToCartModel = require('../models/cartProduct');
+const getProductCntrl = require('../controller/products/getProduct');
 
 
 const upload=multer({storage:Mulstorage})
 const uploadBanner = multer({storage:Bannerstorage})
 
 // router.post("/upload-product-image",upload.single('product'),PrdctImageUploadCntrl)
-router.post("/delete-product-image",DeletePrdctImageCntrl)
-router.post("/upload-product",authToken,AuthAdmin,upload.array('images'),UploadProductCntrl)
-router.get("/get-products",getProductCntrl)
-router.post("/update-product",authToken,AuthAdmin,upload.array('images'),UpdateProductCntrl)
-router.get("/get-category-product",getCategoryProduct)
-router.get("/get-subcategory-product/:category?",getSubCategoryProduct)
-router.post("/category-product",GetCategoryWiseProduct)
-router.post("/delete-product",authToken,AuthAdmin,DeleteProductCntrl)
-router.post("/product-detials",getProductDetailCntrl)
-router.get("/search",SearchProductCntrl)
+router.post("/delete-product-image",DeletePrdctImageCntrl);
+router.get("/get-products", getProductCntrl);
+router.post("/upload-product",authToken,AuthAdmin,upload.array('images'),UploadProductCntrl);
+router.post("/update-product",authToken,AuthAdmin,upload.array('images'),UpdateProductCntrl);
+router.get("/get-category-product",getCategoryProduct);
+router.get("/get-subcategory-product/:category?",getSubCategoryProduct);
+router.post("/category-product",GetCategoryWiseProduct);
+router.post("/delete-product",authToken,AuthAdmin,DeleteProductCntrl);
+router.post("/product-detials",getProductDetailCntrl);
+router.get("/search",SearchProductCntrl);
 
 /* banner routes */
 
-router.post("/upload-banner",authToken,AuthAdmin,UploadBannerCntrl)
-router.post("/upload-banner-image",uploadBanner.single('banner'),BannerImageUploadCntrl)
-router.get("/get-banners",getBannerCntrl)
-router.post("/delete-banner",authToken,AuthAdmin,DeleteBannerCntrl)
+router.post("/upload-banner",authToken,AuthAdmin,UploadBannerCntrl);
+router.post("/upload-banner-image",uploadBanner.single('banner'),BannerImageUploadCntrl);
+router.get("/get-banners",getBannerCntrl);
+router.post("/delete-banner",authToken,AuthAdmin,DeleteBannerCntrl);
 
 /* payment routes */
 
@@ -100,9 +100,9 @@ const razorpay = new Razorpay({
     }
   },async(req,res,next)=>{
     try{
-      const {user,products,amount,quantity}=req.body;
+      const {user,products,amount,quantity,from}=req.body;
       const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =req.body.data;
-      if(products.length==1){
+      if(from=='buyNow'){
         products[0].Quantity = quantity
       }
       const OrderData = {
@@ -128,12 +128,19 @@ const razorpay = new Razorpay({
             TotalSaleQty = item.Quantity
           }
           await ProductModel.updateOne({_id:item.ProductId._id},{quantity:newQuantity,TotalSaleQuantity:TotalSaleQty})
+          if(newQuantity<=0){
+            await ProductModel.updateOne({_id:item.ProductId._id},{freez:true})
+          }
         });
-        if(products.length>1){
+        if(from=='cart'){
           await AddToCartModel.findOneAndDelete({UserId:user._id})
         }
       }
-      
+      res.json({
+        message:"payment Sucess",
+        success:true,
+        error:false
+    })
     }catch(error){
       //console.log(err); 
       return res.status(500).send("Error");

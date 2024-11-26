@@ -18,6 +18,10 @@ import UpdateProfilePage from "../components/UpdateProfilePage";
 import ProductBuyPage from "../components/pages/BuyProduct";
 import Orders from "../components/pages/Orders";
 import OrderDetial from "../components/pages/OrderDetials";
+import ForgotPassOtpInput from "../components/ForgotPassVerification";
+import NewPassword from "../components/NewPasswordPage";
+import PrivateRoute from "../helpers/PrivateRoute";
+import AfterAuthFun from "../helpers/AfterAuthFun";
 
 export default function UserPage() {
   return (
@@ -25,12 +29,12 @@ export default function UserPage() {
       <div>
         <MyNavbar />
       </div>
-      <main>
+      <main className="min-w-full">
         <Routes>
+          {/* public Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<AuthPage />} />
           <Route path="/forgot-password" element={<ForgotPasswod />} />
-          <Route path="/otp-verification" element={<OtpInput />} />
           <Route
             path="/product-category/:categoryName"
             element={<CategoryProducts />}
@@ -39,16 +43,26 @@ export default function UserPage() {
             path="/product-subcategory/:subcategoryName"
             element={<SubCategoryProducts />}
           />
-
           <Route path="/product/:id" element={<ProductDetials />} />
-          <Route path="/profile/*" element={<ProfilePage />} />
-          <Route path="/updateProfile" element={<UpdateProfilePage/>}/>
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/order_detial" element={<OrderDetial/>}/>
           <Route path="/search" element={<SearchProducts />} />
           <Route path="/table" element={<SelectionTable />} />
-          <Route path="/wishlist" element={<WishList/>}/>
-          <Route path="/buy" element={<ProductBuyPage />}/>
+
+          {/* private routes */}
+
+          <Route path="/otp-verification" element={<AfterAuthFun><OtpInput /></AfterAuthFun>} />
+          <Route
+            path="/verify-ForgotPassword"
+            element={<AfterAuthFun><ForgotPassOtpInput /></AfterAuthFun>}
+          />
+          <Route path="/ChangePassword" element={<AfterAuthFun><NewPassword /></AfterAuthFun>} />
+
+          <Route path="/profile/*" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
+          <Route path="/updateProfile" element={<PrivateRoute><UpdateProfilePage /></PrivateRoute>} />
+          <Route path="/cart" element={<PrivateRoute><Cart /></PrivateRoute>} />
+          <Route path="/order_detial" element={<PrivateRoute><OrderDetial /></PrivateRoute>} />
+          
+          <Route path="/wishlist" element={<PrivateRoute><WishList /></PrivateRoute>} />
+          <Route path="/buy" element={<PrivateRoute><ProductBuyPage /></PrivateRoute>} />
         </Routes>
       </main>
     </div>

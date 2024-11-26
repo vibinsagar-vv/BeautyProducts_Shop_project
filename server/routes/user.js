@@ -25,6 +25,14 @@ const ProfilePicstorage = require('../multer/profilePicStorage')
 const UpdateProfileCntrl = require('../controller/user/UpdateProfileCntrl')
 const UpdateAdressCntrl = require('../controller/user/UpdateAdressContrl')
 const OrderviewCntrl = require('../controller/Orders/OrderviewCntrl')
+const getMonthlyOrderStats = require('../controller/Orders/monthlyOrderviewCntrl')
+const getYearlyMonthlySalesStats = require('../controller/charts/yearlyMonthlyChart')
+const getOrderYears = require('../controller/Orders/Orderyears')
+const getSalesData = require('../controller/charts/MonthlypieChart')
+const getyearlySalesData = require('../controller/charts/yearlypieChart')
+const changePassCntrl = require('../controller/user/changePassCntrl')
+const newPasswordCntrl = require('../controller/user/newPasswordCntrl')
+const verifyPassOtpCntrl = require('../controller/user/verifyPassOtp')
 
 const upload=multer({storage:ProfilePicstorage})
 
@@ -32,7 +40,7 @@ router.get("/checkauth",authToken,verifyToken)
 router.post("/sign-up",userSignUpCntrl)
 router.post("/login",userSignInCntrl)
 router.get("/user-detials",authToken,userDetialCntrl)
-router.get("/logOut",userLogOut)
+router.post("/logOut",userLogOut)
 router.post("/changeProfilePic",authToken,upload.single('profile'),ChangeProfilePicCntrl)
 
 //OTP 
@@ -44,7 +52,9 @@ router.post("/resend-otp",resendOtpCntrl)
 
 router.post("/update-profile",authToken,UpdateProfileCntrl)
 router.post("/update-adress",authToken,UpdateAdressCntrl)
-
+router.post("/changepassword",changePassCntrl)
+router.post("/verifyPassOtp",verifyPassOtpCntrl)
+router.post("/newPassword",newPasswordCntrl)
 //admin
 
 router.post("/all-user",authToken,allUserCntrl)
@@ -68,6 +78,11 @@ router.get('/get-wishlist',authToken,GetWishListCntrl)
 //Orders
 
 router.get("/view-orders",authToken,OrderviewCntrl)
+router.post("/orders/monthly",authToken,getMonthlyOrderStats)
+router.get("/sales/yearly-monthly",authToken,getYearlyMonthlySalesStats)
+router.get("/orders/years",authToken,getOrderYears)
+router.get("/orders/get-pie-chart",authToken,getSalesData)
+router.get("/orders/yearly-pie-chart",authToken,getyearlySalesData)
 
 
 module.exports = router

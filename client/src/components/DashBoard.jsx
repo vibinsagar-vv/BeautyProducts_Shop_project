@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link, Route, Routes } from "react-router-dom";
+import React, { useState,useContext, } from "react";
+import { Link, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import AllUsers from "./pages/Admin/AllUsers";
 import AllProducts from "./pages/Admin/AllProducts";
 import BannerUpdate from "./pages/Admin/Banner/BannerUpdate";
@@ -9,8 +9,23 @@ import Logo from "../assest/logo/Logo.png";
 import ProductsTable from "./pages/Admin/ProductsTable";
 import { FaUsers } from "react-icons/fa";
 import { GiShoppingBag } from "react-icons/gi";
+import AdminMonthlyOrderChart from "./MonthlyOrderChart";
+import DashBoardHome from "./pages/DashBoardHome"
+import UserLogo from "../assest/logo/UserLogo.png";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserDetials } from "../store/userSlice";
+import Context from "../context/context";
+import { Avatar, Button, Dropdown } from "flowbite-react";
+import { MdOutlineLogout, MdOutlineLogin } from "react-icons/md";
+
+
 
 export default function DashBoard() {
+  const userDetials = useSelector((state) => state?.user?.user);
+  // console.log('userhead',user);
+  const dispatch = useDispatch();
+
+  const context = useContext(Context);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -18,7 +33,7 @@ export default function DashBoard() {
   };
   return (
     <div className="min-h-screen pt-16">
-      <nav className="fixed shadow-md h-16 top-0 z-50 w-full bg-transparent border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+      <nav className="fixed shadow-md h-16 top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
         <div className="px-3 lg:px-5 lg:pl-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center h-full">
@@ -51,19 +66,56 @@ export default function DashBoard() {
             </div>
             <div className="flex items-center">
               <div className="flex items-center ms-3">
-                <button
-                  type="button"
-                  className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-                  aria-expanded="false"
-                  aria-haspopup="true"
+              <Dropdown
+                  arrowIcon={false}
+                  inline
+                  label={
+                    <Avatar
+                      alt="User settings"
+                      img={
+                        userDetials?.profilePic
+                          ? `http://localhost:8200/profilePhotos/${userDetials.profilePic}`
+                          : UserLogo
+                      }
+                      rounded
+                    />
+                  }
                 >
-                  <span className="sr-only">Open user menu</span>
-                  <img
-                    className="w-8 h-8 rounded-full"
-                    src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                    alt="user photo"
-                  />
-                </button>
+                  <div>
+                    <Dropdown.Header>
+                      <span className="block text-sm capitalize">
+                        {userDetials?.name}
+                      </span>
+                      <span className="block truncate text-sm font-medium">
+                        {userDetials?.email}
+                      </span>
+                    </Dropdown.Header>
+                    {userDetials?.role === "ADMIN" && (
+                      <Dropdown.Item>
+                        <Link className="w-full flex" to={"/"}>
+                          WebSite
+                        </Link>
+                      </Dropdown.Item>
+                    )}
+                    <Dropdown.Item>
+                      <Link className="w-full flex" to={"/profile"}>
+                        Profile
+                      </Link>
+                    </Dropdown.Item>
+                    <Dropdown.Divider />
+                    <Dropdown.Item
+                      className="block lg:hidden bg-primary-light bg-opacity-40 hover:bg-opacity-60 hover:bg-primary-light"
+                      onClick={()=>handleLogOut(userDetials?.email)}
+                    >
+                      <div className="flex justify-center items-center">
+                        Sign out
+                        <span className="text-lg pl-3 pt-1">
+                          <MdOutlineLogout />
+                        </span>
+                      </div>
+                    </Dropdown.Item>
+                  </div>
+                </Dropdown>
               </div>
             </div>
           </div>
@@ -87,7 +139,7 @@ export default function DashBoard() {
               {/* Menu items */}
               <li>
                 <a
-                  href="#"
+                  href="/dashboard"
                   className="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group hover:text-tertiary-dark"
                 >
                   <svg
@@ -108,9 +160,9 @@ export default function DashBoard() {
                   to={"all-users"}
                   className="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group hover:text-tertiary-dark"
                 >
-                    <span className="w-5 h-5 mr-3 text-center flex items-center text-2xl text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
-                        <FaUsers/>
-                    </span>
+                  <span className="w-5 h-5 mr-3 text-center flex items-center text-2xl text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
+                    <FaUsers />
+                  </span>
                   All Users
                 </Link>
               </li>
@@ -119,9 +171,9 @@ export default function DashBoard() {
                   to={"products"}
                   className="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group hover:text-tertiary-dark"
                 >
-                    <span className="w-5 h-5 mr-3 text-center flex items-center text-2xl text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
-                        <GiShoppingBag/>
-                    </span>
+                  <span className="w-5 h-5 mr-3 text-center flex items-center text-2xl text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
+                    <GiShoppingBag />
+                  </span>
                   products
                 </Link>
               </li>
@@ -138,6 +190,7 @@ export default function DashBoard() {
         </aside>
         <main className=" w-full min-h-full px-4 bg-white lg:ml-64 overflow-hidden scrollbar-none">
           <Routes>
+            <Route path="/" element={<DashBoardHome />} />
             <Route path="/all-users" element={<UsersTable />} />
             <Route path="/products" element={<ProductsTable />} />
             <Route path="/banners" element={<BannerUpdate />} />
@@ -145,5 +198,5 @@ export default function DashBoard() {
         </main>
       </div>
     </div>
-  );
+  )
 }

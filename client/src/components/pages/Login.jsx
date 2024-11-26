@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { Link, useNavigate } from 'react-router-dom';
-import AXIOS from 'axios';
-import { toast } from 'react-toastify';
-import Context from '../../context/context';
+import { Link, useNavigate } from "react-router-dom";
+import AXIOS from "axios";
+import { toast } from "react-toastify";
+import Context from "../../context/context";
 
 export default function Login() {
   const nav = useNavigate();
@@ -11,7 +11,7 @@ export default function Login() {
   const [showpassword, Setshowpassword] = useState(false);
   const [data, SetData] = useState({
     email: "",
-    password: ""
+    password: "",
   });
 
   const handleChange = (e) => {
@@ -19,14 +19,17 @@ export default function Login() {
 
     SetData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const resData = await AXIOS.post("http://localhost:7800/user/login", data);
+      const resData = await AXIOS.post(
+        "http://localhost:8200/user/login",
+        data
+      );
 
       localStorage?.setItem("token", resData.data.data.token);
       localStorage?.setItem("role", resData.data.data.role);
@@ -35,7 +38,7 @@ export default function Login() {
         toast.success(resData.data.message);
         generalContext.fetchUserDetials();
         generalContext.fetchUserAddToCart();
-        nav('/');
+        nav("/");
       }
       if (resData.data.error) {
         toast.error(resData.data.message);
@@ -56,7 +59,10 @@ export default function Login() {
             <h1 className="text-center text-4xl sm:text-5xl font-bold text-accent-dark">
               Log In
             </h1>
-            <form onSubmit={handleSubmit} className="pt-8 flex justify-center flex-col gap-4">
+            <form
+              onSubmit={handleSubmit}
+              className="pt-8 flex justify-center flex-col gap-4"
+            >
               <div className="relative">
                 <input
                   type="email"
@@ -125,7 +131,9 @@ export default function Login() {
           </div>
         </div>
         <div className="hidden bg-accent-light h-full w-[40%] rounded-r-xl lg:flex flex-col gap-8 justify-center items-center">
-          <p className="text-4xl font-extrabold text-white font-serif">Hello, Friend!</p>
+          <p className="text-4xl font-extrabold text-white font-serif">
+            Hello, Friend!
+          </p>
           <p className="text-center w-[80%] text-white">
             Enter your personal details and start your journey with us.
           </p>

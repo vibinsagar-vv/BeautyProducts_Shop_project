@@ -1,5 +1,10 @@
+const userModel = require("../../models/userModel")
+
 async function userLogOut(req,res){
     try{
+        const {email} = req.body
+         const updatedUser = await userModel.findOneAndUpdate({email:email},{online:false})
+        
         res.json({
             message:"user Logged Out successfully",
             data:[],

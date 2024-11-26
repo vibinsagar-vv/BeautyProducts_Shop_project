@@ -69,7 +69,7 @@ export default function ProfilePage() {
                   {user?.profilePic ? (
                     <img
                       className="w-20 h-20 rounded-full"
-                      src={`http://localhost:7800/profilePhotos/${user.profilePic}`}
+                      src={`http://localhost:8200/profilePhotos/${user.profilePic}`}
                       alt=""
                     />
                   ) : (
@@ -89,36 +89,56 @@ export default function ProfilePage() {
               </div>
 
               <div className=" px-3 pb-4 mt-8  bg-transparent dark:bg-gray-800">
-            <ul className="space-y-4 text-lg font-medium text-center text-white">
-              {/* Menu items */}
-              <li>
-                <span></span>
-               <Link to={"/profile"} className="flex items-center justify-center p-2 rounded-lg dark:text-gray-400 shadow-md bg-accent-light dark:hover:bg-gray-700 group hover:bg-accent-dark">Profile</Link>
-              </li>
-              
-              {/* Add more menu items as needed */}
-              <li>
-                <span></span>
-               <Link to={"/wishlist"} className="flex items-center justify-center p-2 rounded-lg dark:text-gray-400 shadow-md bg-accent-light dark:hover:bg-gray-700 group hover:bg-accent-dark">My Wishlist</Link>
-              </li>
-              <li>
-                <span></span>
-               <Link to={"/cart"} className="flex items-center justify-center p-2 rounded-lg dark:text-gray-400 shadow-md bg-accent-light dark:hover:bg-gray-700 group hover:bg-accent-dark">My Cart</Link>
-              </li>
-              <li>
-                <span></span>
-               <Link to={"/profile/my_orders"} className="flex items-center justify-center p-2 rounded-lg dark:text-gray-400 shadow-md bg-accent-light dark:hover:bg-gray-700 group hover:bg-accent-dark">My Orders</Link>
-              </li>
-            </ul>
-          </div>
+                <ul className="space-y-4 text-lg font-medium text-center text-white">
+                  {/* Menu items */}
+                  <li>
+                    <span></span>
+                    <Link
+                      to={"/profile"}
+                      className="flex items-center justify-center p-2 rounded-lg dark:text-gray-400 shadow-md bg-accent-light dark:hover:bg-gray-700 group hover:bg-accent-dark"
+                    >
+                      Profile
+                    </Link>
+                  </li>
+
+                  {/* Add more menu items as needed */}
+                  <li>
+                    <span></span>
+                    <Link
+                      to={"/wishlist"}
+                      className="flex items-center justify-center p-2 rounded-lg dark:text-gray-400 shadow-md bg-accent-light dark:hover:bg-gray-700 group hover:bg-accent-dark"
+                    >
+                      My Wishlist
+                    </Link>
+                  </li>
+                  <li>
+                    <span></span>
+                    <Link
+                      to={"/cart"}
+                      className="flex items-center justify-center p-2 rounded-lg dark:text-gray-400 shadow-md bg-accent-light dark:hover:bg-gray-700 group hover:bg-accent-dark"
+                    >
+                      My Cart
+                    </Link>
+                  </li>
+                  <li>
+                    <span></span>
+                    <Link
+                      to={"/profile/my_orders"}
+                      className="flex items-center justify-center p-2 rounded-lg dark:text-gray-400 shadow-md bg-accent-light dark:hover:bg-gray-700 group hover:bg-accent-dark"
+                    >
+                      My Orders
+                    </Link>
+                  </li>
+                </ul>
+              </div>
             </div>
           </aside>
 
           <main className="w-full min-h-full px-4 bg-white lg:ml-64 overflow-hidden flex justify-center items-center">
             <Routes>
-                <Route path="/" element={<ProfileDetials/>}/>
-                <Route path="/update-profile" element={<UpdateProfilePage/>}/>
-                <Route path="/my_orders" element={<Orders/>}/>
+              <Route path="/" element={<ProfileDetials />} />
+              <Route path="/update-profile" element={<UpdateProfilePage />} />
+              <Route path="/my_orders" element={<Orders />} />
             </Routes>
           </main>
         </div>
@@ -135,4 +155,3 @@ export default function ProfilePage() {
     </div>
   );
 }
-

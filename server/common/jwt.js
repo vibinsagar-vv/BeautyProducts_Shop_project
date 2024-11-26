@@ -1,6 +1,6 @@
 const jwt=require('jsonwebtoken')
 
-function CreateToken(payload){
+async function CreateToken(payload){
     const token=jwt.sign(payload,process.env.jwtSecrect)
     // console.log(token);
     return token

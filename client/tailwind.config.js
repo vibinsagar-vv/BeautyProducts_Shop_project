@@ -12,7 +12,7 @@ export default {
     extend: {
       colors:{
         primary:{
-          "light":"#f8c5c1",
+          "light":"#DE7C7D",
           'dark':"#d49792"
         },
         secondary:{
@@ -20,12 +20,12 @@ export default {
           'dark':"#e5b492"
         },
         tertiary:{
-          "light":"#d5928e",
+          "light":"#740938",
           'dark':"#943241"
         },
         accent:{
-          "light":"#b76e79",
-          'dark':"#8a4c55",
+          "light":"#CC2B52",
+          'dark':"#AF1740",
           'extra':'#ff4081'
         },
         neutral:{

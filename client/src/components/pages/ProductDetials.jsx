@@ -5,10 +5,11 @@ import displayINRCurrency from "../../helpers/displayCurrency";
 import AddToCart from "../../helpers/AddToCart";
 import Context from "../../context/context";
 import Footer from "../Footer";
-import horizontal from '../..//assest/logo/horizontalLine.png'
+import horizontal from "../..//assest/logo/horizontalLine.png";
 import noImage from "../../assest/logo/no-photo.png";
 import fetchCategoryWiseProduct from "../../helpers/fetchCategoryWiseProduct";
 import Heading from "../../helpers/Heading";
+import { toast } from "react-toastify";
 export default function ProductDetials() {
   const [activeImage, SetActiveImage] = useState("");
 
@@ -44,12 +45,12 @@ export default function ProductDetials() {
   };
 
   const handleBuy = () => {
-    nav("/buy", { state: { product: [{ProductId:data}] } });
+    localStorage.getItem('token')?nav("/buy", { state: { product: [{ ProductId: data }],from:"buyNow" } }):nav('/login')
   };
 
   const fetchProductDetail = async () => {
     const resData = await AXIOS.post(
-      "http://localhost:7800/products/product-detials",
+      "http://localhost:8200/products/product-detials",
       { productId: params?.id }
     );
     SetData(resData.data.data);
@@ -82,7 +83,7 @@ export default function ProductDetials() {
               <div className="h-[300px] w-[300px] lg:h-96 lg:w-96 bg- border-2 rounded-lg border-accent-light p-4">
                 {data.productImage[0] ? (
                   <img
-                    src={`http://localhost:7800/ProductImages/${activeImage}`}
+                    src={`http://localhost:8200/ProductImages/${activeImage}`}
                     alt=""
                     className="h-full w-full object-scale-down mix-blend-multiply"
                   />
@@ -103,7 +104,7 @@ export default function ProductDetials() {
                         key={index}
                       >
                         <img
-                          src={`http://localhost:7800/ProductImages/${image}`}
+                          src={`http://localhost:8200/ProductImages/${image}`}
                           alt=""
                           className="w-full h-full object-scale-down mix-blend-multiply cursor-pointer"
                           /* onMouseEnter={()=>{handleMouseEnterPrdct(image)}} */ onClick={() => {
@@ -144,20 +145,22 @@ export default function ProductDetials() {
                 </p>
               </div>
               {!data.quantity == 0 ? (
-                localStorage.getItem("token") &&(<div className="flex gap-4 items-center my-8">
-                  <button
-                    onClick={handleBuy}
-                    className="px-4 py-2 bg-[#ea9791] text-white font-bold text-lg rounded-full shadow-lg transition-colors hover:bg-[#a26865] min-w-[180px]"
-                  >
-                    Buy
-                  </button>
-                  <button
-                    className="border-2 border-[#B76E79] px-4 py-2 text-[#B76E79] hover:bg-[#B76E79] hover:text-white font-bold rounded-full shadow-lg transition-colors min-w-[180px]"
-                    onClick={(e) => handleAddToCart(e, data?._id)}
-                  >
-                    Add To Cart
-                  </button>
-                </div>)
+                
+                  <div className="flex gap-4 items-center my-8">
+                    <button
+                      onClick={handleBuy}
+                      className="px-4 py-2 bg-[#ea9791] text-white font-bold text-lg rounded-full shadow-lg transition-colors hover:bg-[#a26865] min-w-[180px]"
+                    >
+                      Buy
+                    </button>
+                    <button
+                      className="border-2 border-[#B76E79] px-4 py-2 text-[#B76E79] hover:bg-[#B76E79] hover:text-white font-bold rounded-full shadow-lg transition-colors min-w-[180px]"
+                      onClick={(e) => handleAddToCart(e, data?._id)}
+                    >
+                      Add To Cart
+                    </button>
+                  </div>
+                
               ) : (
                 <div className="flex gap-4 items-center my-8">
                   <button className="px-16 py-2 bg-gray-500 text-white font-bold text-lg rounded-full shadow-lg transition-colors min-w-[180px]">
@@ -171,54 +174,60 @@ export default function ProductDetials() {
               </div>
             </div>
           </div>
-          {related[1]&&(<div>
-            <div className='pb-5 mt-5'>
-        <h2 className='text-2xl lg:text-5xl capitalize text-center Marck font-semibold pt-4 pb-3'>{"related Products"}</h2>
-        <div className='flex justify-center items-center'><img className='w-36' src={horizontal} alt="" /></div>
-        </div>
-          <div className="md:max-w-7xl h-[320px] overflow-hidden">
-            <div className="w-full px-8 h-[320px] py-4 justify-start flex scrollbar-none mx-auto md:gap-x-36 gap-10  overflow-x-scroll ">
-              {related[0] &&
-                related.map((product, index) => {
-                  console.log("112", product);
+          {related[1] && (
+            <div>
+              <div className="pb-5 mt-5">
+                <h2 className="text-2xl lg:text-5xl capitalize text-center Marck font-semibold pt-4 pb-3">
+                  {"related Products"}
+                </h2>
+                <div className="flex justify-center items-center">
+                  <img className="w-36" src={horizontal} alt="" />
+                </div>
+              </div>
+              <div className="md:max-w-7xl h-[320px] overflow-hidden">
+                <div className="w-full px-8 h-[320px] py-4 justify-start flex scrollbar-none mx-auto md:gap-x-36 gap-10  overflow-x-scroll ">
+                  {related[0] &&
+                    related.map((product, index) => {
+                      console.log("112", product);
 
-                  if (index <= 5 && product._id !== data._id) {
-                    return (
-                      <Link
-                        to={`/product/${product?._id}`}
-                        key={index}
-                        className=" max-h-[270px]  min-w-40 lg:min-w-48 bg-white shadow-accent-dark shadow-lg rounded-lg  hover:shadow-accent-dark hover:shadow-2xl transition-shadow duration-300"
-                      >
-                        <div className="relative h-48  lg:max-h-72 rounded-t-lg bg-primary-light flex items-center justify-center ">
-                          {product.productImage[0] ? (
-                            <img
-                              src={`http://localhost:7800/ProductImages/${product.productImage[0]}`}
-                              alt={product?.ProductName}
-                              className="p-4 w-full h-full transform object-scale-down hover:scale-110 transition-transform duration-500 ease-in-out"
-                            />
-                          ) : (
-                            <img
-                              src={noImage}
-                              alt={product?.ProductName}
-                              className="p-4 w-full h-full transform object-scale-down hover:scale-110 transition-transform duration-500 ease-in-out"
-                            />
-                          )}
-                        </div>
-                        <div className="p-2 flex flex-col h-16">
-                          <h2 className="font-semibold text-lg lg:text-xl text-gray-800 truncate">
-                            {product?.ProductName}
-                          </h2>
-                          <p className="text-sm text-gray-500 capitalize">
-                            {product?.category}
-                          </p>
-                        </div>
-                      </Link>
-                    );
-                  }
-                })}
+                      if (index <= 5 && product._id !== data._id) {
+                        return (
+                          <Link
+                            to={`/product/${product?._id}`}
+                            key={index}
+                            className=" max-h-[270px]  min-w-40 lg:min-w-48 bg-white shadow-accent-dark shadow-lg rounded-lg  hover:shadow-accent-dark hover:shadow-2xl transition-shadow duration-300"
+                          >
+                            <div className="relative h-48  lg:max-h-72 rounded-t-lg bg-primary-light flex items-center justify-center ">
+                              {product.productImage[0] ? (
+                                <img
+                                  src={`http://localhost:8200/ProductImages/${product.productImage[0]}`}
+                                  alt={product?.ProductName}
+                                  className="p-4 w-full h-full transform object-scale-down hover:scale-110 transition-transform duration-500 ease-in-out"
+                                />
+                              ) : (
+                                <img
+                                  src={noImage}
+                                  alt={product?.ProductName}
+                                  className="p-4 w-full h-full transform object-scale-down hover:scale-110 transition-transform duration-500 ease-in-out"
+                                />
+                              )}
+                            </div>
+                            <div className="p-2 flex flex-col h-16">
+                              <h2 className="font-semibold text-lg lg:text-xl text-gray-800 truncate">
+                                {product?.ProductName}
+                              </h2>
+                              <p className="text-sm text-gray-500 capitalize">
+                                {product?.category}
+                              </p>
+                            </div>
+                          </Link>
+                        );
+                      }
+                    })}
+                </div>
+              </div>
             </div>
-          </div>
-          </div>)}
+          )}
         </div>
       </div>
       <Footer />

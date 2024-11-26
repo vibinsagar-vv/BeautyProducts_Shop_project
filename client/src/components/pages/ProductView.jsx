@@ -40,7 +40,7 @@ export default function ProductView() {
 
   const fetchProductDetail = async () => {
     const resData = await AXIOS.post(
-      "http://localhost:7800/products/product-details",
+      "http://localhost:8200/products/product-details",
       { productId: params?.id }
     );
     setData(resData.data.data);
@@ -65,7 +65,7 @@ export default function ProductView() {
             <div className="flex flex-col lg:flex-row-reverse gap-4 mb-10 lg:w-1/2">
               <div className="h-[400px] w-full lg:h-96 lg:w-96 bg-white border border-[#B76E79] p-4 rounded-lg shadow-md">
                 <img
-                  src={`http://localhost:7800/ProductImages/${activeImage}`}
+                  src={`http://localhost:8200/ProductImages/${activeImage}`}
                   alt={data?.ProductName}
                   className="h-full w-full object-contain"
                 />
@@ -79,7 +79,7 @@ export default function ProductView() {
                       onClick={() => handleMouseEnterPrdct(image)}
                     >
                       <img
-                        src={`http://localhost:7800/ProductImages/${image}`}
+                        src={`http://localhost:8200/ProductImages/${image}`}
                         alt=""
                         className="w-full h-full object-contain"
                       />
@@ -124,13 +124,17 @@ export default function ProductView() {
                 </button>
               </div>
               <div>
-                <p className="text-lg font-medium text-[#333333]">Description:</p>
+                <p className="text-lg font-medium text-[#333333]">
+                  Description:
+                </p>
                 <p className="pl-4 text-[#555555]">{data?.description}</p>
               </div>
             </div>
           </div>
           <div className="mt-12">
-            <p className="text-2xl font-semibold text-[#333333]">Recommended Products</p>
+            <p className="text-2xl font-semibold text-[#333333]">
+              Recommended Products
+            </p>
             {/* Add recommended product cards here */}
           </div>
         </div>

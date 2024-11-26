@@ -19,7 +19,7 @@ export default function UpdateProfilePage() {
       state: "",
       district: "",
       city: "",
-      street:"",
+      street: "",
       pincode: "",
     },
     accountDetails: {
@@ -76,15 +76,15 @@ export default function UpdateProfilePage() {
     // setLoading(true);
     try {
       const resData = await axios.post(
-        `http://localhost:7800/user/update-profile`,
+        `http://localhost:8200/user/update-profile`,
         { user },
         { headers: { token: localStorage.getItem("token") } }
       );
       console.log(resData);
-      
+
       if (resData.data.success) {
         console.log(resData.data);
-        
+
         toast.success(resData.data.message);
       }
       if (resData.data.error) {
@@ -98,7 +98,7 @@ export default function UpdateProfilePage() {
 
       // setLoading(false);
     }
-  }
+  };
   // console.log("user", user?.address);
 
   return (
@@ -165,20 +165,23 @@ export default function UpdateProfilePage() {
                 onChange={handleChange}
                 className="group w-full p-2 border rounded"
               >
-                
-                <option value="male"  >Male</option>
+                <option value="male">Male</option>
                 <option value="female">Female</option>
                 <option value="other">Other</option>
-                <option className="group-focus:hidden" selected >select Gender</option>
+                <option className="group-focus:hidden" selected>
+                  select Gender
+                </option>
               </select>
             </div>
           </div>
 
           {/* Address Section */}
           <div className="space-y-4">
-            <div className="text-lg text-center bg-primary-light py-2 mt-16 rounded-xl font-semibold mb-6">Address</div>
+            <div className="text-lg text-center bg-primary-light py-2 mt-16 rounded-xl font-semibold mb-6">
+              Address
+            </div>
             <div className="grid grid-cols-2 gap-4">
-            <div>
+              <div>
                 <label
                   htmlFor="address.house"
                   className="block mb-1 font-semibold"
@@ -288,7 +291,9 @@ export default function UpdateProfilePage() {
 
           {/* Account Details Section */}
           <div className="space-y-4">
-            <div className="text-lg text-center bg-primary-light py-2 mt-16 rounded-xl font-semibold mb-6">Account Details</div>
+            <div className="text-lg text-center bg-primary-light py-2 mt-16 rounded-xl font-semibold mb-6">
+              Account Details
+            </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label

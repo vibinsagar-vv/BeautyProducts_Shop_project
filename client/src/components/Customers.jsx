@@ -25,13 +25,13 @@ const GlobalFilter = ({ globalFilter, setGlobalFilter }) => (
 const UsersTable = () => {
   const [allUsers, setAllUsers] = useState([]);
   const [pageSize, setPageSize] = useState(10); // Default page size
-  const [openUpdateUser,SetOpenUpdateUser] = useState(false)
-    const [updateUserDetials,SetUpdateUserDetials]=useState({
-        email:"",
-        name:"",
-        role:"",
-        _id:""
-    })
+  const [openUpdateUser, SetOpenUpdateUser] = useState(false);
+  const [updateUserDetials, SetUpdateUserDetials] = useState({
+    email: "",
+    name: "",
+    role: "",
+    _id: "",
+  });
 
   const header = {
     token: localStorage.getItem("token") || "",
@@ -46,7 +46,7 @@ const UsersTable = () => {
   const fetchAllUsers = async () => {
     try {
       const resData = await axios.post(
-        "http://localhost:7800/user/all-user",
+        "http://localhost:8200/user/all-user",
         {},
         { headers: header }
       );
@@ -107,10 +107,10 @@ const UsersTable = () => {
         Cell: ({ row }) => (
           <div className="flex space-x-2">
             <button
-              onClick={()=>{
-                SetUpdateUserDetials(row.original)
-                SetOpenUpdateUser(true)
-                }}
+              onClick={() => {
+                SetUpdateUserDetials(row.original);
+                SetOpenUpdateUser(true);
+              }}
               className="text-blue-600 hover:underline"
             >
               Edit
@@ -165,15 +165,17 @@ const UsersTable = () => {
     // Implement your edit logic here
   };
 
-  const handleDelete = async(userId) => {
+  const handleDelete = async (userId) => {
     console.log("Deleting user with ID:", userId);
-    const ResData = await axios.post("http://localhost:7800/user/delete-user",
-        {_id:userId},
-        { headers: header })
-        if(ResData.data.success){
-            toast.success(ResData.data.message)
-            fetchAllUsers()
-        }
+    const ResData = await axios.post(
+      "http://localhost:8200/user/delete-user",
+      { _id: userId },
+      { headers: header }
+    );
+    if (ResData.data.success) {
+      toast.success(ResData.data.message);
+      fetchAllUsers();
+    }
 
     // Implement your delete logic here
   };
@@ -182,93 +184,90 @@ const UsersTable = () => {
     <div className="p-4">
       {/* Search Input */}
       <div>
-      
-
-      {/* Entries per page selector */}
-      <div className="flex justify-between items-center my-4">
-      <GlobalFilter
-        globalFilter={globalFilter}
-        setGlobalFilter={setGlobalFilter}
-      />
-        <div>
-          <span className="text-sm text-gray-700">
-            Show{" "}
-            <select
-              className="border group border-gray-300 rounded-md p-2"
-              value={pageSize} // Make sure this reflects the current pageSize
-              onChange={(e) => setPageSize(Number(e.target.value))}
-            >
-              <option
-                className="group-focus:hidden"
-                value={10}
-                defaultValue={true}
+        {/* Entries per page selector */}
+        <div className="md:flex md:justify-between items-center my-4">
+          <GlobalFilter
+            globalFilter={globalFilter}
+            setGlobalFilter={setGlobalFilter}
+          />
+          <div className="mt-6 md:mt-0">
+            <span className="text-sm text-gray-700">
+              Show{" "}
+              <select
+                className="border group border-gray-300 rounded-md p-2"
+                value={pageSize} // Make sure this reflects the current pageSize
+                onChange={(e) => setPageSize(Number(e.target.value))}
               >
-                10
-              </option>
-              {[5, 10, 15, 20, 25, 30, 35, 40, 45, 50].map((size) => (
-                <option key={size} value={size}>
-                  {size}
+                <option
+                  className="group-focus:hidden"
+                  value={10}
+                  defaultValue={true}
+                >
+                  10
                 </option>
-              ))}
-            </select>{" "}
-            entries
-          </span>
+                {[5, 10, 15, 20, 25, 30, 35, 40, 45, 50].map((size) => (
+                  <option key={size} value={size}>
+                    {size}
+                  </option>
+                ))}
+              </select>{" "}
+              entries
+            </span>
+          </div>
         </div>
-        
-      </div>
-      <div className="text-sm w-full flex justify-end text-gray-700">
+        <div className="text-sm w-full flex justify-end text-gray-700">
           Page {pageIndex + 1} of {pageOptions.length}
         </div>
       </div>
 
       {/* Table */}
       <div className="overflow-x-scroll">
-      <table
-        {...getTableProps()}
-        className="min-w-full divide-y divide-gray-200 mt-4"
-      >
-        <thead className="bg-gray-50">
-          {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                <th
-                  {...column.getHeaderProps(column.getSortByToggleProps())}
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  {column.render("Header")}
-                  <span>
-                    {column.isSorted
-                      ? column.isSortedDesc
-                        ? " 🔽"
-                        : " 🔼"
-                      : ""}
-                  </span>
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody
-          {...getTableBodyProps()}
-          className="bg-white divide-y divide-gray-200"
+        <table
+          {...getTableProps()}
+          className="min-w-full divide-y divide-gray-200 mt-4"
         >
-          {page.map((row) => {
-            prepareRow(row);
-            return (
-              <tr className="" {...row.getRowProps()}>
-                {row.cells.map((cell) => (
-                  <td
-                    {...cell.getCellProps()}
-                    className="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+          <thead className="bg-gray-50">
+            {headerGroups.map((headerGroup) => (
+              <tr {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map((column) => (
+                  <th
+                    {...column.getHeaderProps(column.getSortByToggleProps())}
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
-                    {cell.render("Cell")}
-                  </td>
+                    {column.render("Header")}
+                    <span>
+                      {column.isSorted
+                        ? column.isSortedDesc
+                          ? " 🔽"
+                          : " 🔼"
+                        : ""}
+                    </span>
+                  </th>
                 ))}
               </tr>
-            );
-          })}
-        </tbody>
-      </table>
+            ))}
+          </thead>
+          <tbody
+            {...getTableBodyProps()}
+            className="bg-white divide-y divide-gray-200"
+          >
+            {page.map((row) => {
+              prepareRow(row);
+              return (
+                <tr className="" {...row.getRowProps()}>
+                  {row.cells.map((cell) => (
+                    <td
+                      {...cell.getCellProps()}
+                      className="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      {cell.render("Cell")}
+                    </td>
+                  ))}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
 
       {/* Pagination */}
@@ -315,16 +314,18 @@ const UsersTable = () => {
           </button>
         </div>
       </div>
-      {
-            openUpdateUser&&(<ChangeUserRole 
-                onClose={()=>{SetOpenUpdateUser(false)}}
-                name={updateUserDetials.name}
-                email={updateUserDetials.email}
-                role={updateUserDetials.role}
-                userid={updateUserDetials._id}
-                callFun={fetchAllUsers}
-                />)
-        }
+      {openUpdateUser && (
+        <ChangeUserRole
+          onClose={() => {
+            SetOpenUpdateUser(false);
+          }}
+          name={updateUserDetials.name}
+          email={updateUserDetials.email}
+          role={updateUserDetials.role}
+          userid={updateUserDetials._id}
+          callFun={fetchAllUsers}
+        />
+      )}
     </div>
   );
 };

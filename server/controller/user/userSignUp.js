@@ -1,5 +1,5 @@
 const userModel = require("../../models/userModel")
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const saltRounds=10
 async function userSignUpCntrl(req,res){
@@ -27,6 +27,23 @@ async function userSignUpCntrl(req,res){
         console.log('userSignup:12',userDetial);
 
         const {email,name,password} = userDetial
+        const error ={}
+
+        if(!handleEmailRegEx(email)[0]){
+            error = {...error,
+                email: handleEmailRegEx(email)[1],}}
+        if(!handlePasswordRegEx(password)[0]){
+            error = {...error,
+                password: handlePasswordRegEx(password)[1],}}
+        
+        if(Object.keys(error).length>0){
+            return res.json({
+                message:"SignUp Unsuccessfull",
+                errordata:error,
+                success:false,
+                error:true
+            })
+        }
 
 
         const user = await userModel.findOne({email})

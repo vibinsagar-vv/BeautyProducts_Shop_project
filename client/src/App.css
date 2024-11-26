@@ -46,6 +46,9 @@
 .Marck{
     font-family: "Marck Script", cursive;
 }
+.edu_australia{
+    font-family: "Edu AU VIC WA NT Arrows", cursive;
+}
 .productFont{
     font-family:Verdana, Geneva, Tahoma, sans-serif;
     font-weight: 400;
@@ -61,13 +64,18 @@
     background-size: cover;
 }
 .signInBackground{
-    background-image: url('./assest/Background/image1.png');
+    background-image: url('./assest/Background/image1.jpg');
     background-size: cover;
     background-color: rgba(255, 255, 255, 0.5);
     background-repeat: no-repeat;
 }
 .signUpBackground{
-    background-image: url('./assest/Background/image2_black_1.png');
+    background-image: url('./assest/Background/image2_black_1.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.phnsigninBackground{
+    background-image: url('./assest/Background/phn_signin.jpg');
     background-size: cover;
     background-repeat: no-repeat;
 }
@@ -83,3 +91,8 @@
 #chk:checked ~ .login .head {
 	font-size: 30px;
 }
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
