@@ -130,7 +130,7 @@ export default function OtpInput({ length = 4 }) {
       const resData = await AXIOS.post("http://localhost:8200/user/sign-up", {
         userotp: newotp,
         token: localStorage.getItem("token"),
-        VerifyOtp: localStorage.getItem("verifiction"),
+        VerifyOtp: localStorage.getItem("verification"),
       });
       if (resData.data.success) {
         toast.success(resData.data.message);

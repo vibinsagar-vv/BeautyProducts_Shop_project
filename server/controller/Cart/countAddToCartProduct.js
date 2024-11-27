@@ -3,12 +3,15 @@ const AddToCartModel = require("../../models/cartProduct")
 const CountAddToCartPrdctCntrl = async(req,res) =>{
     try{
         const userid = req.userid
+        console.log(userid);
+        
         const cart = await AddToCartModel.findOne({
             UserId:userid
         })
-         
-        const count = cart.products.length
-        res.json({
+         console.log(cart);
+         if(cart){
+            const count = cart.products.length
+        return res.json({
             data:{
                 count : count
             },
@@ -16,6 +19,15 @@ const CountAddToCartPrdctCntrl = async(req,res) =>{
             success:true,
             error:false
         })
+         }else{
+            return res.json({
+                data:{},
+                message:"Empty Cart",
+                success:true,
+                error:false
+            })
+         }
+        
     }catch(error){
         res.status(500).json({
             success:false,

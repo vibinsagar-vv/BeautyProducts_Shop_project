@@ -42,7 +42,7 @@ const CarouselTemplate = () => {
 
   return (
     <div className="relative w-full" aria-label="carousel">
-      <div className="relative h-56 overflow-hidden rounded-lg md:h-[500px]">
+      <div className="relative h-56 overflow-hidden md:h-[500px]">
         {allBanner.map((image, index) => (
           <div
             key={index}

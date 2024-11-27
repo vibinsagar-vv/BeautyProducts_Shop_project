@@ -22,14 +22,14 @@ const GlobalFilter = ({ globalFilter, setGlobalFilter }) => (
   </span>
 );
 
-const UsersTable = () => {
-  const [allUsers, setAllUsers] = useState([]);
+const PaymentTable = () => {
+  const [allOrders, setAllOrders] = useState([]);
   const [pageSize, setPageSize] = useState(10); // Default page size
-  const [openUpdateUser, SetOpenUpdateUser] = useState(false);
+  const [openUpdateOrder, SetOpenUpdatOrder] = useState(false);
   const [updateUserDetials, SetUpdateUserDetials] = useState({
     email: "",
-    name: "",
-    role: "",
+    order_status: "",
+    order_id: "",
     _id: "",
   });
 
@@ -37,61 +37,44 @@ const UsersTable = () => {
     token: localStorage.getItem("token") || "",
   };
 
-  // Function to generate random status
-  const getRandomStatus = () => {
-    const statuses = ["ordered", "shipped", "reached"];
-    return statuses[Math.floor(Math.random() * statuses.length)];
-  };
 
-  const fetchAllUsers = async () => {
+  const fetchOrders = async () => {
     try {
       const resData = await axios.post(
-        "http://localhost:8200/user/all-user",
+        "http://localhost:8200/products/getOrders",
         {},
         { headers: header }
       );
 
-      if (resData.data.success) {
-        // Assign random status to each user
-        const usersWithStatus = resData.data.data.map((user) => ({
-          ...user,
-          status: getRandomStatus(),
-        }));
-        setAllUsers(usersWithStatus);
-      } else {
-        toast.error(resData.data.message);
-      }
+      setAllOrders(resData.data.data)
+      console.log(resData.data.data);
+      
     } catch (error) {
       toast.error("Error fetching users");
     }
   };
 
   useEffect(() => {
-    fetchAllUsers();
+    fetchOrders();
   }, []);
 
   // Columns configuration (Status column added)
   const columns = useMemo(
     () => [
-      { Header: "Name", accessor: "name" },
-      { Header: "Email", accessor: "email" },
-      { Header: "Role", accessor: "role" },
+      { Header: "Order Id", accessor: "order_id" },
+      { Header: "User", accessor: "email" },
+      { Header: "Amount (₹)", accessor: "amount" },
       {
-        Header: "Created At",
-        accessor: "createdAt",
-        Cell: ({ value }) => new Date(value).toLocaleString(),
-      },
-      {
-        Header: "Updated At",
+        Header: "Date",
         accessor: "updatedAt",
         Cell: ({ value }) => new Date(value).toLocaleString(),
       },
       {
         Header: "Status",
-        accessor: "status",
+        accessor: "order_status",
         Cell: ({ value }) => {
           let colorClass = "";
-          if (value === "ordered") colorClass = "bg-red-500";
+          if (value === "Order placed") colorClass = "bg-blue-500";
           else if (value === "shipped") colorClass = "bg-yellow-500";
           else if (value === "reached") colorClass = "bg-green-500";
 
@@ -102,25 +85,11 @@ const UsersTable = () => {
           );
         },
       },
-      {
-        Header: "Actions",
-        Cell: ({ row }) => (
-          <div className="flex space-x-2">
-            <button className="text-blue-600 hover:underline">Edit</button>
-            <button
-              onClick={() => handleDelete(row.original._id)}
-              className="text-red-600 hover:underline"
-            >
-              Delete
-            </button>
-          </div>
-        ),
-      },
     ],
     []
   );
 
-  const data = useMemo(() => allUsers, [allUsers]);
+  const data = useMemo(() => allOrders, [allOrders]);
 
   const {
     getTableProps,
@@ -166,7 +135,7 @@ const UsersTable = () => {
     );
     if (ResData.data.success) {
       toast.success(ResData.data.message);
-      fetchAllUsers();
+      fetchOrders();
     }
 
     // Implement your delete logic here
@@ -248,10 +217,9 @@ const UsersTable = () => {
               return (
                 <tr className="" {...row.getRowProps()}>
                   {row.cells.map((cell) => (
-                    <td
-                    onClick={() => {
+                    <td onClick={() => {
                       SetUpdateUserDetials(row.original);
-                      SetOpenUpdateUser(true);
+                      SetOpenUpdatOrder(true);
                     }}
                       {...cell.getCellProps()}
                       className="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
@@ -310,21 +278,11 @@ const UsersTable = () => {
           </button>
         </div>
       </div>
-      {(openUpdateUser && localStorage.getItem('role')=='MASTER_ADMIN')&&(
-        <ChangeUserRole
-          onClose={() => {
-            SetOpenUpdateUser(false);
-          }}
-          name={updateUserDetials.name}
-          email={updateUserDetials.email}
-          role={updateUserDetials.role}
-          userid={updateUserDetials._id}
-          callFun={fetchAllUsers}
-          deleteFun={()=>handleDelete(updateUserDetials._id)}
-        />
+      {openUpdateOrder && (
+        <div className="w-full h-full bg-red-600">abc</div>
       )}
     </div>
   );
 };
 
-export default UsersTable;
+export default PaymentTable;

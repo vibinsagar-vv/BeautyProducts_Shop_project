@@ -71,7 +71,12 @@ function App() {
         { headers: header }
       );
 
-      SetCartProductCount(CartData?.data?.data?.count);
+      if(CartData?.data?.data?.count){
+        SetCartProductCount(CartData?.data?.data?.count);
+      }
+      else{
+        SetCartProductCount(0)
+      }
     } catch (error) {
       console.log(error);
     }

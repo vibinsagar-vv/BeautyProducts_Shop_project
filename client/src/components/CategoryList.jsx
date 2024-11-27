@@ -20,14 +20,14 @@ export default function CategoryList() {
   }, []);
 
   return (
-    <div className="container mx-auto p-4 pt-10 ">
+    <div className="container mx-auto p-2 pt-10 ">
       <Heading text="Shop By Category" />
-      <div className="flex items-center gap-4 justify-between lg:justify-evenly overflow-scroll py-6 scrollbar-none pl-3">
+      <div className="flex items-center px-4 gap-4 justify-between lg:justify-evenly overflow-scroll py-6 scrollbar-none pl-3">
         {loading
           ? categoryLoading.map((element, index) => {
               return (
                 <div
-                  className="h-16 w-16  md:min-w-20 md:h-20 rounded-full overflow-hidden animate-pulse p-4 bg-slate-200"
+                  className="h-16 w-16 md:min-w-20 md:h-20 rounded-full overflow-hidden animate-pulse p-4 bg-slate-200"
                   key={"categoryLoading" + index}
                 ></div>
               );
@@ -47,7 +47,7 @@ export default function CategoryList() {
                       className="absolute max-h-20 object-scale-down hover:scale-110 transition-all  -top-3"
                     />
                   </div>
-                  <p className="Marck text-center font-semibold text-slate-800 capitalize text-xs md:text-base pt-2">
+                  <p className="Marck text-center text-nowrap font-semibold text-slate-800 capitalize text-xs md:text-base pt-2">
                     {product.subcategory}
                   </p>
                 </Link>

@@ -10,6 +10,7 @@ export default function ChangeUserRole({
   onClose,
   userid,
   callFun,
+  deleteFun,
 }) {
   const header = {
     token: localStorage.getItem("token") || "",
@@ -67,12 +68,20 @@ export default function ChangeUserRole({
             <option value="GENERAL">General</option>
           </select>
         </div>
-        <button
-          className="w-fit mx-auto block py-1 px-3 rounded-full bg-pink-700 text-white hover:bg-pink-800"
-          onClick={updateUserRole}
-        >
-          Change Role
-        </button>
+        <div className="flex justify-between">
+          <button
+            className="w-fit mx-auto block py-1 px-3 rounded-full bg-red-700 text-white hover:bg-red-800"
+            onClick={deleteFun}
+          >
+            Remove User
+          </button>
+          <button
+            className="w-fit mx-auto block py-1 px-3 rounded-full bg-pink-700 text-white hover:bg-pink-800"
+            onClick={updateUserRole}
+          >
+            Change Role
+          </button>
+        </div>
       </div>
     </div>
   );

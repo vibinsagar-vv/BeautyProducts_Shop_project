@@ -1,7 +1,18 @@
 import React from 'react'
+import AdminMonthlyOrderChart from './MonthlyOrderChart'
+import YearlyMonthlyBlockChart from './YearlyMonthlyChart'
+import SalesPieChart from './OrderPieChart'
+import YearlySalesPieChart from './yearlyPieChart'
 
 export default function Charts() {
   return (
-    <div>Charts</div>
+    <div>
+        <div>
+           <div className='mb-20 mt-6'> <AdminMonthlyOrderChart/></div>
+            <div className=' mb-20 mt-6'><YearlyMonthlyBlockChart/></div>
+            <SalesPieChart/>
+            <YearlySalesPieChart/>
+        </div>
+    </div>
   )
 }

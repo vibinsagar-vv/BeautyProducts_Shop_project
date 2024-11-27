@@ -17,7 +17,7 @@ import { setUserDetials } from "../store/userSlice";
 import Context from "../context/context";
 import { Avatar, Button, Dropdown } from "flowbite-react";
 import { MdOutlineLogout, MdOutlineLogin } from "react-icons/md";
-
+import PaymentTable from "./paymentTable";
 
 
 export default function DashBoard() {
@@ -194,6 +194,7 @@ export default function DashBoard() {
             <Route path="/all-users" element={<UsersTable />} />
             <Route path="/products" element={<ProductsTable />} />
             <Route path="/banners" element={<BannerUpdate />} />
+            <Route path="/sales" element={<PaymentTable/>}/>
           </Routes>
         </main>
       </div>

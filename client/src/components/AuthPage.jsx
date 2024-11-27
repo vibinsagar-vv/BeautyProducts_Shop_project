@@ -33,23 +33,25 @@ export default function AuthPage() {
     e.preventDefault();
     try {
       console.log("error");
-        if ((signupData.password === signupData.confirmPassword)&& Object.keys(error).length==0) {
-          const resSignUpData = await AXIOS.post(
-            "http://localhost:8200/user/generate-otp",
-            signupData
-          );
-          localStorage.setItem("token", resSignUpData.data.data);
-          localStorage.setItem("verification", resSignUpData.data.Otp);
-          sessionStorage.setItem("targetTime", resSignUpData.data.time);
+      if (
+        signupData.password === signupData.confirmPassword &&
+        Object.keys(error).length == 0
+      ) {
+        const resSignUpData = await AXIOS.post(
+          "http://localhost:8200/user/generate-otp",
+          signupData
+        );
+        localStorage.setItem("token", resSignUpData.data.data);
+        localStorage.setItem("verification", resSignUpData.data.Otp);
+        sessionStorage.setItem("targetTime", resSignUpData.data.time);
 
-          if (resSignUpData.data.success) {
-            toast.success(resSignUpData.data.message);
-            navigate("/otp-verification");
-          } else {
-            toast.error(resSignUpData.data.message);
-          }
+        if (resSignUpData.data.success) {
+          toast.success(resSignUpData.data.message);
+          navigate("/otp-verification");
+        } else {
+          toast.error(resSignUpData.data.message);
         }
-      
+      }
     } catch (err) {
       console.log(err);
     }
@@ -73,7 +75,9 @@ export default function AuthPage() {
 
   const SignInHandleSubmit = async (e) => {
     e.preventDefault();
-    try {
+    console.log(SignIndata);
+    
+      try {
       const resData = await AXIOS.post(
         "http://localhost:8200/user/login",
         SignIndata
@@ -162,7 +166,9 @@ export default function AuthPage() {
                           !handlePasswordRegEx(e.target.value)[0]
                             ? setError({
                                 ...error,
-                                Password: handlePasswordRegEx(e.target.value)[1],
+                                Password: handlePasswordRegEx(
+                                  e.target.value
+                                )[1],
                               })
                             : setError(({ Password, ...rest }) => rest)
                         }
@@ -176,10 +182,10 @@ export default function AuthPage() {
                         Password
                       </label>
                       {error.Password && (
-                      <p className="text-xs text-black ml-4 py-2">
-                        *{error.Password}
-                      </p>
-                    )}
+                        <p className="text-xs text-black ml-4 py-2">
+                          *{error.Password}
+                        </p>
+                      )}
                       <div
                         className="cursor-pointer absolute right-1 top-2 flex items-center text-xl text-pink-200"
                         onClick={() => SetShowSignInPassword((prev) => !prev)}
@@ -422,14 +428,6 @@ export default function AuthPage() {
                         id="password"
                         value={SignIndata.password}
                         onChange={SignInHandleChange}
-                        onBlur={(e) =>
-                          !handlePasswordRegEx(e.target.value)[0]
-                            ? setError({
-                                ...error,
-                                Password: handlePasswordRegEx(e.target.value)[1],
-                              })
-                            : setError(({ Password, ...rest }) => rest)
-                        }
                         className="block ring-0 border-0 px-2.5 pb-0.5 pt-4 w-full text-sm text-gray-900 bg-transparent border-b-[3px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-accent-dark peer"
                         placeholder=" "
                       />
@@ -439,11 +437,7 @@ export default function AuthPage() {
                       >
                         Password
                       </label>
-                      {error.Password && (
-                      <p className="text-xs text-red-600 ml-4 py-2">
-                        *{error.Password}
-                      </p>
-                    )}
+
                       <div
                         className="cursor-pointer absolute right-1 top-2 flex items-center text-xl text-textColor-light"
                         onClick={() => SetShowSignInPassword((prev) => !prev)}
@@ -516,6 +510,14 @@ export default function AuthPage() {
                       id="email"
                       value={signupData.email}
                       onChange={signUpHandleChange}
+                      onBlur={(e) =>
+                        !handleEmailRegEx(e.target.value)[0]
+                          ? setError({
+                              ...error,
+                              email: handleEmailRegEx(e.target.value)[1],
+                            })
+                          : setError(({ email, ...rest }) => rest)
+                      }
                       required
                       className="block ring-0 border-0 px-2.5 pb-0.5 pt-4 w-full text-sm text-gray-900 bg-transparent border-b-[3px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-accent-dark peer"
                       placeholder=" "
@@ -526,6 +528,11 @@ export default function AuthPage() {
                     >
                       Email
                     </label>
+                    {error.email && (
+                      <p className="text-xs text-red-600 ml-4 py-2">
+                        *{error.email}
+                      </p>
+                    )}
                   </div>
                   <div className="relative">
                     <input
@@ -534,6 +541,14 @@ export default function AuthPage() {
                       id="password"
                       value={signupData.password}
                       onChange={signUpHandleChange}
+                      onBlur={(e) =>
+                        !handlePasswordRegEx(e.target.value)[0]
+                          ? setError({
+                              ...error,
+                              password: handlePasswordRegEx(e.target.value)[1],
+                            })
+                          : setError(({ password, ...rest }) => rest)
+                      }
                       required
                       className="block ring-0 border-0 px-2.5 pb-0.5 pt-4 w-full text-sm text-gray-900 bg-transparent border-b-[3px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-accent-dark peer"
                       placeholder=" "
@@ -544,6 +559,11 @@ export default function AuthPage() {
                     >
                       Password
                     </label>
+                    {error.password && (
+                      <p className="text-xs text-red-600 ml-4 py-2">
+                        *{error.password}
+                      </p>
+                    )}
                     <div
                       className="cursor-pointer absolute right-1 top-2 flex items-center text-xl"
                       onClick={() => setShowSignUpPassword(!showSignUpPassword)}
@@ -560,6 +580,16 @@ export default function AuthPage() {
                       id="confirmPassword"
                       value={signupData.confirmPassword}
                       onChange={signUpHandleChange}
+                      onBlur={(e) =>
+                        !handlePasswordRegEx(e.target.value)[0]
+                          ? setError({
+                              ...error,
+                              confirmPassword: handlePasswordRegEx(
+                                e.target.value
+                              )[1],
+                            })
+                          : setError(({ confirmPassword, ...rest }) => rest)
+                      }
                       required
                       className="block ring-0 border-0 px-2.5 pb-0.5 pt-4 w-full text-sm text-gray-900 bg-transparent border-b-[3px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-accent-dark peer"
                       placeholder=" "
@@ -570,6 +600,11 @@ export default function AuthPage() {
                     >
                       Confirm Password
                     </label>
+                    {error.confirmPassword && (
+                      <p className="text-xs text-red-600 ml-4 py-2">
+                        *{error.confirmPassword}
+                      </p>
+                    )}
                     <div
                       className="cursor-pointer absolute right-1 top-2 flex items-center text-xl"
                       onClick={() =>

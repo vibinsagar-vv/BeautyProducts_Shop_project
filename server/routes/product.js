@@ -27,6 +27,9 @@ const ProductModel = require('../models/productModel');
 const userModel = require('../models/userModel');
 const AddToCartModel = require('../models/cartProduct');
 const getProductCntrl = require('../controller/products/getProduct');
+const SetOrder = require('../controller/Orders/setOrder');
+const { VerifyOrder, PlaceOrder } = require('../controller/Orders/verifyOrder');
+const FetchOrders = require('../controller/Orders/fetchOrders');
 
 
 const upload=multer({storage:Mulstorage})
@@ -58,94 +61,8 @@ const razorpay = new Razorpay({
     key_secret: process.env.RAZORPAY_SECRET,
   });
   
-  router.post("/order", async (req, res) => {
-    try {
-      const { amount, currency, receipt,products,user,quantity } = req.body;
-      console.log("60",amount,currency,receipt,products,user,quantity);
-      
-      const options = {
-        amount: amount, // Amount should be in currency subunits
-        currency: currency,
-        receipt: receipt,
-      };
-  
-      const order = await razorpay.orders.create(options);
-      if (!order) return res.status(500).send("Order creation failed");
-  
-      res.json(order);
-    } catch (err) {
-      console.error("Order creation error:", err);
-      res.status(500).send("Error in order creation");
-    }
-  });
-  
-  router.post("/order_validate", async (req, res,next) => {
-    try {
-      console.log("80",req.body);
-      
-      const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body.data;
-      const expectedSignature = crypto
-        .createHmac("sha256", process.env.RAZORPAY_SECRET)
-        .update(`${razorpay_order_id}|${razorpay_payment_id}`)
-        .digest("hex");
-  
-      if (expectedSignature === razorpay_signature) {
-        next()
-      } else {
-        return res.status(400).json({ msg: "Transaction is not legit!" });
-      }
-    } catch (err) {
-      console.error("Payment validation error:", err);
-      res.status(500).send("Error in payment validation");
-    }
-  },async(req,res,next)=>{
-    try{
-      const {user,products,amount,quantity,from}=req.body;
-      const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =req.body.data;
-      if(from=='buyNow'){
-        products[0].Quantity = quantity
-      }
-      const OrderData = {
-        userid:user._id,
-        address:{...user.address},
-    mobilenumber:user.phoneNumber,
-    order_id:razorpay_order_id,
-    payment_id:razorpay_payment_id,
-    amount:(amount/100),
-    order_status:'Order placed',
-    products:products,
-      }
-    
-      const PlacedOrder = await OrderDetialsModel.create({...OrderData})
-      console.log("117",PlacedOrder.products);
-      if(PlacedOrder){
-        products.forEach(async(item) => {
-          let TotalSaleQty;
-          const newQuantity = item.ProductId.quantity-item.Quantity;
-          if(item.ProductId.TotalSaleQuantity){
-            TotalSaleQty = item.ProductId.TotalSaleQuantity+item.Quantity
-          }else{
-            TotalSaleQty = item.Quantity
-          }
-          await ProductModel.updateOne({_id:item.ProductId._id},{quantity:newQuantity,TotalSaleQuantity:TotalSaleQty})
-          if(newQuantity<=0){
-            await ProductModel.updateOne({_id:item.ProductId._id},{freez:true})
-          }
-        });
-        if(from=='cart'){
-          await AddToCartModel.findOneAndDelete({UserId:user._id})
-        }
-      }
-      res.json({
-        message:"payment Sucess",
-        success:true,
-        error:false
-    })
-    }catch(error){
-      //console.log(err); 
-      return res.status(500).send("Error");
-
-    }
-  });
+  router.post("/order",SetOrder);
+  router.post("/getOrders",authToken,AuthAdmin,FetchOrders)
+  router.post("/order_validate",VerifyOrder,PlaceOrder);
 
 module.exports = router

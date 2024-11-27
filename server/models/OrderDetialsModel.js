@@ -1,9 +1,13 @@
 const mongoose = require('mongoose')
 
 const OrderDetialSchema = new mongoose.Schema({
-    userid:String,
+    userid:{
+        type:String,
+        ref:"user"
+    },
     address:{},
     mobilenumber:String,
+    email:String,
     order_id:String,
     payment_id:String,
     amount:Number,

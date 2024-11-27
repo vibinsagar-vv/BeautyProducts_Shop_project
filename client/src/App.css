@@ -79,6 +79,11 @@
     background-size: cover;
     background-repeat: no-repeat;
 }
+.bannerBackground{
+    background-image: url('./assest/Background/BannerpatternBackground.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
 #chk{
 	display: none;
 }

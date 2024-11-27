@@ -6,8 +6,7 @@ const { handleEmailRegEx, handlePasswordRegEx } = require('../../common/handleRe
 async function userSignInCntrl(req,res){
 try{
     const {email,password} = req.body
-
-    const error={}
+    console.log(email,password);
 
    
     if(!email){
@@ -19,21 +18,7 @@ try{
         
     }
 
-    if(!handleEmailRegEx(email)[0]){
-        error = {...error,
-            Email: handleEmailRegEx(email)[1],}}
-    if(!handlePasswordRegEx(password)[0]){
-        error = {...error,
-            Password: handlePasswordRegEx(password)[1],}}
-    
-    if(Object.keys(error).length>0){
-        return res.json({
-            message:"Login Unsuccessfull",
-            errordata:error,
-            success:false,
-            error:true
-        })
-    }
+
 
     const user = await userModel.findOne({email})
     if(!user){
