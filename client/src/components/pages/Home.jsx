@@ -220,7 +220,7 @@ export default function Home() {
                             .map((product) => (
                               <img
                                 key={product._id} // Use a unique key for each product
-                                className="w-40 z-10 md:w-60 object-contain h-40 md:h-60 flex"
+                                className="w-40 z-10 md:w-60 object-contain h-40 md:h-60 flex mix-blend-multiply"
                                 src={`https://zenglow-server.onrender.com/ProductImages/${product.productImage[0]}`}
                                 alt={product.name || "Product Image"} // Provide an accessible alt text
                               />
@@ -273,7 +273,7 @@ export default function Home() {
                             .map((product) => (
                               <img
                                 key={product._id} // Use a unique key for each product
-                                className="w-40 z-10 md:w-60 object-contain h-40 md:h-60 flex"
+                                className="w-40 z-10 md:w-60 object-contain h-40 md:h-60 flex mix-blend-multiply"
                                 src={`https://zenglow-server.onrender.com/ProductImages/${product.productImage[0]}`}
                                 alt={product.name || "Product Image"} // Provide an accessible alt text
                               />
