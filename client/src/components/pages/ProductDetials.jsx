@@ -111,6 +111,8 @@ export default function ProductDetials() {
               <div className="h-full">
                 <div className="flex gap-2 lg:flex-col overflow-scroll scrollbar-none h-full">
                   {data.productImage.map((image, index) => {
+                    console.log(`https://zenglow-server.onrender.com/ProductImages/${image}`);
+                    
                     return (
                       <div
                         className="h-20 w-20 bg-white border-2 hover:border-accent-light rounded p-1"

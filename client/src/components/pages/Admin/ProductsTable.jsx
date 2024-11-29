@@ -13,6 +13,7 @@ import AdminEditProduct from "../../AdminEditProduct";
 import noImage from "../../../assest/logo/no-photo.png";
 import { IoIosCloseCircle } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import { MdDelete } from "react-icons/md";
 
 // Global Filter component for search
 const GlobalFilter = ({ globalFilter, setGlobalFilter }) => (
@@ -134,20 +135,12 @@ const ProductsTable = () => {
       {
         Header: "Actions",
         Cell: ({ row }) => (
-          <div className="flex space-x-2">
-            <button
-              onClick={() => {
-                // console.log("editing",row.original);
-              }}
-              className="text-blue-600 hover:underline"
-            >
-              Edit
-            </button>
+          <div className="flex justify-center">
             <button
               onClick={() => handleDelete(row.original._id)}
-              className="text-red-600 hover:underline"
+              className="text-red-600 text-2xl hover:text-red-800"
             >
-              Delete
+              <span><MdDelete/></span>
             </button>
           </div>
         ),

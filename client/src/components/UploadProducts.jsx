@@ -97,8 +97,8 @@ export default function UploadProducts({ onClose, fetchData }) {
   };
 
   return (
-    <div className="fixed bg-pink-400 bg-opacity-50 w-full h-full top-0 left-0 right-0 bottom-0 flex justify-center items-center">
-      <div className="bg-white shadow-md shadow-accent-dark hover:shadow-accent-dark hover:shadow-lg p-4 pb-10 rounded w-full max-w-2xl h-full max-h-[80%] overflow-hidden">
+    <div className="fixed bg-pink-400 bg-opacity-50 w-full h-full top-0 left-0 right-0 bottom-0 flex justify-center items-center px-2 sm:px-0">
+      <div className="bg-white shadow-md shadow-accent-dark hover:shadow-accent-dark hover:shadow-lg sm:p-4 p-2 mt-[75px] md:mt-0 pb-10 rounded w-full max-w-2xl h-full max-h-[90%] md:max-h-[80%] scrollbar-none overflow-hidden">
         <div className="flex justify-between items-center pb-3">
           <h2 className="font-bold text-lg">Upload Product</h2>
           <div
@@ -127,7 +127,7 @@ export default function UploadProducts({ onClose, fetchData }) {
             />
             <label
               htmlFor="ProductName"
-              className="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-1   origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+              className="absolute sm:text-base text-xs text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-1   origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
             >
               Product Name
             </label>
@@ -146,7 +146,7 @@ export default function UploadProducts({ onClose, fetchData }) {
             />
             <label
               htmlFor="ProductBrand"
-              className="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-1 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+              className="absolute sm:text-base text-xs text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-1 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
             >
               Brand Name
             </label>
@@ -158,26 +158,26 @@ export default function UploadProducts({ onClose, fetchData }) {
                 name="category"
                 id="category"
                 value={data.category}
-                className="block ring-0 border-0 px-2.5 pb-0.5 w-full text-base text-gray-500 focus:text-accent-dark bg-transparent border-b-[3px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-accent-dark peer"
+                className="block ring-0 border-0 px-2.5 pb-0.5 w-full sm:text-base text-xs text-gray-500 focus:text-accent-dark bg-transparent border-b-[3px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-accent-dark peer"
                 placeholder=" "
                 required
                 onChange={handleOnChange}
               >
                 <label
                   htmlFor="category"
-                  className="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-1 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+                  className="absolute sm:text-base text-xs text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-1 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
                 >
                   Category
                 </label>
 
-                <option className="text-base text-gray-500" value="">
+                <option className="sm:text-base text-xs text-gray-500" value="">
                   Select Category
                 </option>
 
                 {productCategory.map((product, index) => {
                   return (
                     <option
-                      className="text-base text-gray-500"
+                      className="sm:text-base text-xs text-gray-500"
                       value={product.value}
                       key={product.value + index}
                       onChange={handleOnChange}
@@ -193,14 +193,14 @@ export default function UploadProducts({ onClose, fetchData }) {
                 name="subcategory"
                 id="subcategory"
                 value={data.subcategory}
-                className="block ring-0 border-0 px-2.5 pb-0.5 pt-4 w-full text-base text-gray-500 focus:text-accent-dark bg-transparent border-b-[3px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-accent-dark peer"
+                className="block ring-0 border-0 px-2.5 pb-0.5 pt-4 w-full sm:text-base text-xs text-gray-500 focus:text-accent-dark bg-transparent border-b-[3px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-accent-dark peer"
                 placeholder=" "
                 required
                 onChange={handleOnChange}
               >
                 <label
                   htmlFor="subcategory"
-                  className="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-1 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+                  className="absolute sm:text-base text-xs text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-1 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
                 >
                   Sub Category
                 </label>
@@ -251,8 +251,8 @@ export default function UploadProducts({ onClose, fetchData }) {
               </div>
             </div>
           </label>
-          <div className="flex">
-            <div className="flex max-w-xl items-center gap-2 overflow-x-scroll scrollbar-none py-5">
+          <div className="flex max-w-[310px] sm:max-w-xl">
+            <div className="flex max-w-xl px-2 gap-2 overflow-x-scroll scrollbar-none py-5">
               {imagePreviews[0] ? (
                 imagePreviews.map((product, index) => {
                   return (
@@ -303,7 +303,7 @@ export default function UploadProducts({ onClose, fetchData }) {
             />
             <label
               htmlFor="price"
-              className="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-1 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+              className="absolute sm:text-base text-xs text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-1 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
             >
               Price
             </label>
@@ -322,7 +322,7 @@ export default function UploadProducts({ onClose, fetchData }) {
             />
             <label
               htmlFor="sellingPrice"
-              className="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-1 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+              className="absolute sm:text-base text-xs text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-1 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
             >
               Selling Price
             </label>
@@ -340,7 +340,7 @@ export default function UploadProducts({ onClose, fetchData }) {
             />
             <label
               htmlFor="quantity"
-              className="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-1 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+              className="absolute sm:text-base text-xs text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-1 origin-[0] peer-focus:text-accent-dark px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
             >
               Quantity
             </label>
