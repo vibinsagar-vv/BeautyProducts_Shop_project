@@ -108,7 +108,7 @@ export default function VerticalCardProduct({ category, heading }) {
                 <img
                   src={`https://zenglow-server.onrender.com/ProductImages/${product.productImage[0]}`}
                   alt={product?.ProductName}
-                  className="p-4 w-full h-full transform object-scale-down hover:scale-110 transition-transform mix-blend-multiply duration-500 ease-in-out"
+                  className="p-4 w-full h-full transform object-scale-down hover:scale-110 transition-transform duration-500 ease-in-out"
                 />
               ) : (
                 <img
