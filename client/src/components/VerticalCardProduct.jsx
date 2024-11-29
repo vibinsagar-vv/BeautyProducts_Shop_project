@@ -95,7 +95,7 @@ export default function VerticalCardProduct({ category, heading }) {
   return (
     <div className="container mx-auto md:px-4 my-6">
       <Heading text={heading} />
-      <div className="flex gap-4 md:gap-10 lg:gap-12 scrollbar-none overflow-x-auto  md:flex-wrap sm:justify-between md:justify-center pb-16">
+      <div className="flex px-4 gap-4 md:gap-10 lg:gap-12 scrollbar-none overflow-x-auto  md:flex-wrap sm:justify-between md:justify-center pb-16">
         {data.map((product, index) => (
           <Link
             to={`/product/${product?._id}`}

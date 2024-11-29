@@ -157,7 +157,7 @@ export default function Home() {
           </Link>
         </div>
 
-        <div className="px-10">
+        <div className="md:px-10 px-4">
           {category.map((name, index) => {
             // if(name=="makeup"||name=="whiteningcreams"){
             return (
@@ -179,7 +179,7 @@ export default function Home() {
                 )} */}
                 {index % 2 == 0 && (
                   <div>
-                    <div className="w-full mt-4 flex ">
+                    <div className="w-full mt-4 flex justify-center">
                       <div
                         className={`md:w-full bannerBackground md:h-80 ${
                           evenColorClasses[
@@ -232,7 +232,7 @@ export default function Home() {
                 )}
                 {index % 2 !== 0 && (
                   <div>
-                    <div className="w-full mt-4 flex ">
+                    <div className="w-full mt-4 flex justify-center">
                       <div
                         className={`md:w-full bannerBackground md:h-80 ${
                           oddColorClasses[
