@@ -42,7 +42,7 @@ const ProductsTable = () => {
     if (localStorage.getItem("token")) {
       try {
         const resData = await axios.get(
-          "http://localhost:8200/products/get-products"
+          "https://zenglow-server.onrender.com/products/get-products"
         );
         setAllProducts(resData?.data.data || []);
       } catch (error) {
@@ -54,7 +54,7 @@ const ProductsTable = () => {
   const handleFreez = async () => {
     try {
       const resData = await axios.post(
-        "http://localhost:8200/products/freez_product",
+        "https://zenglow-server.onrender.com/products/freez_product",
         {
           id: editDetials._id,
           freez: editDetials?.freez ? true : false,
@@ -62,7 +62,7 @@ const ProductsTable = () => {
       );
       if (resData.data.success) {
         SetOpenEdit(false);
-        fetchProducts()
+        fetchProducts();
       }
     } catch (error) {
       console.log(error);
@@ -83,7 +83,7 @@ const ProductsTable = () => {
           <img
             src={
               value[0]
-                ? `http://localhost:8200/ProductImages/${value[0]}`
+                ? `https://zenglow-server.onrender.com/ProductImages/${value[0]}`
                 : noImage
             }
             alt="Product"
@@ -122,10 +122,12 @@ const ProductsTable = () => {
         Header: "Status",
         accessor: "freez",
         Cell: ({ value }) => {
-          if(value){
-            return <span className="text-red-600 font-semibold">freez</span>
-          }else{
-            return <span className="text-lime-600 font-semibold">Un Freez</span>
+          if (value) {
+            return <span className="text-red-600 font-semibold">freez</span>;
+          } else {
+            return (
+              <span className="text-lime-600 font-semibold">Un Freez</span>
+            );
           }
         },
       },
@@ -193,7 +195,7 @@ const ProductsTable = () => {
 
   const handleDelete = async (productId) => {
     const resData = await axios.post(
-      "http://localhost:8200/products/delete-product",
+      "https://zenglow-server.onrender.com/products/delete-product",
       { _id: productId },
       { headers: { token: localStorage.getItem("token") } }
     );

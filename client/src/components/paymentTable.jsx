@@ -41,7 +41,7 @@ const PaymentTable = () => {
   const fetchOrders = async () => {
     try {
       const resData = await axios.post(
-        "http://localhost:8200/products/getOrders",
+        "https://zenglow-server.onrender.com/products/getOrders",
         {},
         { headers: header }
       );
@@ -56,7 +56,7 @@ const PaymentTable = () => {
   const handleStatus = async (id, status) => {
     try {
       const resData = await axios.post(
-        "http://localhost:8200/products/setStatus",
+        "https://zenglow-server.onrender.com/products/setStatus",
         { id, status },
         { headers: header }
       );
@@ -148,7 +148,7 @@ const PaymentTable = () => {
   const handleDelete = async (userId) => {
     console.log("Deleting user with ID:", userId);
     const ResData = await axios.post(
-      "http://localhost:8200/user/delete-user",
+      "https://zenglow-server.onrender.com/user/delete-user",
       { _id: userId },
       { headers: header }
     );
@@ -162,30 +162,37 @@ const PaymentTable = () => {
 
   return (
     <div className="p-4">
-      <div><p className="text-4xl font-bold text-accent-light mb-10">Order Page</p></div>
+      <div>
+        <p className="text-4xl font-bold text-accent-light mb-10">Order Page</p>
+      </div>
       <div className="mb-10 grid grid-cols-4 bg-slate-300">
-      {["All", "Order Placed", "Shipped", "Delivered"].map((status, index) => (
-        <p
-          key={index}
-          className={`text-center hover:bg-slate-600 hover:text-white py-3 cursor-pointer ${
-            activeTab === index ? "bg-accent-light text-white" : "bg-slate-300"
-          }`}
-          onClick={() => {handleClick(index)
-            if(status=="All"){
-              setGlobalFilter("")
-            }else if(status=="Order Placed"){
-              setGlobalFilter("Order placed")
-            }else if(status=="Shipped"){
-              setGlobalFilter("Shipped")
-            }else if(status=="Delivered"){
-              setGlobalFilter("Delivered")
-            }
-          }}
-        >
-          {status}
-        </p>
-      ))}
-    </div>
+        {["All", "Order Placed", "Shipped", "Delivered"].map(
+          (status, index) => (
+            <p
+              key={index}
+              className={`text-center hover:bg-slate-600 hover:text-white py-3 cursor-pointer ${
+                activeTab === index
+                  ? "bg-accent-light text-white"
+                  : "bg-slate-300"
+              }`}
+              onClick={() => {
+                handleClick(index);
+                if (status == "All") {
+                  setGlobalFilter("");
+                } else if (status == "Order Placed") {
+                  setGlobalFilter("Order placed");
+                } else if (status == "Shipped") {
+                  setGlobalFilter("Shipped");
+                } else if (status == "Delivered") {
+                  setGlobalFilter("Delivered");
+                }
+              }}
+            >
+              {status}
+            </p>
+          )
+        )}
+      </div>
       {/* Search Input */}
       <div>
         {/* Entries per page selector */}
@@ -341,8 +348,7 @@ const PaymentTable = () => {
                 {`${updateUserDetials?.address?.house},${updateUserDetials?.address?.street},${updateUserDetials?.address?.city},${updateUserDetials?.address?.district},${updateUserDetials?.address?.state},${updateUserDetials?.address?.country},${updateUserDetials?.address?.pincode}`}
               </p>
               <p>
-                DATE :{" "}
-                {new Date(updateUserDetials?.updatedAt).toDateString()}
+                DATE : {new Date(updateUserDetials?.updatedAt).toDateString()}
               </p>
               <div className="border-2 my-4 p-4">
                 {updateUserDetials?.products.map((product, index) => {
@@ -357,9 +363,11 @@ const PaymentTable = () => {
                   );
                 })}
               </div>
-              {updateUserDetials?.order_status == "Delivered" &&(
+              {updateUserDetials?.order_status == "Delivered" && (
                 <div>
-                  <span className="text-red-600 text-lg font-semibold">Products Delivered To Customer.</span>
+                  <span className="text-red-600 text-lg font-semibold">
+                    Products Delivered To Customer.
+                  </span>
                 </div>
               )}
 

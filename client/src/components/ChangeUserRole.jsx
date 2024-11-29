@@ -23,7 +23,7 @@ export default function ChangeUserRole({
   };
   const updateUserRole = async () => {
     const resData = await AXIOS.post(
-      "http://localhost:8200/user/update-user",
+      "https://zenglow-server.onrender.com/user/update-user",
       { role: userRole, userid: userid },
       { headers: header }
     );

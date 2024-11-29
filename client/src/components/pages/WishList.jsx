@@ -12,7 +12,7 @@ import { FaHeart, FaRegHeart } from "react-icons/fa"; // Heart icons
 import Heading from "../../helpers/Heading";
 
 export default function WishList() {
-  const nav =useNavigate()
+  const nav = useNavigate();
   const [data, setData] = useState([]);
   const params = useParams();
   const [wishlist, SetWishlist] = useState([]);
@@ -22,7 +22,7 @@ export default function WishList() {
   const fetchWishlist = async () => {
     try {
       const response = await AXIOS.get(
-        "http://localhost:8200/user/get-wishlist",
+        "https://zenglow-server.onrender.com/user/get-wishlist",
         { headers: { token: localStorage.getItem("token") } }
       );
       //   console.log("wishList",response);
@@ -46,7 +46,7 @@ export default function WishList() {
     try {
       if (wishlist.includes(productId)) {
         await AXIOS.post(
-          "http://localhost:8200/user/remove-from-wishlist",
+          "https://zenglow-server.onrender.com/user/remove-from-wishlist",
           {
             productId,
           },
@@ -55,7 +55,7 @@ export default function WishList() {
         SetWishlist(wishlist.filter((id) => id !== productId));
       } else {
         await AXIOS.post(
-          "http://localhost:8200/user/add-to-wishlist",
+          "https://zenglow-server.onrender.com/user/add-to-wishlist",
           {
             productId,
           },
@@ -95,11 +95,16 @@ export default function WishList() {
       </div>
       {data?.length == 0 ? (
         <div className="min-h-[calc(100vh-300px)] flex flex-col items-center w-full">
-          <p className="bg-white py-5 text-4xl font-bold">Your Wishlist is Empty!</p>
-          <p className="text-base font-semibold">
-                Add products to Wishlist.
-              </p>
-          <img onClick={() => nav("/")} className="w-20 h-20 m-16" src={wishlistImage} alt="image" />
+          <p className="bg-white py-5 text-4xl font-bold">
+            Your Wishlist is Empty!
+          </p>
+          <p className="text-base font-semibold">Add products to Wishlist.</p>
+          <img
+            onClick={() => nav("/")}
+            className="w-20 h-20 m-16"
+            src={wishlistImage}
+            alt="image"
+          />
         </div>
       ) : (
         <div className="md:max-w-7xl p-8 justify-center md:justify-start flex flex-wrap scrollbar-none gap-6 mx-auto md:gap-x-36 gap-y-10 lg:gap-y-20 max-md:gap-20 py-4 overflow-y-scroll">
@@ -115,7 +120,7 @@ export default function WishList() {
                 <div className="relative h-48 md:h-60 lg:max-h-72 bg-primary-light flex items-center justify-center overflow-hidden">
                   {product.productImage[0] ? (
                     <img
-                      src={`http://localhost:8200/ProductImages/${product.productImage[0]}`}
+                      src={`https://zenglow-server.onrender.com/ProductImages/${product.productImage[0]}`}
                       alt={product?.ProductName}
                       className="p-4 w-full h-full transform object-scale-down hover:scale-110 transition-transform duration-500 ease-in-out"
                     />

@@ -22,7 +22,7 @@ export default function OtpInput({ length = 4 }) {
       const { email, name } = decode;
       console.log(email, name);
       const resultdata = await AXIOS.post(
-        "http://localhost:8200/user/resend-otp",
+        "https://zenglow-server.onrender.com/user/resend-otp",
         { email: email, name: name }
       );
       localStorage.setItem("verifiction", resultdata.data.Otp);
@@ -127,11 +127,14 @@ export default function OtpInput({ length = 4 }) {
     try {
       e.preventDefault();
       const newotp = otp.join("");
-      const resData = await AXIOS.post("http://localhost:8200/user/sign-up", {
-        userotp: newotp,
-        token: localStorage.getItem("token"),
-        VerifyOtp: localStorage.getItem("verification"),
-      });
+      const resData = await AXIOS.post(
+        "https://zenglow-server.onrender.com/user/sign-up",
+        {
+          userotp: newotp,
+          token: localStorage.getItem("token"),
+          VerifyOtp: localStorage.getItem("verification"),
+        }
+      );
       if (resData.data.success) {
         toast.success(resData.data.message);
         nav("/login");

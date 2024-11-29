@@ -29,17 +29,20 @@ export default function UploadBanner({ onClose, fetchData }) {
   const handleDeleteBannerImage = async (image) => {
     SetBannerData({ ...bannerData, BannerImage: "" });
 
-    AXIOS.post("http://localhost:8200/products/delete-banner-image", {
-      image: product,
-      imageName: bannerData?.ProductName || "ProductName",
-    });
+    AXIOS.post(
+      "https://zenglow-server.onrender.com/products/delete-banner-image",
+      {
+        image: product,
+        imageName: bannerData?.ProductName || "ProductName",
+      }
+    );
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("data", bannerData);
     const resData = await AXIOS.post(
-      "http://localhost:8200/products/upload-banner",
+      "https://zenglow-server.onrender.com/products/upload-banner",
       bannerData,
       { headers: { token: localStorage.getItem("token") } }
     );
@@ -132,7 +135,7 @@ export default function UploadBanner({ onClose, fetchData }) {
                   <div className=" w-full">
                     <img
                       src={
-                        `http://localhost:8200/Banners/` +
+                        `https://zenglow-server.onrender.com/Banners/` +
                         bannerData.BannerImage
                       }
                       width={600}

@@ -69,7 +69,7 @@ export default function ProfilePage() {
                   {user?.profilePic ? (
                     <img
                       className="w-20 h-20 rounded-full"
-                      src={`http://localhost:8200/profilePhotos/${user.profilePic}`}
+                      src={`https://zenglow-server.onrender.com/profilePhotos/${user.profilePic}`}
                       alt=""
                     />
                   ) : (

@@ -76,7 +76,7 @@ export default function UpdateProfilePage() {
     // setLoading(true);
     try {
       const resData = await axios.post(
-        `http://localhost:8200/user/update-profile`,
+        `https://zenglow-server.onrender.com/user/update-profile`,
         { user },
         { headers: { token: localStorage.getItem("token") } }
       );

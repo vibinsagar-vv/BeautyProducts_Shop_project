@@ -23,7 +23,7 @@ export default function SearchProducts() {
   const fetchWishlist = async () => {
     try {
       const response = await AXIOS.get(
-        "http://localhost:8200/user/get-wishlist",
+        "https://zenglow-server.onrender.com/user/get-wishlist",
         { headers: { token: localStorage.getItem("token") } }
       );
       console.log(response);
@@ -47,7 +47,7 @@ export default function SearchProducts() {
     try {
       if (wishlist.includes(productId)) {
         await AXIOS.post(
-          "http://localhost:8200/user/remove-from-wishlist",
+          "https://zenglow-server.onrender.com/user/remove-from-wishlist",
           {
             productId,
           },
@@ -56,7 +56,7 @@ export default function SearchProducts() {
         SetWishlist(wishlist.filter((id) => id !== productId));
       } else {
         await AXIOS.post(
-          "http://localhost:8200/user/add-to-wishlist",
+          "https://zenglow-server.onrender.com/user/add-to-wishlist",
           {
             productId,
           },
@@ -72,11 +72,10 @@ export default function SearchProducts() {
   const fetchProduct = async () => {
     if (localStorage.getItem("token")) {
       const resData = await AXIOS.get(
-        "http://localhost:8200/products/get-products"
+        "https://zenglow-server.onrender.com/products/get-products"
       );
       SetData(resData?.data.data || []);
-      console.log(data,"searchdata");
-      
+      console.log(data, "searchdata");
     }
   };
 
@@ -120,7 +119,7 @@ export default function SearchProducts() {
                 <div className="relative h-48 md:h-60 lg:max-h-72 bg-primary-light flex items-center justify-center overflow-hidden">
                   {product.productImage[0] ? (
                     <img
-                      src={`http://localhost:8200/ProductImages/${product.productImage[0]}`}
+                      src={`https://zenglow-server.onrender.com/ProductImages/${product.productImage[0]}`}
                       alt={product?.ProductName}
                       className="p-4 w-full h-full transform object-scale-down hover:scale-110 transition-transform duration-500 ease-in-out"
                     />

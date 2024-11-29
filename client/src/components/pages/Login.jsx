@@ -27,7 +27,7 @@ export default function Login() {
     e.preventDefault();
     try {
       const resData = await AXIOS.post(
-        "http://localhost:8200/user/login",
+        "https://zenglow-server.onrender.com/user/login",
         data
       );
 

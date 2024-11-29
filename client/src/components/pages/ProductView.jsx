@@ -40,7 +40,7 @@ export default function ProductView() {
 
   const fetchProductDetail = async () => {
     const resData = await AXIOS.post(
-      "http://localhost:8200/products/product-details",
+      "https://zenglow-server.onrender.com/products/product-details",
       { productId: params?.id }
     );
     setData(resData.data.data);
@@ -65,7 +65,7 @@ export default function ProductView() {
             <div className="flex flex-col lg:flex-row-reverse gap-4 mb-10 lg:w-1/2">
               <div className="h-[400px] w-full lg:h-96 lg:w-96 bg-white border border-[#B76E79] p-4 rounded-lg shadow-md">
                 <img
-                  src={`http://localhost:8200/ProductImages/${activeImage}`}
+                  src={`https://zenglow-server.onrender.com/ProductImages/${activeImage}`}
                   alt={data?.ProductName}
                   className="h-full w-full object-contain"
                 />
@@ -79,7 +79,7 @@ export default function ProductView() {
                       onClick={() => handleMouseEnterPrdct(image)}
                     >
                       <img
-                        src={`http://localhost:8200/ProductImages/${image}`}
+                        src={`https://zenglow-server.onrender.com/ProductImages/${image}`}
                         alt=""
                         className="w-full h-full object-contain"
                       />

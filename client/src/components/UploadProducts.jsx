@@ -53,10 +53,13 @@ export default function UploadProducts({ onClose, fetchData }) {
     newProductImages.splice(index, 1);
     SetData({ ...data, productImage: newProductImages });
 
-    AXIOS.post("http://localhost:8200/products/delete-product-image", {
-      image: product,
-      imageName: data?.ProductName || "ProductName",
-    });
+    AXIOS.post(
+      "https://zenglow-server.onrender.com/products/delete-product-image",
+      {
+        image: product,
+        imageName: data?.ProductName || "ProductName",
+      }
+    );
   };
 
   const handleSubmit = async (e) => {
@@ -74,7 +77,7 @@ export default function UploadProducts({ onClose, fetchData }) {
     console.log(formData.getAll("images"));
 
     const resData = await AXIOS.post(
-      "http://localhost:8200/products/upload-product",
+      "https://zenglow-server.onrender.com/products/upload-product",
       formData,
       {
         headers: {

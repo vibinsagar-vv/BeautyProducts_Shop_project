@@ -43,7 +43,7 @@ export default function OrderDetail() {
               <div className="p-4 flex items-center">
                 <div className="flex items-center justify-center w-[105px] h-[105px] md:w-40 md:h-40 mr-2">
                   <img
-                    src={`http://localhost:8200/ProductImages/${product?.ProductId?.productImage[0]}`}
+                    src={`https://zenglow-server.onrender.com/ProductImages/${product?.ProductId?.productImage[0]}`}
                     alt="Product"
                     className="w-full h-full object-scale-down"
                   />

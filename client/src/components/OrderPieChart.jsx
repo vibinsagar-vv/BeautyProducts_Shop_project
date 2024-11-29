@@ -16,14 +16,22 @@ const SalesPieChart = () => {
     const fetchSalesData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8200/user/orders/get-pie-chart",
+          "https://zenglow-server.onrender.com/user/orders/get-pie-chart",
           { headers: { token: localStorage.getItem("token") } }
         );
         const { yearSalesCount, monthSalesCount } = response.data.data;
 
         setData([
-          { name: "Monthly Sales", value: Math.floor((monthSalesCount/yearSalesCount)*100) },
-          { name: "Other month Sales", value: Math.floor(((yearSalesCount -monthSalesCount)/yearSalesCount)*100 )},
+          {
+            name: "Monthly Sales",
+            value: Math.floor((monthSalesCount / yearSalesCount) * 100),
+          },
+          {
+            name: "Other month Sales",
+            value: Math.floor(
+              ((yearSalesCount - monthSalesCount) / yearSalesCount) * 100
+            ),
+          },
         ]);
       } catch (error) {
         console.error("Error fetching sales data:", error);
@@ -33,11 +41,13 @@ const SalesPieChart = () => {
     fetchSalesData();
   }, []);
 
-  const COLORS = ["#CC2B52","#FFBB28"];
+  const COLORS = ["#CC2B52", "#FFBB28"];
 
   return (
     <div className="w-full md:m-4">
-      <h3 className="text-center text-accent-light text-4xl font-bold">Sales Distribution - Current Year</h3>
+      <h3 className="text-center text-accent-light text-4xl font-bold">
+        Sales Distribution - Current Year
+      </h3>
       {/* Tailwind responsive height classes */}
       <div className="h-[300px] md:h-[400px] lg:h-[500px]">
         <ResponsiveContainer>

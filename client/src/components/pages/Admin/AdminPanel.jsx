@@ -13,9 +13,12 @@ export default function AdminPanel() {
   const Role = localStorage.getItem("role");
   const nav = useNavigate();
   async function CheckAuth() {
-    const resData = await AXIOS.get("http://localhost:8200/user/checkauth", {
-      headers: { token: localStorage.getItem("token") },
-    });
+    const resData = await AXIOS.get(
+      "https://zenglow-server.onrender.com/user/checkauth",
+      {
+        headers: { token: localStorage.getItem("token") },
+      }
+    );
     if (resData.data.error) {
       nav("/");
     }
@@ -35,7 +38,7 @@ export default function AdminPanel() {
       {/* <div className='h-52 flex justify-center items-center flex-col'>
                 <div className='rounded-full shadow-pink-800 shadow-lg text-7xl text-pink-700 cursor-pointer flex justify-center'>
                             {
-                                user?.profilePic?(<img className='w-20 h-20 rounded-full' src={`http://localhost:8200/profilePhotos/${user.profilePic}`} alt={user.name}/>):(
+                                user?.profilePic?(<img className='w-20 h-20 rounded-full' src={`https://zenglow-server.onrender.com/profilePhotos/${user.profilePic}`} alt={user.name}/>):(
                                     <FaUserCircle/>
                                 )
                             }

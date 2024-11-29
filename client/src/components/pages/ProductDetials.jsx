@@ -59,7 +59,7 @@ export default function ProductDetials() {
 
   const fetchProductDetail = async () => {
     const resData = await AXIOS.post(
-      "http://localhost:8200/products/product-detials",
+      "https://zenglow-server.onrender.com/products/product-detials",
       { productId: params?.id }
     );
     SetData(resData.data.data);
@@ -96,7 +96,7 @@ export default function ProductDetials() {
               <div className="h-[300px] w-[300px] lg:h-96 lg:w-96 bg- border-2 rounded-lg border-accent-light p-4">
                 {data.productImage[0] ? (
                   <img
-                    src={`http://localhost:8200/ProductImages/${activeImage}`}
+                    src={`https://zenglow-server.onrender.com/ProductImages/${activeImage}`}
                     alt=""
                     className="h-full w-full object-scale-down mix-blend-multiply"
                   />
@@ -117,7 +117,7 @@ export default function ProductDetials() {
                         key={index}
                       >
                         <img
-                          src={`http://localhost:8200/ProductImages/${image}`}
+                          src={`https://zenglow-server.onrender.com/ProductImages/${image}`}
                           alt=""
                           className="w-full h-full object-scale-down mix-blend-multiply cursor-pointer"
                           /* onMouseEnter={()=>{handleMouseEnterPrdct(image)}} */ onClick={() => {
@@ -213,12 +213,12 @@ export default function ProductDetials() {
           <div className="flex md:flex-row flex-col">
             <div className="md:px-4 md:border-r-2 py-10 min-w-[50%]">
               <h1 className="text-2xl font-semibold">Description :-</h1>
-              <p className="sm:ml-20 ml-10  mt-6">
-                {data?.description}
-              </p>
+              <p className="sm:ml-20 ml-10  mt-6">{data?.description}</p>
             </div>
             <div className="md:px-4 min-w-[50%] py-10 text-slate-600">
-            <h1 className="text-2xl text-center text-black mb-10 font-semibold underline">Product Specification</h1>
+              <h1 className="text-2xl text-center text-black mb-10 font-semibold underline">
+                Product Specification
+              </h1>
               <div className="flex justify-between max-w-[300px] sm:ml-20 ml-6  mt-6">
                 <span>Category :</span> <span>{data?.category}</span>
               </div>
@@ -231,7 +231,6 @@ export default function ProductDetials() {
               <div className="flex justify-between max-w-[300px] sm:ml-20 ml-6  mt-6">
                 <span>Max Retail Price :</span> <span>{data?.price} Rs</span>
               </div>
-
             </div>
           </div>
           <hr className="my-6 border-gray-300" />
@@ -262,7 +261,7 @@ export default function ProductDetials() {
                               <div className="absolute w-48 h-48 bg-white rounded-full blur-[50px] opacity-85"></div>
                               {product.productImage[0] ? (
                                 <img
-                                  src={`http://localhost:8200/ProductImages/${product.productImage[0]}`}
+                                  src={`https://zenglow-server.onrender.com/ProductImages/${product.productImage[0]}`}
                                   alt={product?.ProductName}
                                   className="p-4 w-full h-full transform object-scale-down hover:scale-110 transition-transform duration-500 ease-in-out"
                                 />

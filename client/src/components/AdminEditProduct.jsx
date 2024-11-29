@@ -66,7 +66,7 @@ export default function AdminEditProduct({ onClose, ProductData, fetchData }) {
     newProductImages.splice(index, 1);
     SetData({ ...data, productImage: newProductImages });
 
-    // AXIOS.post("http://localhost:8200/products/delete-product-image", {
+    // AXIOS.post("https://zenglow-server.onrender.com/products/delete-product-image", {
     //   image: product,
     // });
   };
@@ -86,7 +86,7 @@ export default function AdminEditProduct({ onClose, ProductData, fetchData }) {
     console.log(formData.getAll("images"));
 
     const resData = await AXIOS.post(
-      "http://localhost:8200/products/update-product",
+      "https://zenglow-server.onrender.com/products/update-product",
       formData,
       {
         headers: {
@@ -268,7 +268,8 @@ export default function AdminEditProduct({ onClose, ProductData, fetchData }) {
                           <img
                             key={index}
                             src={
-                              `http://localhost:8200/ProductImages/` + product
+                              `https://zenglow-server.onrender.com/ProductImages/` +
+                              product
                             }
                             width={100}
                             height={100}
@@ -413,7 +414,7 @@ export default function AdminEditProduct({ onClose, ProductData, fetchData }) {
       {openFullScreenImage && (
         <DisplayProductImage
           onClose={() => SetOpenFullScreenImage(false)}
-          imageName={`http://localhost:8200/ProductImages/${fullScreenImage}`}
+          imageName={`https://zenglow-server.onrender.com/ProductImages/${fullScreenImage}`}
         />
       )}
       {openFullScreenUpdatedImage && (

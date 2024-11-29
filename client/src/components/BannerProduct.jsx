@@ -7,7 +7,7 @@ export default function BannerProduct() {
   const [currentBannerImage, SetCurrentBannerImage] = useState(1);
   const fetchBanner = async () => {
     const resData = await AXIOS.get(
-      "http://localhost:8200/products/get-banners"
+      "https://zenglow-server.onrender.com/products/get-banners"
     );
     SetAllBanner(resData?.data.data || []);
   };
@@ -64,7 +64,7 @@ export default function BannerProduct() {
                 }}
               >
                 <img
-                  src={`http://localhost:8200/Banners/${banner.BannerImage}`}
+                  src={`https://zenglow-server.onrender.com/Banners/${banner.BannerImage}`}
                   alt=""
                   className="w-full h-full"
                 />

@@ -42,7 +42,7 @@ export default function DashBoardHome() {
   const fetchOrders = async () => {
     try {
       const resData = await axios.post(
-        "http://localhost:8200/products/getOrders",
+        "https://zenglow-server.onrender.com/products/getOrders",
         {},
         { headers: header }
       );
@@ -56,7 +56,9 @@ export default function DashBoardHome() {
 
   const fetchCounts = async () => {
     try {
-      const resData = await axios.get("http://localhost:8200/user/allCounts");
+      const resData = await axios.get(
+        "https://zenglow-server.onrender.com/user/allCounts"
+      );
       if (resData.data.success) {
         SetCount({
           ...count,
@@ -71,11 +73,12 @@ export default function DashBoardHome() {
   };
   const fetchTotalAmount = async () => {
     try {
-      const resData = await axios.get("http://localhost:8200/user/saleAmount");
+      const resData = await axios.get(
+        "https://zenglow-server.onrender.com/user/saleAmount"
+      );
       if (resData.data.success) {
         SetTotalAmount(resData.data.data);
         console.log(totalAmount);
-        
       }
     } catch (error) {
       console.log("Error fetching counts");
@@ -160,7 +163,7 @@ export default function DashBoardHome() {
     const fetchYears = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8200/user/orders/years",
+          "https://zenglow-server.onrender.com/user/orders/years",
           { headers: { token: localStorage.getItem("token") } }
         );
 
@@ -182,7 +185,7 @@ export default function DashBoardHome() {
     const fetchMonthlyData = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:8200/user/orders/monthly",
+          "https://zenglow-server.onrender.com/user/orders/monthly",
           { year: year },
           { headers: { token: localStorage.getItem("token") } }
         );
@@ -230,28 +233,44 @@ export default function DashBoardHome() {
       </div>
       <div className="flex md:flex-row flex-col md:justify-between ml-4">
         <div className="grid md:w-[30%] w-full  md:px-10 mt-10 mb-14 grid-cols-2 sm:grid-cols-4 md:grid-cols-2 sm:gap-1 gap-3 md:gap-4">
-          <button onClick={()=>nav("all-users")} className="py-6 rounded-lg shadow-xl shadow-slate-400 border-2 border-white text-white bg-gradient-to-r from-emerald-500 to-emerald-900">
+          <button
+            onClick={() => nav("all-users")}
+            className="py-6 rounded-lg shadow-xl shadow-slate-400 border-2 border-white text-white bg-gradient-to-r from-emerald-500 to-emerald-900"
+          >
             <div>
               <p className="md:text-lg text-xs font-semibold">Total Users</p>
               <p className="sm:text-2xl text-xs font-bold">{count?.user}</p>
             </div>
           </button>
-          <button onClick={()=>nav("products")} className="md:h-[140px]  py-6 rounded-lg shadow-xl shadow-slate-400 border-2 border-white text-white bg-gradient-to-r from-pink-600 to-slate-600">
+          <button
+            onClick={() => nav("products")}
+            className="md:h-[140px]  py-6 rounded-lg shadow-xl shadow-slate-400 border-2 border-white text-white bg-gradient-to-r from-pink-600 to-slate-600"
+          >
             <div>
               <p className="md:text-lg text-xs font-semibold">Total Products</p>
               <p className="sm:text-2xl text-xs font-bold">{count?.product}</p>
             </div>
           </button>
-          <button onClick={()=>nav("orders")} className="md:h-[140px]  py-6 rounded-lg shadow-xl shadow-slate-400 border-2 text-white border-white bg-gradient-to-r from-orange-400 to-red-700">
+          <button
+            onClick={() => nav("orders")}
+            className="md:h-[140px]  py-6 rounded-lg shadow-xl shadow-slate-400 border-2 text-white border-white bg-gradient-to-r from-orange-400 to-red-700"
+          >
             <div>
               <p className="md:text-lg text-xs font-semibold">Total Orders</p>
               <p className="sm:text-2xl text-xs font-bold">{count?.order}</p>
             </div>
           </button>
-          <button onClick={()=>nav("sales")} className="py-6 rounded-lg shadow-xl shadow-slate-400 border-2 border-white text-white bg-gradient-to-r from-blue-400 to-blue-900">
+          <button
+            onClick={() => nav("sales")}
+            className="py-6 rounded-lg shadow-xl shadow-slate-400 border-2 border-white text-white bg-gradient-to-r from-blue-400 to-blue-900"
+          >
             <div>
-              <p className="md:text-lg text-xs font-semibold">Total SaleAmount</p>
-              <p className="sm:text-2xl text-xs font-bold w-full">{displayINRCurrency(totalAmount)}</p>
+              <p className="md:text-lg text-xs font-semibold">
+                Total SaleAmount
+              </p>
+              <p className="sm:text-2xl text-xs font-bold w-full">
+                {displayINRCurrency(totalAmount)}
+              </p>
             </div>
           </button>
         </div>

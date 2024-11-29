@@ -44,7 +44,7 @@ function App() {
         token: localStorage.getItem("token") || "",
       };
       const resData = await AXIOS.get(
-        "http://localhost:8200/user/user-detials",
+        "https://zenglow-server.onrender.com/user/user-detials",
         { headers: header }
       );
       SetUserDetial(resData.data.data);
@@ -67,15 +67,14 @@ function App() {
         token: localStorage.getItem("token") || "",
       };
       const CartData = await AXIOS.get(
-        "http://localhost:8200/user/countAddToCart",
+        "https://zenglow-server.onrender.com/user/countAddToCart",
         { headers: header }
       );
 
-      if(CartData?.data?.data?.count){
+      if (CartData?.data?.data?.count) {
         SetCartProductCount(CartData?.data?.data?.count);
-      }
-      else{
-        SetCartProductCount(0)
+      } else {
+        SetCartProductCount(0);
       }
     } catch (error) {
       console.log(error);
@@ -117,7 +116,14 @@ function App() {
         <main className=" bg-white">
           <Routes>
             <Route path="/*" element={<UserPage />} />
-            <Route path="/dashboard/*" element={<AdminRoute><DashBoard/></AdminRoute>} />
+            <Route
+              path="/dashboard/*"
+              element={
+                <AdminRoute>
+                  <DashBoard />
+                </AdminRoute>
+              }
+            />
           </Routes>
         </main>
       </Context.Provider>

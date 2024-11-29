@@ -73,7 +73,7 @@ export default function ProductBuyPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const [product, setProduct] = useState([]);
-  const [from,setFrom] =useState('')
+  const [from, setFrom] = useState("");
   // const product = location.state?.product;
 
   const startEdit = () => {
@@ -85,7 +85,7 @@ export default function ProductBuyPage() {
   const updateuser = async (e) => {
     e.preventDefault();
     const resData = await axios.post(
-      `http://localhost:8200/user/update-adress`,
+      `https://zenglow-server.onrender.com/user/update-adress`,
       { user },
       { headers: { token: localStorage.getItem("token") } }
     );
@@ -137,7 +137,7 @@ export default function ProductBuyPage() {
     SetUser(userData.data);
     SetCurrentUser({ name: userData.data.name, email: userData.data.email });
     setProduct(location.state?.product);
-    setFrom(location.state?.from)
+    setFrom(location.state?.from);
   };
   console.log("1111", product);
 
@@ -163,7 +163,7 @@ export default function ProductBuyPage() {
   //   }
   // };
   let TotalQty;
-  if (from=='buyNow') {
+  if (from == "buyNow") {
     TotalQty = quantity;
   } else {
     TotalQty = product.reduce((prev, curr) => {
@@ -174,7 +174,7 @@ export default function ProductBuyPage() {
   }
 
   let TotalPrice;
-  if (from=='buyNow') {
+  if (from == "buyNow") {
     TotalPrice = product[0].ProductId.sellingPrice * quantity;
   } else {
     TotalPrice = product.reduce((prev, curr) => {
@@ -194,7 +194,7 @@ export default function ProductBuyPage() {
 
     try {
       const response = await axios.post(
-        "http://localhost:8200/products/order",
+        "https://zenglow-server.onrender.com/products/order",
         {
           products: product,
           user: user,
@@ -226,7 +226,7 @@ export default function ProductBuyPage() {
         order_id: order.id, // This is the order ID returned from the server
         handler: async function (response) {
           const validateRes = await axios.post(
-            "http://localhost:8200/products/order_validate",
+            "https://zenglow-server.onrender.com/products/order_validate",
             {
               data: response,
               products: product,
@@ -314,7 +314,7 @@ export default function ProductBuyPage() {
                         )}
                       </p>
                       <button
-                        onClick={()=>setStep(2)}
+                        onClick={() => setStep(2)}
                         className="bg-[#ea9791] text-white px-4 py-2 mt-3 md:mt-0 rounded-md"
                       >
                         Deliver Here
@@ -541,7 +541,7 @@ export default function ProductBuyPage() {
               <div className="bg-white border mb-4 p-4 rounded-md shadow-md">
                 <div className="flex justify-between mb-4">
                   <h2 className="text-xl font-bold">Order Summary</h2>
-                  {from=='cart' && step >= 2 && (
+                  {from == "cart" && step >= 2 && (
                     <button
                       onClick={() => {
                         navigate("/cart");
@@ -560,7 +560,7 @@ export default function ProductBuyPage() {
                           <div className="mt-4">
                             <p>Product: {products?.ProductId?.ProductName}</p>
                             <p>Price: ₹{products?.ProductId?.sellingPrice}</p>
-                            {from=='buyNow' ? (
+                            {from == "buyNow" ? (
                               <div className="flex items-center gap-3 mt-2">
                                 {quantity > 1 && (
                                   <button
@@ -594,7 +594,7 @@ export default function ProductBuyPage() {
                           <div className="flex justify-center items-center w-40 h-40 mr-14">
                             <img
                               className="max-h-32 object-scale-down"
-                              src={`http://localhost:8200/ProductImages/${products?.ProductId?.productImage[0]}`}
+                              src={`https://zenglow-server.onrender.com/ProductImages/${products?.ProductId?.productImage[0]}`}
                               alt=""
                             />
                           </div>
@@ -603,7 +603,7 @@ export default function ProductBuyPage() {
                     })}
                     <button
                       className="bg-[#ea9791] text-white px-6 py-2 mt-4 rounded-full font-semibold"
-                      onClick={()=>setStep(3)}
+                      onClick={() => setStep(3)}
                     >
                       Proceed to Payment
                     </button>
@@ -702,8 +702,9 @@ export default function ProductBuyPage() {
             <div className="flex justify-between">
               {!isFail && (
                 <button
-                  onClick={() => {navigate("/profile/my_orders")
-                    navigate(0)
+                  onClick={() => {
+                    navigate("/profile/my_orders");
+                    navigate(0);
                   }}
                   className="bg-rose-600 text-white px-4 py-2 rounded hover:bg-rose-700 transition"
                 >
@@ -712,7 +713,7 @@ export default function ProductBuyPage() {
               )}
               <a
                 href="/"
-                onClick={()=>navigate(0)}
+                onClick={() => navigate(0)}
                 className="text-pink-700 flex items-center text-center px-4 py-2 rounded transition"
               >
                 {" Continue Shopping"}

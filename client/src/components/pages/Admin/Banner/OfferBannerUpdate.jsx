@@ -9,7 +9,7 @@ export default function OfferBannerUpdate() {
   const fetchBanner = async () => {
     if (localStorage.getItem("token")) {
       const resData = await AXIOS.get(
-        "http://localhost:8200/products/get-banners"
+        "https://zenglow-server.onrender.com/products/get-banners"
       );
       SetAllBannerss(resData?.data.data || []);
     }

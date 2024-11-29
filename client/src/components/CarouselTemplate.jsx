@@ -7,7 +7,7 @@ const CarouselTemplate = () => {
 
   const fetchBanner = async () => {
     const resData = await AXIOS.get(
-      "http://localhost:8200/products/get-banners"
+      "https://zenglow-server.onrender.com/products/get-banners"
     );
     SetAllBanner(resData?.data.data || []);
   };
@@ -51,7 +51,7 @@ const CarouselTemplate = () => {
             }`}
           >
             <img
-              src={`http://localhost:8200/Banners/${image.BannerImage}`}
+              src={`https://zenglow-server.onrender.com/Banners/${image.BannerImage}`}
               className="absolute block w-full h-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
               alt={`Slide ${index + 1}`}
             />

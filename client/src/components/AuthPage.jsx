@@ -37,7 +37,7 @@ export default function AuthPage() {
         Object.keys(error).length == 0
       ) {
         const resSignUpData = await AXIOS.post(
-          "http://localhost:8200/user/generate-otp",
+          "https://zenglow-server.onrender.com/user/generate-otp",
           signupData
         );
         localStorage.setItem("token", resSignUpData.data.data);
@@ -75,10 +75,10 @@ export default function AuthPage() {
   const SignInHandleSubmit = async (e) => {
     e.preventDefault();
     console.log(SignIndata);
-    
-      try {
+
+    try {
       const resData = await AXIOS.post(
-        "http://localhost:8200/user/login",
+        "https://zenglow-server.onrender.com/user/login",
         SignIndata
       );
       localStorage?.setItem("token", resData.data.data.token);

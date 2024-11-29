@@ -49,9 +49,12 @@ export default function DashBoard() {
     console.log(email);
 
     localStorage.clear();
-    const resData = await AXIOS.post("http://localhost:8200/user/logOut", {
-      email: email,
-    });
+    const resData = await AXIOS.post(
+      "https://zenglow-server.onrender.com/user/logOut",
+      {
+        email: email,
+      }
+    );
     if (resData.data.success) {
       toast.success(resData.data.message);
       dispatch(setUserDetials(null));
@@ -104,7 +107,7 @@ export default function DashBoard() {
                       alt="User settings"
                       img={
                         userDetials?.profilePic
-                          ? `http://localhost:8200/profilePhotos/${userDetials.profilePic}`
+                          ? `https://zenglow-server.onrender.com/profilePhotos/${userDetials.profilePic}`
                           : UserLogo
                       }
                       rounded

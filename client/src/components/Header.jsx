@@ -24,7 +24,9 @@ export default function Header() {
 
   const handleLogOut = async () => {
     localStorage.clear();
-    const resData = await AXIOS.get("http://localhost:8200/user/logOut");
+    const resData = await AXIOS.get(
+      "https://zenglow-server.onrender.com/user/logOut"
+    );
     if (resData.data.success) {
       toast.success(resData.data.message);
       dispatch(setUserDetials(null));
@@ -91,7 +93,7 @@ export default function Header() {
                 {userDetials?.profilePic ? (
                   <img
                     className="w-full h-full rounded-full"
-                    src={`http://localhost:8200/profilePhotos/${userDetials.profilePic}`}
+                    src={`https://zenglow-server.onrender.com/profilePhotos/${userDetials.profilePic}`}
                     alt={userDetials.name}
                   />
                 ) : (

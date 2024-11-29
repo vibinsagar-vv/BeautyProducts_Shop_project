@@ -29,7 +29,7 @@ export default function SignUp() {
     try {
       if (data.password === data.confirmPassword) {
         const resultData = await AXIOS.post(
-          "http://localhost:8200/user/generate-otp",
+          "https://zenglow-server.onrender.com/user/generate-otp",
           data
         );
         localStorage.setItem("token", resultData.data.data);

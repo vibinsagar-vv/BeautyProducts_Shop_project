@@ -10,7 +10,6 @@ import { toast } from "react-toastify";
 import ChangeUserRole from "./ChangeUserRole";
 import { jwtDecode } from "jwt-decode";
 
-
 // Global Filter component for search
 const GlobalFilter = ({ globalFilter, setGlobalFilter }) => (
   <span>
@@ -50,22 +49,22 @@ const UsersTable = () => {
   const fetchAllUsers = async () => {
     try {
       const resData = await axios.post(
-        "http://localhost:8200/user/all-user",
+        "https://zenglow-server.onrender.com/user/all-user",
         {},
         { headers: header }
       );
 
       console.log(resData.data.data);
-      
 
       if (resData.data.success) {
         console.log(decode.data);
-        
+
         const usersData = resData.data.data.filter(
-          (user) =>  user.email !== decode?.data?.email && user.role !== "MASTER_ADMIN"
+          (user) =>
+            user.email !== decode?.data?.email && user.role !== "MASTER_ADMIN"
         );
         // console.log(usersData);
-        
+
         // Assign random status to each user
         setAllUsers(usersData);
       } else {
@@ -95,10 +94,10 @@ const UsersTable = () => {
         Header: "Status",
         accessor: "online",
         Cell: ({ value }) => {
-          if(value){
-            return <span className="text-lime-700 font-semibold">Online</span>
-          }else{
-            return <span className="text-red-600 font-semibold">Offline</span>
+          if (value) {
+            return <span className="text-lime-700 font-semibold">Online</span>;
+          } else {
+            return <span className="text-red-600 font-semibold">Offline</span>;
           }
         },
       },
@@ -146,13 +145,13 @@ const UsersTable = () => {
   const handleDelete = async (userId) => {
     console.log("Deleting user with ID:", userId);
     const ResData = await axios.post(
-      "http://localhost:8200/user/delete-user",
+      "https://zenglow-server.onrender.com/user/delete-user",
       { _id: userId },
       { headers: header }
     );
     if (ResData.data.success) {
       toast.success(ResData.data.message);
-      SetOpenUpdateUser(false)
+      SetOpenUpdateUser(false);
       fetchAllUsers();
     }
 
@@ -161,7 +160,9 @@ const UsersTable = () => {
 
   return (
     <div className="p-4">
-            <div><p className="text-4xl font-bold text-accent-light mb-10">All Users</p></div>
+      <div>
+        <p className="text-4xl font-bold text-accent-light mb-10">All Users</p>
+      </div>
       {/* Search Input */}
       <div>
         {/* Entries per page selector */}
@@ -237,10 +238,10 @@ const UsersTable = () => {
                 <tr className="" {...row.getRowProps()}>
                   {row.cells.map((cell) => (
                     <td
-                    onClick={() => {
-                      SetUpdateUserDetials(row.original);
-                      SetOpenUpdateUser(true);
-                    }}
+                      onClick={() => {
+                        SetUpdateUserDetials(row.original);
+                        SetOpenUpdateUser(true);
+                      }}
                       {...cell.getCellProps()}
                       className="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
                     >
@@ -298,7 +299,7 @@ const UsersTable = () => {
           </button>
         </div>
       </div>
-      {(openUpdateUser && localStorage.getItem('role')=='MASTER_ADMIN')&&(
+      {openUpdateUser && localStorage.getItem("role") == "MASTER_ADMIN" && (
         <ChangeUserRole
           onClose={() => {
             SetOpenUpdateUser(false);
@@ -308,7 +309,7 @@ const UsersTable = () => {
           role={updateUserDetials.role}
           userid={updateUserDetials._id}
           callFun={fetchAllUsers}
-          deleteFun={()=>handleDelete(updateUserDetials._id)}
+          deleteFun={() => handleDelete(updateUserDetials._id)}
         />
       )}
     </div>

@@ -26,7 +26,7 @@ export default function Cart() {
   const handleBuy = () => {
     console.log("66", data);
 
-    nav("/buy", { state: { product: data,from:'cart' } });
+    nav("/buy", { state: { product: data, from: "cart" } });
   };
 
   const fetchData = async () => {
@@ -35,7 +35,7 @@ export default function Cart() {
         token: localStorage.getItem("token") || "",
       };
       const resData = await AXIOS.get(
-        "http://localhost:8200/user/view-cart-product",
+        "https://zenglow-server.onrender.com/user/view-cart-product",
         { headers: header }
       );
       if (resData.data.success) {
@@ -53,7 +53,7 @@ export default function Cart() {
 
   const handleDeleteCartPrduct = async (id) => {
     const resData = await AXIOS.post(
-      "http://localhost:8200/user/delete-cart-product",
+      "https://zenglow-server.onrender.com/user/delete-cart-product",
       { _id: id },
       { headers: { token: localStorage.getItem("token") || "" } }
     );
@@ -66,7 +66,7 @@ export default function Cart() {
 
   const increaseQty = async (id, qty) => {
     const resData = await AXIOS.post(
-      "http://localhost:8200/user/update-cart",
+      "https://zenglow-server.onrender.com/user/update-cart",
       { Quantity: qty + 1, Id: id },
       { headers: { token: localStorage.getItem("token") || "" } }
     );
@@ -78,7 +78,7 @@ export default function Cart() {
   const decreaseQty = async (id, qty) => {
     if (qty > 1) {
       const resData = await AXIOS.post(
-        "http://localhost:8200/user/update-cart",
+        "https://zenglow-server.onrender.com/user/update-cart",
         { Quantity: qty - 1, Id: id },
         { headers: { token: localStorage.getItem("token") || "" } }
       );
@@ -126,7 +126,7 @@ export default function Cart() {
                       </div>
                       <div className="flex items-center justify-center min-w-32 h-32 p-2">
                         <img
-                          src={`http://localhost:8200/ProductImages/${product?.ProductId.productImage[0]}`}
+                          src={`https://zenglow-server.onrender.com/ProductImages/${product?.ProductId.productImage[0]}`}
                           alt=""
                           className="w-full h-full object-scale-down mix-blend-multiply"
                         />
@@ -208,7 +208,7 @@ export default function Cart() {
           )}
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 }

@@ -15,7 +15,7 @@ export default function DisplayBannerImage({ imageName, onClose }) {
 
           <div className=" flex justify-center max-w-[85vh] p-4 ">
             <img
-              src={`http://localhost:8200/Banners/` + imageName}
+              src={`https://zenglow-server.onrender.com/Banners/` + imageName}
               className="w-full h-full"
               alt=""
             />

@@ -15,9 +15,12 @@ export default function ChangeProfilePic({ callfun, user, onClose }) {
     token: localStorage.getItem("token") || "",
   };
   const updateProfilePic = async () => {
-    const resData = await AXIOS.post("http://localhost:8200/user/update-user", {
-      headers: header,
-    });
+    const resData = await AXIOS.post(
+      "https://zenglow-server.onrender.com/user/update-user",
+      {
+        headers: header,
+      }
+    );
 
     console.log("role updated", resData.data);
     if (resData.data.success) {
@@ -42,7 +45,7 @@ export default function ChangeProfilePic({ callfun, user, onClose }) {
     formData.append("profile", newimage);
 
     const resData = await AXIOS.post(
-      "http://localhost:8200/user/changeProfilePic",
+      "https://zenglow-server.onrender.com/user/changeProfilePic",
       formData,
       {
         headers: {
@@ -90,7 +93,7 @@ export default function ChangeProfilePic({ callfun, user, onClose }) {
               ) : (
                 <img
                   className="w-40 h-40 bg-green-100 rounded-full"
-                  src={`http://localhost:8200/profilePhotos/${user.profilePic}`}
+                  src={`https://zenglow-server.onrender.com/profilePhotos/${user.profilePic}`}
                   alt=""
                 />
               )

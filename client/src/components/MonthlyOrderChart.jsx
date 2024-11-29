@@ -22,7 +22,7 @@ const AdminMonthlyOrderChart = () => {
     const fetchYears = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8200/user/orders/years",
+          "https://zenglow-server.onrender.com/user/orders/years",
           { headers: { token: localStorage.getItem("token") } }
         );
 
@@ -44,7 +44,7 @@ const AdminMonthlyOrderChart = () => {
     const fetchMonthlyData = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:8200/user/orders/monthly",
+          "https://zenglow-server.onrender.com/user/orders/monthly",
           { year: year },
           { headers: { token: localStorage.getItem("token") } }
         );
@@ -69,10 +69,16 @@ const AdminMonthlyOrderChart = () => {
 
   return (
     <div className="w-full">
-      <h3 className="text-3xl text-accent-light font-bold">Monthly Total Order Prize</h3>
+      <h3 className="text-3xl text-accent-light font-bold">
+        Monthly Total Order Prize
+      </h3>
       <label>
         Select Year:
-        <select className="ml-10 my-6 border-black focus:border-accent-dark focus:ring-accent-light focus:outline-none" value={year} onChange={(e) => setYear(e.target.value)}>
+        <select
+          className="ml-10 my-6 border-black focus:border-accent-dark focus:ring-accent-light focus:outline-none"
+          value={year}
+          onChange={(e) => setYear(e.target.value)}
+        >
           {years.map((y) => (
             <option className="" key={y} value={y}>
               {y}
@@ -93,7 +99,7 @@ const AdminMonthlyOrderChart = () => {
               }}
             />
             <Tooltip />
-            
+
             <Line
               type="monotone"
               dataKey="totalSales"

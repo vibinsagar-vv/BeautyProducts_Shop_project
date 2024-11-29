@@ -10,7 +10,7 @@ export default function CategoryList() {
   const fetchCategoryProduct = async () => {
     SetLoading(true);
     const resData = await AXIOS.get(
-      "http://localhost:8200/products/get-category-product"
+      "https://zenglow-server.onrender.com/products/get-category-product"
     );
     SetLoading(false);
     SetCategoryProduct(resData.data.data);
@@ -42,7 +42,7 @@ export default function CategoryList() {
                   <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-full shadow-pink-950 shadow-lg bg-primary-light hover:bg-white flex items-center justify-center">
                     {/* Adjusted img styles */}
                     <img
-                      src={`http://localhost:8200/ProductImages/${product?.productImage[0]}`}
+                      src={`https://zenglow-server.onrender.com/ProductImages/${product?.productImage[0]}`}
                       alt={product?.category}
                       className="absolute max-h-20 object-scale-down hover:scale-110 transition-all  -top-3"
                     />

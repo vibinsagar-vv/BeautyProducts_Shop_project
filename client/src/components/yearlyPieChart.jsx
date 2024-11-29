@@ -18,7 +18,7 @@ const YearlySalesPieChart = () => {
     const fetchSalesData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8200/user/orders/yearly-pie-chart",
+          "https://zenglow-server.onrender.com/user/orders/yearly-pie-chart",
           { headers: { token: localStorage.getItem("token") } }
         );
 
@@ -27,10 +27,19 @@ const YearlySalesPieChart = () => {
 
         // Prepare chart data
         const chartData = [
-          { name: "Current Year Sales", value: Math.floor((totalSalesCurrentYear/totalSalesAllYears)*100) },
+          {
+            name: "Current Year Sales",
+            value: Math.floor(
+              (totalSalesCurrentYear / totalSalesAllYears) * 100
+            ),
+          },
           {
             name: "Other Years Sales",
-            value: Math.floor(((totalSalesAllYears - totalSalesCurrentYear)/totalSalesAllYears)*100),
+            value: Math.floor(
+              ((totalSalesAllYears - totalSalesCurrentYear) /
+                totalSalesAllYears) *
+                100
+            ),
           },
         ];
 
@@ -49,7 +58,9 @@ const YearlySalesPieChart = () => {
 
   return (
     <div className="w-full md:border-l-2 mt-16 md:mt-0 md:m-4 md:border-black">
-            <h3 className="text-center text-accent-light text-4xl font-bold">Sales Distribution - Total</h3>
+      <h3 className="text-center text-accent-light text-4xl font-bold">
+        Sales Distribution - Total
+      </h3>
       {/* Responsive container with dynamic height */}
       <div className="h-[300px] md:h-[400px] lg:h-[500px]">
         <ResponsiveContainer>
@@ -72,8 +83,7 @@ const YearlySalesPieChart = () => {
                 />
               ))}
             </Pie>
-            <Tooltip 
-            label={({ name, value }) => `${value}%`}/>
+            <Tooltip label={({ name, value }) => `${value}%`} />
             <Legend />
           </PieChart>
         </ResponsiveContainer>

@@ -52,7 +52,7 @@ export default function HorizontalCardProduct({ category, heading }) {
             >
               <div className="bg-white  h-full p-4 min-w-[120px] md:min-w-[145px] flex items-center justify-center">
                 <img
-                  src={`http://localhost:8200/ProductImages/${product.productImage[0]}`}
+                  src={`https://zenglow-server.onrender.com/ProductImages/${product.productImage[0]}`}
                   alt=""
                   className="object-scale-down h-full max-w-24 hover:scale-110 transition-all mix-blend-multiply"
                 />

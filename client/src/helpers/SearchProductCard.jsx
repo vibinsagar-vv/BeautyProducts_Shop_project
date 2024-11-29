@@ -8,7 +8,7 @@ export default function SearchProductCard({ data, fetchData }) {
 
   const handleDelete = async () => {
     const resData = await AXIOS.post(
-      "http://localhost:8200/products/delete-product",
+      "https://zenglow-server.onrender.com/products/delete-product",
       { _id: data._id },
       { headers: { token: localStorage.getItem("token") } }
     );
@@ -39,7 +39,7 @@ export default function SearchProductCard({ data, fetchData }) {
         <div className=" min-h-40 max-h-40 flex items-center justify-center">
           <img
             className="w-fit max-h-40 mx-auto"
-            src={`http://localhost:8200/ProductImages/${data?.productImage[0]}`}
+            src={`https://zenglow-server.onrender.com/ProductImages/${data?.productImage[0]}`}
             alt={data.ProductName}
             width={120}
             height={120}

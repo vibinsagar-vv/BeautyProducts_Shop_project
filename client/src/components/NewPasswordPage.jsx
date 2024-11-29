@@ -48,14 +48,14 @@ export default function NewPassword() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const url = "http://localhost:8200/user/newPassword";
+    const url = "https://zenglow-server.onrender.com/user/newPassword";
 
     try {
       const decode = await jwtDecode(localStorage.getItem("forgot_token"));
       const { email } = decode;
       console.log(decode);
-      if ((data?.Password == data?.confirmPassword)&& email) {
-        const res = await axios.post(url, {data,email:email});
+      if (data?.Password == data?.confirmPassword && email) {
+        const res = await axios.post(url, { data, email: email });
         console.log(res.data);
 
         if (res?.data?.success) {

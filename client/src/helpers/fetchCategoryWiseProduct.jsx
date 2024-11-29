@@ -1,7 +1,7 @@
 import AXIOS from "axios";
 const fetchCategoryWiseProduct = async (Category) => {
   const resData = await AXIOS.post(
-    "http://localhost:8200/products/category-product",
+    "https://zenglow-server.onrender.com/products/category-product",
     { Category: Category }
   );
 

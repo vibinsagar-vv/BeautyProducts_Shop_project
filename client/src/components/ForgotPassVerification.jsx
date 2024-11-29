@@ -19,16 +19,16 @@ export default function ForgotPassOtpInput({ length = 4 }) {
   const ResendFun = async () => {
     try {
       const decode = jwtDecode(localStorage.getItem("forgot_token"));
-      
+
       const { email, name } = decode;
       console.log(email, name);
       const resultdata = await AXIOS.post(
-        "http://localhost:8200/user/resend-otp",
+        "https://zenglow-server.onrender.com/user/resend-otp",
         { email: email, name: name }
       );
 
-      console.log("resend",resultdata);
-      
+      console.log("resend", resultdata);
+
       localStorage.setItem("forgot_verification", resultdata.data.Otp);
       sessionStorage.setItem("targetTime", resultdata.data.time);
       const targetString = sessionStorage.getItem("targetTime");
@@ -131,11 +131,14 @@ export default function ForgotPassOtpInput({ length = 4 }) {
     try {
       e.preventDefault();
       const newotp = otp.join("");
-      const resData = await AXIOS.post("http://localhost:8200/user/verifyPassOtp", {
-        userotp: newotp,
-        token: localStorage.getItem("forgot_token"),
-        VerifyOtp: localStorage.getItem("forgot_verification"),
-      });
+      const resData = await AXIOS.post(
+        "https://zenglow-server.onrender.com/user/verifyPassOtp",
+        {
+          userotp: newotp,
+          token: localStorage.getItem("forgot_token"),
+          VerifyOtp: localStorage.getItem("forgot_verification"),
+        }
+      );
       if (resData.data.success) {
         toast.success(resData.data.message);
         nav("/ChangePassword");

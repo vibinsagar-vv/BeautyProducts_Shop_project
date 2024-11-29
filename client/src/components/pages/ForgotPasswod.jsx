@@ -29,12 +29,12 @@ export default function ForgotPassword() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const url = "http://localhost:8200/user/changepassword";
+    const url = "https://zenglow-server.onrender.com/user/changepassword";
 
     try {
       const res = await axios.post(url, data);
       console.log(res.data);
-      
+
       if (res.data.status === true) {
         localStorage.setItem("forgot_verification", res.data.otp);
         sessionStorage.setItem("targetTime", res.data.time);
@@ -102,10 +102,7 @@ export default function ForgotPassword() {
             Reset Password
           </button>
           <div className="text-right">
-            <a
-              href="/login"
-              className="text-sm text-blue-500 hover:underline"
-            >
+            <a href="/login" className="text-sm text-blue-500 hover:underline">
               Don't have an account? Sign up
             </a>
           </div>

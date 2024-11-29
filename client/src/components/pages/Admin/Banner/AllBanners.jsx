@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 export default function AllBanners({ data, fetchData }) {
   const handleDelete = async () => {
     const resData = await AXIOS.post(
-      "http://localhost:8200/products/delete-banner",
+      "https://zenglow-server.onrender.com/products/delete-banner",
       { _id: data._id },
       { headers: { token: localStorage.getItem("token") } }
     );
@@ -24,7 +24,7 @@ export default function AllBanners({ data, fetchData }) {
         <div className="flex flex-col items-center justify-center">
           <img
             className="w-fit mx-auto mb-3 rounded"
-            src={`http://localhost:8200/Banners/${data?.BannerImage}`}
+            src={`https://zenglow-server.onrender.com/Banners/${data?.BannerImage}`}
             alt={data.ProductName}
             width={120}
             height={120}

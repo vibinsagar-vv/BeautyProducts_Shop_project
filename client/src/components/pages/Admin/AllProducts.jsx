@@ -10,7 +10,7 @@ export default function AllProducts() {
   const fetchProduct = async () => {
     if (localStorage.getItem("token")) {
       const resData = await AXIOS.get(
-        "http://localhost:8200/products/get-products"
+        "https://zenglow-server.onrender.com/products/get-products"
       );
       SetAllProducts(resData?.data.data || []);
     }

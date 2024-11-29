@@ -34,7 +34,7 @@ export default function CategoryProducts() {
   const fetchWishlist = async () => {
     try {
       const response = await AXIOS.get(
-        "http://localhost:8200/user/get-wishlist",
+        "https://zenglow-server.onrender.com/user/get-wishlist",
         { headers: { token: localStorage.getItem("token") } }
       );
       console.log(response);
@@ -58,7 +58,7 @@ export default function CategoryProducts() {
     try {
       if (wishlist.includes(productId)) {
         await AXIOS.post(
-          "http://localhost:8200/user/remove-from-wishlist",
+          "https://zenglow-server.onrender.com/user/remove-from-wishlist",
           {
             productId,
           },
@@ -67,7 +67,7 @@ export default function CategoryProducts() {
         SetWishlist(wishlist.filter((id) => id !== productId));
       } else {
         await AXIOS.post(
-          "http://localhost:8200/user/add-to-wishlist",
+          "https://zenglow-server.onrender.com/user/add-to-wishlist",
           {
             productId,
           },
@@ -82,7 +82,8 @@ export default function CategoryProducts() {
 
   const fetchData = async () => {
     const resData = await AXIOS.get(
-      `http://localhost:8200/products/get-subcategory-product/` + category
+      `https://zenglow-server.onrender.com/products/get-subcategory-product/` +
+        category
     );
     setData(resData.data.data);
   };
@@ -108,7 +109,7 @@ export default function CategoryProducts() {
                 <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-full shadow-pink-950 shadow-lg bg-primary-light hover:bg-white flex items-center justify-center">
                   {/* Adjusted img styles */}
                   <img
-                    src={`http://localhost:8200/ProductImages/${product?.products[0].productImage[0]}`}
+                    src={`https://zenglow-server.onrender.com/ProductImages/${product?.products[0].productImage[0]}`}
                     alt={product?.products[0].subcategory}
                     className="absolute max-h-20 object-scale-down hover:scale-110 transition-all  -top-3"
                   />
@@ -136,7 +137,7 @@ export default function CategoryProducts() {
                     <div className="relative h-48 md:h-60 lg:h-72 bg-primary-light flex items-center justify-center overflow-hidden">
                       {item.productImage[0] ? (
                         <img
-                          src={`http://localhost:8200/ProductImages/${item.productImage[0]}`}
+                          src={`https://zenglow-server.onrender.com/ProductImages/${item.productImage[0]}`}
                           alt={item?.ProductName}
                           className="p-4 w-full h-full transform object-scale-down hover:scale-110 transition-transform duration-500 ease-in-out"
                         />

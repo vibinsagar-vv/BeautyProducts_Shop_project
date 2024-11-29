@@ -26,18 +26,18 @@ export default function Home() {
   const [allBanner, SetAllBanner] = useState([]);
   const contex = useContext(Context);
   const [product, SetProduct] = useState([]);
-  const nav = useNavigate()
+  const nav = useNavigate();
 
   const fetchBanner = async () => {
     const resData = await AXIOS.get(
-      "http://localhost:8200/products/get-banners"
+      "https://zenglow-server.onrender.com/products/get-banners"
     );
     SetAllBanner(resData?.data.data || []);
   };
 
   const fetchCategoryProduct = async () => {
     const resData = await AXIOS.get(
-      "http://localhost:8200/products/get-category-product"
+      "https://zenglow-server.onrender.com/products/get-category-product"
     );
     await SetCategory(resData.data.category);
     console.log("category", category);
@@ -83,7 +83,7 @@ export default function Home() {
           {allBanner.map((banner, index) => {
             return (
               <img
-                src={`http://localhost:8200/Banners/${banner.BannerImage}`}
+                src={`https://zenglow-server.onrender.com/Banners/${banner.BannerImage}`}
                 alt="..."
               />
             );
@@ -188,36 +188,44 @@ export default function Home() {
                         } sm:px-20 md:px-36 flex flex-col md:text-nowrap gap-6 sm:gap-0 md:py-0 py-6 sm:flex-row items-center rounded-md`}
                       >
                         <div className="">
-                          <p style={{"lineHeight":"1.5"}} className="md:text-7xl text-center text-4xl edu_australia font-bold text-white md:w-[500px] my-6 w-[300px] md:ml-20">
+                          <p
+                            style={{ lineHeight: "1.5" }}
+                            className="md:text-7xl text-center text-4xl edu_australia font-bold text-white md:w-[500px] my-6 w-[300px] md:ml-20"
+                          >
                             {name}
                           </p>
                           <div className="w-full flex justify-center mt-12">
-                          <button onClick={()=>nav(`/product-subcategory/${name}`)}
+                            <button
+                              onClick={() =>
+                                nav(`/product-subcategory/${name}`)
+                              }
                               className={` text-nowrap flex items-center py-2 px-4 bg-white font-semibold text-base  rounded-2xl border-white `}
                             >
-                              <span>SHOW PRODUCTS</span><span><IoMdArrowDropright/></span>
+                              <span>SHOW PRODUCTS</span>
+                              <span>
+                                <IoMdArrowDropright />
+                              </span>
                             </button>
                           </div>
                         </div>
-                          <div className="w-40 md:w-60 md:ml-60 relative object-contain h-40 md:h-60 flex">
-                            <div className="absolute -right-8 md:-right-0 -bottom-8 md:-bottom-0 blur-[60px] w-56 h-56 bg-white z-1 rounded-full  pr-12 opacity-65"></div>
-                            {product
-                              .filter((product) =>
-                                product.subcategory
-                                  .toLowerCase()
-                                  .includes(name.toLowerCase())
-                              )
-                              .slice(0, 1) // Limit to only the first product in the filtered results
-                              .map((product) => (
-                                <img
-                                  key={product._id} // Use a unique key for each product
-                                  className="w-40 z-10 md:w-60 object-contain h-40 md:h-60 flex"
-                                  src={`http://localhost:8200/ProductImages/${product.productImage[0]}`}
-                                  alt={product.name || "Product Image"} // Provide an accessible alt text
-                                />
-                              ))}
-                          </div>
-                        
+                        <div className="w-40 md:w-60 md:ml-60 relative object-contain h-40 md:h-60 flex">
+                          <div className="absolute -right-8 md:-right-0 -bottom-8 md:-bottom-0 blur-[60px] w-56 h-56 bg-white z-1 rounded-full  pr-12 opacity-65"></div>
+                          {product
+                            .filter((product) =>
+                              product.subcategory
+                                .toLowerCase()
+                                .includes(name.toLowerCase())
+                            )
+                            .slice(0, 1) // Limit to only the first product in the filtered results
+                            .map((product) => (
+                              <img
+                                key={product._id} // Use a unique key for each product
+                                className="w-40 z-10 md:w-60 object-contain h-40 md:h-60 flex"
+                                src={`https://zenglow-server.onrender.com/ProductImages/${product.productImage[0]}`}
+                                alt={product.name || "Product Image"} // Provide an accessible alt text
+                              />
+                            ))}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -233,36 +241,44 @@ export default function Home() {
                         } sm:px-20 md:px-36 flex flex-col md:text-nowrap gap-6 sm:gap-0 md:py-0 py-6 sm:flex-row items-center rounded-md`}
                       >
                         <div className="">
-                          <p style={{"lineHeight":"1.5"}} className="md:text-7xl text-center text-4xl edu_australia font-bold text-white md:w-[500px] my-6 w-[300px] md:ml-20">
+                          <p
+                            style={{ lineHeight: "1.5" }}
+                            className="md:text-7xl text-center text-4xl edu_australia font-bold text-white md:w-[500px] my-6 w-[300px] md:ml-20"
+                          >
                             {name}
                           </p>
                           <div className="w-full flex justify-center mt-12">
-                            <button onClick={()=>nav(`/product-subcategory/${name}`)}
+                            <button
+                              onClick={() =>
+                                nav(`/product-subcategory/${name}`)
+                              }
                               className={` text-nowrap flex items-center py-2 px-4 bg-white font-semibold text-base  rounded-2xl border-white `}
                             >
-                              <span>SHOW PRODUCTS</span><span><IoMdArrowDropright/></span>
+                              <span>SHOW PRODUCTS</span>
+                              <span>
+                                <IoMdArrowDropright />
+                              </span>
                             </button>
                           </div>
                         </div>
-                          <div className="w-40 md:w-60 md:ml-60 relative object-contain h-40 md:h-60 flex">
-                            <div className="absolute w-56 h-56 bg-white z-1 rounded-full -right-8 md:-right-0 -bottom-8 md:-bottom-0 blur-[60px] opacity-65"></div>
-                            {product
-                              .filter((product) =>
-                                product.subcategory
-                                  .toLowerCase()
-                                  .includes(name.toLowerCase())
-                              )
-                              .slice(0, 1) // Limit to only the first product in the filtered results
-                              .map((product) => (
-                                <img
-                                  key={product._id} // Use a unique key for each product
-                                  className="w-40 z-10 md:w-60 object-contain h-40 md:h-60 flex"
-                                  src={`http://localhost:8200/ProductImages/${product.productImage[0]}`}
-                                  alt={product.name || "Product Image"} // Provide an accessible alt text
-                                />
-                              ))}
-                          </div>
-                        
+                        <div className="w-40 md:w-60 md:ml-60 relative object-contain h-40 md:h-60 flex">
+                          <div className="absolute w-56 h-56 bg-white z-1 rounded-full -right-8 md:-right-0 -bottom-8 md:-bottom-0 blur-[60px] opacity-65"></div>
+                          {product
+                            .filter((product) =>
+                              product.subcategory
+                                .toLowerCase()
+                                .includes(name.toLowerCase())
+                            )
+                            .slice(0, 1) // Limit to only the first product in the filtered results
+                            .map((product) => (
+                              <img
+                                key={product._id} // Use a unique key for each product
+                                className="w-40 z-10 md:w-60 object-contain h-40 md:h-60 flex"
+                                src={`https://zenglow-server.onrender.com/ProductImages/${product.productImage[0]}`}
+                                alt={product.name || "Product Image"} // Provide an accessible alt text
+                              />
+                            ))}
+                        </div>
                       </div>
                     </div>
                   </div>

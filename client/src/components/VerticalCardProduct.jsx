@@ -21,7 +21,7 @@ export default function VerticalCardProduct({ category, heading }) {
   const fetchWishlist = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8200/user/get-wishlist",
+        "https://zenglow-server.onrender.com/user/get-wishlist",
         { headers: { token: localStorage.getItem("token") } }
       );
       console.log(response);
@@ -58,7 +58,7 @@ export default function VerticalCardProduct({ category, heading }) {
     try {
       if (wishlist.includes(productId)) {
         await axios.post(
-          "http://localhost:8200/user/remove-from-wishlist",
+          "https://zenglow-server.onrender.com/user/remove-from-wishlist",
           {
             productId,
           },
@@ -67,7 +67,7 @@ export default function VerticalCardProduct({ category, heading }) {
         SetWishlist(wishlist.filter((id) => id !== productId));
       } else {
         await axios.post(
-          "http://localhost:8200/user/add-to-wishlist",
+          "https://zenglow-server.onrender.com/user/add-to-wishlist",
           {
             productId,
           },
@@ -106,7 +106,7 @@ export default function VerticalCardProduct({ category, heading }) {
               <div className="absolute w-48 h-48 bg-white rounded-full blur-[50px] opacity-85"></div>
               {product.productImage[0] ? (
                 <img
-                  src={`http://localhost:8200/ProductImages/${product.productImage[0]}`}
+                  src={`https://zenglow-server.onrender.com/ProductImages/${product.productImage[0]}`}
                   alt={product?.ProductName}
                   className="p-4 w-full h-full transform object-scale-down hover:scale-110 transition-transform duration-500 ease-in-out"
                 />
@@ -117,7 +117,7 @@ export default function VerticalCardProduct({ category, heading }) {
                   className="p-4 w-full h-full transform object-scale-down hover:scale-110 transition-transform duration-500 ease-in-out"
                 />
               )}
-              {product.freez === true  && (
+              {product.freez === true && (
                 <div className="absolute w-full h-full bg-gray-400 bg-opacity-55 flex justify-center items-center">
                   <span className="text-xl font-bold bg-white px-3 text-gray-700 rounded-full">
                     Out Of Stock
@@ -157,8 +157,14 @@ export default function VerticalCardProduct({ category, heading }) {
                 </div>
                 {
                   <button
-                    className={`py-1.5 px-4 font-semibold rounded-full  ${!product?.freez ? `bg-accent-light text-white hover:bg-tertiary-dark hover:text-white`:`bg-gray-500 text-white`} transition-colors duration-300`}
-                    onClick={(e) => !product?.freez ? handleAddToCart(e, product?._id):""}
+                    className={`py-1.5 px-4 font-semibold rounded-full  ${
+                      !product?.freez
+                        ? `bg-accent-light text-white hover:bg-tertiary-dark hover:text-white`
+                        : `bg-gray-500 text-white`
+                    } transition-colors duration-300`}
+                    onClick={(e) =>
+                      !product?.freez ? handleAddToCart(e, product?._id) : ""
+                    }
                   >
                     Add to Cart
                   </button>

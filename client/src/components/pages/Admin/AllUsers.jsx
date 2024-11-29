@@ -20,7 +20,7 @@ export default function AllUsers() {
   };
   const fectchAllUsers = async () => {
     const resData = await AXIOS.post(
-      "http://localhost:8200/user/all-user",
+      "https://zenglow-server.onrender.com/user/all-user",
       {},
       { headers: header }
     );

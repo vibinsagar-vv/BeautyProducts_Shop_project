@@ -29,7 +29,7 @@ export default function MyNavbar() {
   const fetchProduct = async () => {
     try {
       const resData = await AXIOS.get(
-        "http://localhost:8200/products/get-products"
+        "https://zenglow-server.onrender.com/products/get-products"
       );
       SetData(resData?.data.data || []);
     } catch (error) {
@@ -106,9 +106,12 @@ export default function MyNavbar() {
 
   const handleLogOut = async (email) => {
     console.log(email);
-    
+
     localStorage.clear();
-    const resData = await AXIOS.post("http://localhost:8200/user/logOut",{email:email});
+    const resData = await AXIOS.post(
+      "https://zenglow-server.onrender.com/user/logOut",
+      { email: email }
+    );
     if (resData.data.success) {
       toast.success(resData.data.message);
       dispatch(setUserDetials(null));
@@ -172,7 +175,7 @@ export default function MyNavbar() {
                       alt="User settings"
                       img={
                         userDetials?.profilePic
-                          ? `http://localhost:8200/profilePhotos/${userDetials.profilePic}`
+                          ? `https://zenglow-server.onrender.com/profilePhotos/${userDetials.profilePic}`
                           : UserLogo
                       }
                       rounded
@@ -188,7 +191,8 @@ export default function MyNavbar() {
                         {userDetials?.email}
                       </span>
                     </Dropdown.Header>
-                    {(userDetials?.role === "ADMIN"||userDetials?.role === "MASTER_ADMIN") && (
+                    {(userDetials?.role === "ADMIN" ||
+                      userDetials?.role === "MASTER_ADMIN") && (
                       <Dropdown.Item>
                         <Link className="w-full flex" to={"/dashboard"}>
                           Dashboard
@@ -203,7 +207,7 @@ export default function MyNavbar() {
                     <Dropdown.Divider />
                     <Dropdown.Item
                       className="block lg:hidden bg-primary-light bg-opacity-40 hover:bg-opacity-60 hover:bg-primary-light"
-                      onClick={()=>handleLogOut(userDetials?.email)}
+                      onClick={() => handleLogOut(userDetials?.email)}
                     >
                       <div className="flex justify-center items-center">
                         Sign out
@@ -302,7 +306,7 @@ export default function MyNavbar() {
           {userDetials?._id ? (
             <div className="lg:flex p-1 hidden">
               <button
-                onClick={()=>handleLogOut(userDetials?.email)}
+                onClick={() => handleLogOut(userDetials?.email)}
                 className="relative inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-accent-light to-primary-light group-hover:from-accent-light group-hover:to-primary-light hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800"
               >
                 <span className="relative px-1.5 py-1.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
@@ -412,7 +416,7 @@ export default function MyNavbar() {
             <li className="block lg:hidden">
               {userDetials?._id ? (
                 <div
-                  onClick={()=>handleLogOut(userDetials?.email)}
+                  onClick={() => handleLogOut(userDetials?.email)}
                   className="block py-2 px-3 cursor-pointer bg-gray-100 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-accent-light md:p-0 dark:text-white md:dark:hover:text-accent-light dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                 >
                   <div className="flex items-center justify-center">
