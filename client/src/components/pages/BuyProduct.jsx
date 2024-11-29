@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import MyNavbar from "../flowbiteHeader";
-import logo from "../../assest/logo/logoIcon.png";
+import logo from "../../assest/logo/logoIconInvert.png";
 import Footer from "../Footer";
 import axios from "axios";
 import Context from "../../context/context";
@@ -258,7 +258,7 @@ export default function ProductBuyPage() {
           address: "Razorpay Corporate Office",
         },
         theme: {
-          color: "#3399cc",
+          color: "#CC2B52",
         },
       };
 
