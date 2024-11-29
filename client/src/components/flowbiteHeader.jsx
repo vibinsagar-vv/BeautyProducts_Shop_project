@@ -86,10 +86,19 @@ export default function MyNavbar() {
   const handleSuggestionClick = (suggestion) => {
     if (suggestion.type === "product") {
       nav(`/product/${suggestion.product._id}`);
+      window.scrollTo({ top: 0, behavior: "instant" });
+      setIsMenuOpen(false)
+      setSearchTerm("")
     } else if (suggestion.type === "category") {
       nav(`/product-category/${suggestion.value}`);
+      window.scrollTo({ top: 0, behavior: "instant" });
+      setIsMenuOpen(false)
+      setSearchTerm("")
     } else if (suggestion.type === "subcategory") {
       nav(`/product-subcategory/${suggestion.value}`);
+      window.scrollTo({ top: 0, behavior: "instant" });
+      setIsMenuOpen(false)
+      setSearchTerm("")
     }
     setSuggestions([]);
   };
