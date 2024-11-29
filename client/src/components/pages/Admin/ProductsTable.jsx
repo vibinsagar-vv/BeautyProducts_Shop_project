@@ -11,6 +11,8 @@ import moment from "moment";
 import UploadProducts from "../../UploadProducts";
 import AdminEditProduct from "../../AdminEditProduct";
 import noImage from "../../../assest/logo/no-photo.png";
+import { IoIosCloseCircle } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 
 // Global Filter component for search
 const GlobalFilter = ({ globalFilter, setGlobalFilter }) => (
@@ -29,11 +31,13 @@ const GlobalFilter = ({ globalFilter, setGlobalFilter }) => (
 
 const ProductsTable = () => {
   const [allProducts, setAllProducts] = useState([]);
+  const [openEdit, SetOpenEdit] = useState(false);
+  const [editDetials, SetEditDetials] = useState({});
   const [EditData, SetEditData] = useState({});
   const [editPoduct, SetEditProduct] = useState(false);
   const [pageSize, setPageSize] = useState(10); // Default page size
   const [openUploadProduct, SetOpenUploadProduct] = useState(false);
-
+  const nav = useNavigate();
   const fetchProducts = async () => {
     if (localStorage.getItem("token")) {
       try {
@@ -44,6 +48,24 @@ const ProductsTable = () => {
       } catch (error) {
         toast.error("Error fetching products");
       }
+    }
+  };
+
+  const handleFreez = async () => {
+    try {
+      const resData = await axios.post(
+        "http://localhost:8200/products/freez_product",
+        {
+          id: editDetials._id,
+          freez: editDetials?.freez ? true : false,
+        }
+      );
+      if (resData.data.success) {
+        SetOpenEdit(false);
+        fetchProducts()
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -97,9 +119,15 @@ const ProductsTable = () => {
         ),
       },
       {
-        Header: "Last Updated",
-        accessor: "updatedAt",
-        Cell: ({ value }) => moment(value).format("ll"),
+        Header: "Status",
+        accessor: "freez",
+        Cell: ({ value }) => {
+          if(value){
+            return <span className="text-red-600 font-semibold">freez</span>
+          }else{
+            return <span className="text-lime-600 font-semibold">Un Freez</span>
+          }
+        },
       },
       {
         Header: "Actions",
@@ -107,8 +135,6 @@ const ProductsTable = () => {
           <div className="flex space-x-2">
             <button
               onClick={() => {
-                SetEditProduct(true);
-                SetEditData(row.original);
                 // console.log("editing",row.original);
               }}
               className="text-blue-600 hover:underline"
@@ -264,6 +290,12 @@ const ProductsTable = () => {
                 <tr {...row.getRowProps()}>
                   {row.cells.map((cell) => (
                     <td
+                      onClick={() => {
+                        SetOpenEdit(true);
+                        SetEditDetials(row.original);
+                        SetEditData(row.original);
+                        console.log(editDetials);
+                      }}
                       {...cell.getCellProps()}
                       className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500"
                     >
@@ -337,6 +369,44 @@ const ProductsTable = () => {
           }}
           fetchData={fetchProducts}
         />
+      )}
+      {openEdit && (
+        <div className="absolute w-full h-full z-10 flex justify-center items-center top-0 bottom-0 left-0 right-0 bg-slate-200 bg-opacity-50">
+          <div className="w-full mx-auto rounded p-10 bg-white shadow-md max-w-sm">
+            <button
+              className="block ml-auto text-2xl hover:text-pink-900 cursor-pointer"
+              onClick={() => SetOpenEdit(false)}
+            >
+              <IoIosCloseCircle />
+            </button>
+            <div>
+              <div className="mb-8">
+                <span className="text-xl font-bold">
+                  Update {editDetials.ProductName}
+                </span>
+              </div>
+              <div className="my-4 flex justify-between px-10">
+                <button
+                  onClick={() => {
+                    handleFreez();
+                  }}
+                  className="bg-red-600 text-white px-6 py-2 rounded"
+                >
+                  {editDetials.freez ? "Unfreez" : "Freez"}
+                </button>
+                <button
+                  onClick={() => {
+                    SetEditProduct(true);
+                    SetOpenEdit(false);
+                  }}
+                  className="bg-green-600 text-white px-6 py-2 rounded"
+                >
+                  Edit
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

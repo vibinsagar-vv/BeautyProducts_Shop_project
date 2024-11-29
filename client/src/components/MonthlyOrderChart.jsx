@@ -69,18 +69,18 @@ const AdminMonthlyOrderChart = () => {
 
   return (
     <div className="w-full">
-      <h3>Monthly Total Order Prize</h3>
+      <h3 className="text-3xl text-accent-light font-bold">Monthly Total Order Prize</h3>
       <label>
         Select Year:
-        <select value={year} onChange={(e) => setYear(e.target.value)}>
+        <select className="ml-10 my-6 border-black focus:border-accent-dark focus:ring-accent-light focus:outline-none" value={year} onChange={(e) => setYear(e.target.value)}>
           {years.map((y) => (
-            <option key={y} value={y}>
+            <option className="" key={y} value={y}>
               {y}
             </option>
           ))}
         </select>
       </label>
-      <div className="md:w-full mt-6  w-[335px] h-[200px] md:h-[400px]">
+      <div className="md:w-[80%] md:ml-10 mt-6  w-[335px] h-[200px] md:h-[400px]">
         <ResponsiveContainer>
           <LineChart data={monthlyData}>
             <CartesianGrid strokeDasharray="3 3" />
@@ -97,7 +97,7 @@ const AdminMonthlyOrderChart = () => {
             <Line
               type="monotone"
               dataKey="totalSales"
-              stroke="#8884d8"
+              stroke="#CC2B52"
               activeDot={{ r: 8 }}
             />
           </LineChart>

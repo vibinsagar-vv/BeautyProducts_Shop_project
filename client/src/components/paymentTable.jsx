@@ -8,6 +8,7 @@ import {
 import axios from "axios";
 import { toast } from "react-toastify";
 import ChangeUserRole from "./ChangeUserRole";
+import { IoIosCloseCircle } from "react-icons/io";
 
 // Global Filter component for search
 const GlobalFilter = ({ globalFilter, setGlobalFilter }) => (
@@ -26,17 +27,16 @@ const PaymentTable = () => {
   const [allOrders, setAllOrders] = useState([]);
   const [pageSize, setPageSize] = useState(10); // Default page size
   const [openUpdateOrder, SetOpenUpdatOrder] = useState(false);
-  const [updateUserDetials, SetUpdateUserDetials] = useState({
-    email: "",
-    order_status: "",
-    order_id: "",
-    _id: "",
-  });
+  const [updateUserDetials, SetUpdateUserDetials] = useState({});
+  const [activeTab, setActiveTab] = useState(null); // Track the active tab
+
+  const handleClick = (index) => {
+    setActiveTab(index); // Update the active tab index
+  };
 
   const header = {
     token: localStorage.getItem("token") || "",
   };
-
 
   const fetchOrders = async () => {
     try {
@@ -46,17 +46,34 @@ const PaymentTable = () => {
         { headers: header }
       );
 
-      setAllOrders(resData.data.data)
+      setAllOrders(resData.data.data);
       console.log(resData.data.data);
-      
     } catch (error) {
       toast.error("Error fetching users");
+    }
+  };
+
+  const handleStatus = async (id, status) => {
+    try {
+      const resData = await axios.post(
+        "http://localhost:8200/products/setStatus",
+        { id, status },
+        { headers: header }
+      );
+      if (resData.data.success) {
+        toast.success("order status updated");
+        SetOpenUpdatOrder(false);
+        fetchOrders();
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
   useEffect(() => {
     fetchOrders();
   }, []);
+  console.log(updateUserDetials);
 
   // Columns configuration (Status column added)
   const columns = useMemo(
@@ -74,14 +91,16 @@ const PaymentTable = () => {
         accessor: "order_status",
         Cell: ({ value }) => {
           let colorClass = "";
-          if (value === "Order placed") colorClass = "bg-blue-500";
-          else if (value === "shipped") colorClass = "bg-yellow-500";
-          else if (value === "reached") colorClass = "bg-green-500";
+          if (value === "Order placed") colorClass = "bg-red-500";
+          else if (value === "Shipped") colorClass = "bg-yellow-400";
+          else if (value === "Delivered") colorClass = "bg-green-500";
 
           return (
-            <span className={`text-white px-3 py-1 rounded-full ${colorClass}`}>
+            <button
+              className={`text-white min-w-32 px-3 py-2 rounded-full ${colorClass}`}
+            >
               {value.charAt(0).toUpperCase() + value.slice(1)}
-            </span>
+            </button>
           );
         },
       },
@@ -143,6 +162,30 @@ const PaymentTable = () => {
 
   return (
     <div className="p-4">
+      <div><p className="text-4xl font-bold text-accent-light mb-10">Order Page</p></div>
+      <div className="mb-10 grid grid-cols-4 bg-slate-300">
+      {["All", "Order Placed", "Shipped", "Delivered"].map((status, index) => (
+        <p
+          key={index}
+          className={`text-center hover:bg-slate-600 hover:text-white py-3 cursor-pointer ${
+            activeTab === index ? "bg-accent-light text-white" : "bg-slate-300"
+          }`}
+          onClick={() => {handleClick(index)
+            if(status=="All"){
+              setGlobalFilter("")
+            }else if(status=="Order Placed"){
+              setGlobalFilter("Order placed")
+            }else if(status=="Shipped"){
+              setGlobalFilter("Shipped")
+            }else if(status=="Delivered"){
+              setGlobalFilter("Delivered")
+            }
+          }}
+        >
+          {status}
+        </p>
+      ))}
+    </div>
       {/* Search Input */}
       <div>
         {/* Entries per page selector */}
@@ -217,10 +260,11 @@ const PaymentTable = () => {
               return (
                 <tr className="" {...row.getRowProps()}>
                   {row.cells.map((cell) => (
-                    <td onClick={() => {
-                      SetUpdateUserDetials(row.original);
-                      SetOpenUpdatOrder(true);
-                    }}
+                    <td
+                      onClick={() => {
+                        SetUpdateUserDetials(row.original);
+                        SetOpenUpdatOrder(true);
+                      }}
                       {...cell.getCellProps()}
                       className="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
                     >
@@ -279,7 +323,77 @@ const PaymentTable = () => {
         </div>
       </div>
       {openUpdateOrder && (
-        <div className="w-full h-full bg-red-600">abc</div>
+        <div className="fixed w-full h-[calc(100vh-4px)] z-50 flex justify-center items-center top-0 bottom-0 left-0 right-0 bg-slate-300 bg-opacity-50">
+          <div className="w-full mx-auto rounded py-6 px-10 bg-white shadow-md max-w-2xl">
+            <button
+              className="block ml-auto text-2xl hover:text-pink-900 cursor-pointer"
+              onClick={() => SetOpenUpdatOrder(false)}
+            >
+              <IoIosCloseCircle />
+            </button>
+            <div>
+              <h1 className="text-2xl font-bold my-4 ">
+                ORDER : {updateUserDetials?.order_id}
+              </h1>
+              <p>USER : {updateUserDetials?.email}</p>
+              <p>
+                ADDRESS :{" "}
+                {`${updateUserDetials?.address?.house},${updateUserDetials?.address?.street},${updateUserDetials?.address?.city},${updateUserDetials?.address?.district},${updateUserDetials?.address?.state},${updateUserDetials?.address?.country},${updateUserDetials?.address?.pincode}`}
+              </p>
+              <p>
+                DATE :{" "}
+                {new Date(updateUserDetials?.updatedAt).toDateString()}
+              </p>
+              <div className="border-2 my-4 p-4">
+                {updateUserDetials?.products.map((product, index) => {
+                  return (
+                    <div key={index}>
+                      <div className="flex mb-4 gap-2">
+                        <p>PRODUCT NAME : {product?.ProductId?.ProductName},</p>
+                        <p>QUANTITY : {product?.Quantity}</p>
+                      </div>
+                      <hr className="my-2" />
+                    </div>
+                  );
+                })}
+              </div>
+              {updateUserDetials?.order_status == "Delivered" &&(
+                <div>
+                  <span className="text-red-600 text-lg font-semibold">Products Delivered To Customer.</span>
+                </div>
+              )}
+
+              <div className="w-full flex justify-end">
+                {updateUserDetials?.order_status == "Order placed" && (
+                  <button
+                    onClick={() => {
+                      handleStatus(
+                        updateUserDetials?._id,
+                        updateUserDetials?.order_status
+                      );
+                    }}
+                    className="bg-accent-light text-white font-bold px-3 py-2 rounded"
+                  >
+                    SHIP PRODUCT
+                  </button>
+                )}
+                {updateUserDetials?.order_status == "Shipped" && (
+                  <button
+                    onClick={() => {
+                      handleStatus(
+                        updateUserDetials?._id,
+                        updateUserDetials?.order_status
+                      );
+                    }}
+                    className="bg-red-600 text-white font-bold px-3 py-2 rounded"
+                  >
+                    DELIVERED
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

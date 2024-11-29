@@ -2,11 +2,15 @@ const ProductModel = require("../../models/productModel")
 
 async function FreezProductCntrl(req,res){
     try{
-        const {_id} = req.body
+        const {id,freez} = req.body
+        console.log(!freez);
+        
         
        
-        const updatedProduct = await ProductModel.findByIdAndUpdate(_id,{freez:true})
+        const updatedProduct = await ProductModel.findByIdAndUpdate({_id:id},{freez:!freez})
 
+        console.log(updatedProduct);
+        
         res.json({
             data:updatedProduct,
             success:true,
@@ -21,7 +25,6 @@ async function FreezProductCntrl(req,res){
         })
     }
 }
-module.exports = FreezProductCntrl
 
 
 async function UnFreezProductCntrl(req,res){
@@ -45,4 +48,4 @@ async function UnFreezProductCntrl(req,res){
         })
     }
 }
-module.exports = UnFreezProductCntrl
+module.exports = {UnFreezProductCntrl,FreezProductCntrl}

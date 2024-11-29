@@ -95,7 +95,7 @@ export default function CategoryProducts() {
   return (
     <div className="pt-20 min-h-[100vh]">
       <div className="container mx-auto p-4 pt-10 ">
-        <div className="flex items-center gap-4 justify-between lg:justify-evenly overflow-scroll py-6 scrollbar-none pl-3">
+        <div className="flex items-center gap-4 px-10 justify-between lg:justify-evenly overflow-scroll py-6 scrollbar-none pl-3">
           {data.map((product, index) => {
             console.log("i", product);
 

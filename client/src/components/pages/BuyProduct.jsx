@@ -494,6 +494,7 @@ export default function ProductBuyPage() {
                           <input
                             type="email"
                             name="email"
+                            disabled
                             value={editAddress?.email}
                             onChange={handleEditAddressChange}
                             className="w-full p-2 border rounded"

@@ -102,7 +102,7 @@ export default function WishList() {
           <img onClick={() => nav("/")} className="w-20 h-20 m-16" src={wishlistImage} alt="image" />
         </div>
       ) : (
-        <div className="md:max-w-7xl p-8 justify-center md:justify-start flex flex-wrap h-[calc(100vh)] scrollbar-none gap-6 mx-auto md:gap-x-36 gap-y-10 lg:gap-y-20 max-md:gap-20 py-4 overflow-y-scroll">
+        <div className="md:max-w-7xl p-8 justify-center md:justify-start flex flex-wrap scrollbar-none gap-6 mx-auto md:gap-x-36 gap-y-10 lg:gap-y-20 max-md:gap-20 py-4 overflow-y-scroll">
           {data?.map((product, index) => {
             console.log("product", product);
 

@@ -27,10 +27,10 @@ const YearlySalesPieChart = () => {
 
         // Prepare chart data
         const chartData = [
-          { name: "Current Year Sales", value: totalSalesCurrentYear },
+          { name: "Current Year Sales", value: Math.floor((totalSalesCurrentYear/totalSalesAllYears)*100) },
           {
             name: "Other Years Sales",
-            value: totalSalesAllYears - totalSalesCurrentYear,
+            value: Math.floor(((totalSalesAllYears - totalSalesCurrentYear)/totalSalesAllYears)*100),
           },
         ];
 
@@ -45,36 +45,42 @@ const YearlySalesPieChart = () => {
     fetchSalesData();
   }, []);
 
-  const COLORS = ["#0088FE", "#FFBB28"];
+  const COLORS = ["#CC2B52", "#FFBB28"];
 
   return (
-    <div style={{ textAlign: "center" }}>
-      <h2 style={{ color: "white" }}>Sales Distribution</h2>
-      <ResponsiveContainer width="100%" height={400}>
-        <PieChart>
-          <Pie
-            data={data}
-            dataKey="value"
-            nameKey="name"
-            cx="50%"
-            cy="50%"
-            outerRadius={150}
-            fill="#8884d8"
-            label={({ name, value }) => `${name}: ${value}`}
-          >
-            {data.map((entry, index) => (
-              <Cell
-                key={`cell-${index}`}
-                fill={COLORS[index % COLORS.length]}
-              />
-            ))}
-          </Pie>
-          <Tooltip />
-          <Legend />
-        </PieChart>
-      </ResponsiveContainer>
-      <p style={{ color: "white", marginTop: "20px" }}>
-        From a total of {totalSales} sales, {currentYearSales} are from the
+    <div className="w-full md:border-l-2 mt-16 md:mt-0 md:m-4 md:border-black">
+            <h3 className="text-center text-accent-light text-4xl font-bold">Sales Distribution - Total</h3>
+      {/* Responsive container with dynamic height */}
+      <div className="h-[300px] md:h-[400px] lg:h-[500px]">
+        <ResponsiveContainer>
+          <PieChart>
+            <Pie
+              data={data}
+              dataKey="value"
+              nameKey="name"
+              cx="50%"
+              cy="50%"
+              innerRadius={50}
+              outerRadius={100} // Smaller size for mobile
+              fill="#8884d8"
+              label={({ name, value }) => `${value}%`}
+            >
+              {data.map((entry, index) => (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={COLORS[index % COLORS.length]}
+                />
+              ))}
+            </Pie>
+            <Tooltip 
+            label={({ name, value }) => `${value}%`}/>
+            <Legend />
+          </PieChart>
+        </ResponsiveContainer>
+      </div>
+      <p className="text-center text-sm text-white mt-4">
+        From a total of <span className="font-bold">{totalSales}</span> sales,{" "}
+        <span className="font-bold">{currentYearSales}</span> are from the
         current year.
       </p>
     </div>

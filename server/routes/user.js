@@ -33,6 +33,8 @@ const getyearlySalesData = require('../controller/charts/yearlypieChart')
 const changePassCntrl = require('../controller/user/changePassCntrl')
 const newPasswordCntrl = require('../controller/user/newPasswordCntrl')
 const verifyPassOtpCntrl = require('../controller/user/verifyPassOtp')
+const getCount = require('../controller/user/getCounts')
+const getTotalSaleAmount = require('../controller/user/getTotalSaleAmount')
 
 const upload=multer({storage:ProfilePicstorage})
 
@@ -42,6 +44,8 @@ router.post("/login",userSignInCntrl)
 router.get("/user-detials",authToken,userDetialCntrl)
 router.post("/logOut",userLogOut)
 router.post("/changeProfilePic",authToken,upload.single('profile'),ChangeProfilePicCntrl)
+router.get("/allCounts",getCount)
+router.get("/saleAmount",getTotalSaleAmount)
 
 //OTP 
 

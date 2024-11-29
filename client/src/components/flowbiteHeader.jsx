@@ -188,7 +188,7 @@ export default function MyNavbar() {
                         {userDetials?.email}
                       </span>
                     </Dropdown.Header>
-                    {userDetials?.role === "ADMIN" && (
+                    {(userDetials?.role === "ADMIN"||userDetials?.role === "MASTER_ADMIN") && (
                       <Dropdown.Item>
                         <Link className="w-full flex" to={"/dashboard"}>
                           Dashboard

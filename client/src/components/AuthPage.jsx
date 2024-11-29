@@ -32,7 +32,6 @@ export default function AuthPage() {
   const signUpHandleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log("error");
       if (
         signupData.password === signupData.confirmPassword &&
         Object.keys(error).length == 0

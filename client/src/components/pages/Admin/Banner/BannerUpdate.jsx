@@ -22,7 +22,7 @@ export default function BannerUpdate() {
     <div>
       <div>
         <div className="bg-white py-2 px-4 flex justify-between items-center">
-          <h2 className="font-bold text-lg ">Banners</h2>
+        <div><p className="text-4xl my-6 font-bold text-accent-light mb-10">Banners</p></div>
           <button
             className="border-2 border-pink-700 text-pink-700 hover:bg-pink-700 hover:text-white transition-all py-1 px-3 rounded-full "
             onClick={() => {

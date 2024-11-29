@@ -1,5 +1,11 @@
-import React, { useState,useContext, } from "react";
-import { Link, Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import {
+  Link,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import AllUsers from "./pages/Admin/AllUsers";
 import AllProducts from "./pages/Admin/AllProducts";
 import BannerUpdate from "./pages/Admin/Banner/BannerUpdate";
@@ -10,7 +16,7 @@ import ProductsTable from "./pages/Admin/ProductsTable";
 import { FaUsers } from "react-icons/fa";
 import { GiShoppingBag } from "react-icons/gi";
 import AdminMonthlyOrderChart from "./MonthlyOrderChart";
-import DashBoardHome from "./pages/DashBoardHome"
+import DashBoardHome from "./pages/DashBoardHome";
 import UserLogo from "../assest/logo/UserLogo.png";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserDetials } from "../store/userSlice";
@@ -18,18 +24,42 @@ import Context from "../context/context";
 import { Avatar, Button, Dropdown } from "flowbite-react";
 import { MdOutlineLogout, MdOutlineLogin } from "react-icons/md";
 import PaymentTable from "./paymentTable";
-
+import AXIOS from "axios";
+import { toast } from "react-toastify";
+import Charts from "./Charts";
+import { MdDashboard } from "react-icons/md";
+import { PiFlagBannerFill } from "react-icons/pi";
+import { SlGraph } from "react-icons/sl";
+import { BsBoxSeamFill } from "react-icons/bs";
 
 export default function DashBoard() {
   const userDetials = useSelector((state) => state?.user?.user);
   // console.log('userhead',user);
   const dispatch = useDispatch();
+  const nav = useNavigate();
 
   const context = useContext(Context);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const handleLogOut = async (email) => {
+    console.log(email);
+
+    localStorage.clear();
+    const resData = await AXIOS.post("http://localhost:8200/user/logOut", {
+      email: email,
+    });
+    if (resData.data.success) {
+      toast.success(resData.data.message);
+      dispatch(setUserDetials(null));
+      nav("/");
+    }
+    if (resData.data.error) {
+      toast.error(resData.data.message);
+    }
   };
   return (
     <div className="min-h-screen pt-16">
@@ -66,7 +96,7 @@ export default function DashBoard() {
             </div>
             <div className="flex items-center">
               <div className="flex items-center ms-3">
-              <Dropdown
+                <Dropdown
                   arrowIcon={false}
                   inline
                   label={
@@ -90,13 +120,13 @@ export default function DashBoard() {
                         {userDetials?.email}
                       </span>
                     </Dropdown.Header>
-                    {userDetials?.role === "ADMIN" && (
-                      <Dropdown.Item>
-                        <Link className="w-full flex" to={"/"}>
-                          WebSite
-                        </Link>
-                      </Dropdown.Item>
-                    )}
+
+                    <Dropdown.Item>
+                      <Link className="w-full flex" to={"/"}>
+                        WebSite
+                      </Link>
+                    </Dropdown.Item>
+
                     <Dropdown.Item>
                       <Link className="w-full flex" to={"/profile"}>
                         Profile
@@ -105,7 +135,7 @@ export default function DashBoard() {
                     <Dropdown.Divider />
                     <Dropdown.Item
                       className="block lg:hidden bg-primary-light bg-opacity-40 hover:bg-opacity-60 hover:bg-primary-light"
-                      onClick={()=>handleLogOut(userDetials?.email)}
+                      onClick={() => handleLogOut(userDetials?.email)}
                     >
                       <div className="flex justify-center items-center">
                         Sign out
@@ -129,49 +159,49 @@ export default function DashBoard() {
       >
         <aside
           id="logo-sidebar"
-          className={`fixed pt-10 left-0 z-40 w-64 h-full transition-transform transform ${
+          className={`fixed pt-10 pb-6 left-0 z-40 w-64 h-full transition-transform transform ${
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"
           } bg-tertiary-dark border-r border-gray-200 md:translate-x-0 dark:bg-gray-800 dark:border-gray-700`}
           aria-label="Sidebar"
         >
-          <div className="h-full px-3 pb-4 overflow-y-auto bg-transparent dark:bg-gray-800">
-            <ul className="space-y-2 font-medium text-white">
+          <div className="h-full px-3 pb-4 scrollbar-none overflow-y-auto bg-transparent dark:bg-gray-800">
+            <ul className="space-y-2 font-medium text-slate-200">
               {/* Menu items */}
               <li>
                 <a
                   href="/dashboard"
-                  className="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group hover:text-tertiary-dark"
+                  className="flex mx-6 mb-10 items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group hover:text-tertiary-dark"
                 >
-                  <svg
-                    className="w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    viewBox="0 0 22 21"
-                  >
-                    <path d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z" />
-                    <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z" />
-                  </svg>
+                  <span className="w-5 h-5 mr-3 text-center flex items-center text-2xl text-slate-200 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
+                    <MdDashboard />
+                  </span>
                   <span className="ms-3">Dashboard</span>
                 </a>
               </li>
+              <p className="text-tertiary-dark bg-white w-full font-extrabold text-xl text-center py-2">
+                USERS
+              </p>
               {/* Add more menu items as needed */}
               <li>
                 <Link
                   to={"all-users"}
-                  className="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group hover:text-tertiary-dark"
+                  className="flex mx-6 my-10 items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group hover:text-tertiary-dark"
                 >
-                  <span className="w-5 h-5 mr-3 text-center flex items-center text-2xl text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
+                  <span className="w-5 h-5 mr-3 text-center flex items-center text-2xl text-slate-200 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
                     <FaUsers />
                   </span>
                   All Users
                 </Link>
               </li>
+              <p className="text-tertiary-dark bg-white w-full font-extrabold text-xl text-center py-2">
+                PRODUCTS
+              </p>
               <li>
                 <Link
                   to={"products"}
-                  className="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group hover:text-tertiary-dark"
+                  className="flex mx-6 my-10 items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group hover:text-tertiary-dark"
                 >
-                  <span className="w-5 h-5 mr-3 text-center flex items-center text-2xl text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
+                  <span className="w-5 h-5 mr-3 text-center flex items-center text-2xl text-slate-200 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
                     <GiShoppingBag />
                   </span>
                   products
@@ -180,9 +210,34 @@ export default function DashBoard() {
               <li>
                 <Link
                   to={"banners"}
-                  className="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group hover:text-tertiary-dark"
+                  className="flex mx-6 my-10 items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group hover:text-tertiary-dark"
                 >
+                  <span className="w-5 h-5 mr-3 text-center flex items-center text-2xl text-slate-200 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
+                    <PiFlagBannerFill />
+                  </span>
                   Banners
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to={"sales"}
+                  className="flex mx-6 my-10 items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group hover:text-tertiary-dark"
+                >
+                  <span className="w-5 h-5 mr-3 text-center flex items-center text-2xl text-slate-200 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
+                    <SlGraph />
+                  </span>
+                  Sales
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to={"orders"}
+                  className="flex mx-6 my-10 items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group hover:text-tertiary-dark"
+                >
+                  <span className="w-5 h-5 mr-3 text-center flex items-center text-2xl text-slate-200 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
+                    <BsBoxSeamFill />
+                  </span>
+                  Orders
                 </Link>
               </li>
             </ul>
@@ -194,10 +249,11 @@ export default function DashBoard() {
             <Route path="/all-users" element={<UsersTable />} />
             <Route path="/products" element={<ProductsTable />} />
             <Route path="/banners" element={<BannerUpdate />} />
-            <Route path="/sales" element={<PaymentTable/>}/>
+            <Route path="/orders" element={<PaymentTable />} />
+            <Route path="/sales" element={<Charts />} />
           </Routes>
         </main>
       </div>
     </div>
-  )
+  );
 }

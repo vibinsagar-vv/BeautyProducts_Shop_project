@@ -51,7 +51,8 @@ async function userSignUpCntrl(req,res){
         const payload = {
             ...userDetial,
                 password:password,
-                role:"GENERAL"
+                role:"GENERAL",
+                online:false
         }
         const userData = new userModel(payload)
         const saveUser =await userData.save()

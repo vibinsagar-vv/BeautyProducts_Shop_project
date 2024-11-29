@@ -48,8 +48,8 @@ const YearlyMonthlyBlockChart = () => {
 
   return (
     <div className="w-full">
-      <h3>Yearly and Monthly Total Sales</h3>
-      <div className="md:w-full relative mt-6 flex z-40 w-[335px] h-[200px] md:h-[400px]">
+      <h3 className="text-3xl text-accent-light font-bold">Yearly and Monthly Total Sales</h3>
+      <div className="md:w-[80%] sm:ml-32 md:ml-10 mt-6 flex z-10 w-[335px] h-[200px] md:h-[400px]">
       <ResponsiveContainer>
         <BarChart data={chartData}>
           <CartesianGrid strokeDasharray="3 3" />

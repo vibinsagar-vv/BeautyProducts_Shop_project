@@ -8,6 +8,8 @@ import {
 import axios from "axios";
 import { toast } from "react-toastify";
 import ChangeUserRole from "./ChangeUserRole";
+import { jwtDecode } from "jwt-decode";
+
 
 // Global Filter component for search
 const GlobalFilter = ({ globalFilter, setGlobalFilter }) => (
@@ -33,6 +35,8 @@ const UsersTable = () => {
     _id: "",
   });
 
+  const decode = jwtDecode(localStorage.getItem("token"));
+
   const header = {
     token: localStorage.getItem("token") || "",
   };
@@ -51,13 +55,19 @@ const UsersTable = () => {
         { headers: header }
       );
 
+      console.log(resData.data.data);
+      
+
       if (resData.data.success) {
+        console.log(decode.data);
+        
+        const usersData = resData.data.data.filter(
+          (user) =>  user.email !== decode?.data?.email && user.role !== "MASTER_ADMIN"
+        );
+        // console.log(usersData);
+        
         // Assign random status to each user
-        const usersWithStatus = resData.data.data.map((user) => ({
-          ...user,
-          status: getRandomStatus(),
-        }));
-        setAllUsers(usersWithStatus);
+        setAllUsers(usersData);
       } else {
         toast.error(resData.data.message);
       }
@@ -79,42 +89,18 @@ const UsersTable = () => {
       {
         Header: "Created At",
         accessor: "createdAt",
-        Cell: ({ value }) => new Date(value).toLocaleString(),
-      },
-      {
-        Header: "Updated At",
-        accessor: "updatedAt",
-        Cell: ({ value }) => new Date(value).toLocaleString(),
+        Cell: ({ value }) => new Date(value).toLocaleDateString(),
       },
       {
         Header: "Status",
-        accessor: "status",
+        accessor: "online",
         Cell: ({ value }) => {
-          let colorClass = "";
-          if (value === "ordered") colorClass = "bg-red-500";
-          else if (value === "shipped") colorClass = "bg-yellow-500";
-          else if (value === "reached") colorClass = "bg-green-500";
-
-          return (
-            <span className={`text-white px-3 py-1 rounded-full ${colorClass}`}>
-              {value.charAt(0).toUpperCase() + value.slice(1)}
-            </span>
-          );
+          if(value){
+            return <span className="text-lime-700 font-semibold">Online</span>
+          }else{
+            return <span className="text-red-600 font-semibold">Offline</span>
+          }
         },
-      },
-      {
-        Header: "Actions",
-        Cell: ({ row }) => (
-          <div className="flex space-x-2">
-            <button className="text-blue-600 hover:underline">Edit</button>
-            <button
-              onClick={() => handleDelete(row.original._id)}
-              className="text-red-600 hover:underline"
-            >
-              Delete
-            </button>
-          </div>
-        ),
       },
     ],
     []
@@ -166,6 +152,7 @@ const UsersTable = () => {
     );
     if (ResData.data.success) {
       toast.success(ResData.data.message);
+      SetOpenUpdateUser(false)
       fetchAllUsers();
     }
 
@@ -174,6 +161,7 @@ const UsersTable = () => {
 
   return (
     <div className="p-4">
+            <div><p className="text-4xl font-bold text-accent-light mb-10">All Users</p></div>
       {/* Search Input */}
       <div>
         {/* Entries per page selector */}

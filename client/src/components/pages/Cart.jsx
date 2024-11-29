@@ -5,6 +5,7 @@ import { IoMdClose } from "react-icons/io";
 import Context from "../../context/context";
 import MyNavbar from "../flowbiteHeader";
 import { useNavigate } from "react-router-dom";
+import Footer from "../Footer";
 
 export default function Cart() {
   const [data, SetData] = useState([]);
@@ -88,8 +89,8 @@ export default function Cart() {
   };
 
   return (
-    <div className="min-h-[100vh]">
-      <div className="container sm:text-2xl md:text-4xl mx-auto pt-16 p-4">
+    <div className="">
+      <div className="min-h-[44vh] container sm:text-2xl md:text-4xl mx-auto pt-16 p-4">
         <div className="text-center text-xl my-3">
           {data.length === 0 ? (
             <div>
@@ -207,6 +208,7 @@ export default function Cart() {
           )}
         </div>
       </div>
+      <Footer/>
     </div>
   );
 }

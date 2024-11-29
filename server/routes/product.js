@@ -30,6 +30,8 @@ const getProductCntrl = require('../controller/products/getProduct');
 const SetOrder = require('../controller/Orders/setOrder');
 const { VerifyOrder, PlaceOrder } = require('../controller/Orders/verifyOrder');
 const FetchOrders = require('../controller/Orders/fetchOrders');
+const { FreezProductCntrl } = require('../controller/products/freezProduct');
+const SetStatus = require('../controller/Orders/setStatus');
 
 
 const upload=multer({storage:Mulstorage})
@@ -46,6 +48,7 @@ router.post("/category-product",GetCategoryWiseProduct);
 router.post("/delete-product",authToken,AuthAdmin,DeleteProductCntrl);
 router.post("/product-detials",getProductDetailCntrl);
 router.get("/search",SearchProductCntrl);
+router.post("/freez_product",FreezProductCntrl)
 
 /* banner routes */
 
@@ -62,6 +65,7 @@ const razorpay = new Razorpay({
   });
   
   router.post("/order",SetOrder);
+  router.post("/setStatus",authToken,AuthAdmin,SetStatus)
   router.post("/getOrders",authToken,AuthAdmin,FetchOrders)
   router.post("/order_validate",VerifyOrder,PlaceOrder);
 

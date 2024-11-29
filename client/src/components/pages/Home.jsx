@@ -192,10 +192,10 @@ export default function Home() {
                             {name}
                           </p>
                           <div className="w-full flex justify-center mt-12">
-                            <button onClick={()=>nav(`/product-subcategory/${name}`)}
-                              className={`border-4 flex text-nowrap px-4 bg-white py-1 font-semibold text-base  rounded-2xl border-white `}
+                          <button onClick={()=>nav(`/product-subcategory/${name}`)}
+                              className={` text-nowrap flex items-center py-2 px-4 bg-white font-semibold text-base  rounded-2xl border-white `}
                             >
-                              <span className="bg-green-200 w-full">SHOW PRODUCTS<IoMdArrowDropright/></span>
+                              <span>SHOW PRODUCTS</span><span><IoMdArrowDropright/></span>
                             </button>
                           </div>
                         </div>
@@ -238,9 +238,9 @@ export default function Home() {
                           </p>
                           <div className="w-full flex justify-center mt-12">
                             <button onClick={()=>nav(`/product-subcategory/${name}`)}
-                              className={`border-4 text-nowrap px-4 bg-white py-1 font-semibold text-base  rounded-2xl border-white `}
+                              className={` text-nowrap flex items-center py-2 px-4 bg-white font-semibold text-base  rounded-2xl border-white `}
                             >
-                              {`SHOW PRODUCTS`}<IoMdArrowDropright/>
+                              <span>SHOW PRODUCTS</span><span><IoMdArrowDropright/></span>
                             </button>
                           </div>
                         </div>
