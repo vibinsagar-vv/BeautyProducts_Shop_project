@@ -8,6 +8,7 @@ import AXIOS from "axios";
 import { toast } from "react-toastify";
 import Context from "../context/context";
 import DisplayUpdateImage from "./DisplayUpdateImage";
+import axios from "axios";
 
 export default function AdminEditProduct({ onClose, ProductData, fetchData }) {
   console.log(ProductData);
@@ -53,6 +54,20 @@ export default function AdminEditProduct({ onClose, ProductData, fetchData }) {
     newPreviews.splice(index, 1);
     setImages(newImages);
     setImagePreviews(newPreviews);
+  };
+
+  console.log("image", images);
+
+  const handleDeleteFromStorage = (image) => {
+    const res = AXIOS.post(
+      "https://zenglow-server.onrender.com/products/delete-product-image",
+      { imageName: image },
+      {
+        headers: {
+          token: localStorage.getItem("token"),
+        },
+      }
+    );
   };
 
   const handleuploadProduct = async (e) => {
@@ -285,6 +300,7 @@ export default function AdminEditProduct({ onClose, ProductData, fetchData }) {
                           className="absolute bottom-1 right-1 p-1 text-xs text-white bg-red-600 rounded-full hidden group-hover:block cursor-pointer"
                           onClick={() => {
                             handleDeleteProductImage(product, index);
+                            handleDeleteFromStorage(product);
                           }}
                         >
                           <MdDelete />

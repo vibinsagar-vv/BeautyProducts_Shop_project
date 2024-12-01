@@ -198,7 +198,10 @@ export default function Home() {
                             <button
                               onClick={() => {
                                 nav(`/product-subcategory/${name}`);
-                                window.scrollTo({ top: 0, behavior: "instant" });
+                                window.scrollTo({
+                                  top: 0,
+                                  behavior: "instant",
+                                });
                               }}
                               className={` text-nowrap flex items-center py-2 px-4 bg-white font-semibold text-base  rounded-2xl border-white `}
                             >
@@ -250,11 +253,13 @@ export default function Home() {
                           </p>
                           <div className="w-full flex justify-center mt-12">
                             <button
-                              onClick={() =>{
-                                nav(`/product-subcategory/${name}`)
-                                window.scrollTo({ top: 0, behavior: "instant" });
-                              }
-                              }
+                              onClick={() => {
+                                nav(`/product-subcategory/${name}`);
+                                window.scrollTo({
+                                  top: 0,
+                                  behavior: "instant",
+                                });
+                              }}
                               className={` text-nowrap flex items-center py-2 px-4 bg-white font-semibold text-base  rounded-2xl border-white `}
                             >
                               <span>SHOW PRODUCTS</span>

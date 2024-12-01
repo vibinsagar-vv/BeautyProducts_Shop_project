@@ -140,7 +140,9 @@ const ProductsTable = () => {
               onClick={() => handleDelete(row.original._id)}
               className="text-red-600 text-2xl hover:text-red-800"
             >
-              <span><MdDelete/></span>
+              <span>
+                <MdDelete />
+              </span>
             </button>
           </div>
         ),

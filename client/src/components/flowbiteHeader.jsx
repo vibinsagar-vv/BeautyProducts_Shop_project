@@ -87,18 +87,18 @@ export default function MyNavbar() {
     if (suggestion.type === "product") {
       nav(`/product/${suggestion.product._id}`);
       window.scrollTo({ top: 0, behavior: "instant" });
-      setIsMenuOpen(false)
-      setSearchTerm("")
+      setIsMenuOpen(false);
+      setSearchTerm("");
     } else if (suggestion.type === "category") {
       nav(`/product-category/${suggestion.value}`);
       window.scrollTo({ top: 0, behavior: "instant" });
-      setIsMenuOpen(false)
-      setSearchTerm("")
+      setIsMenuOpen(false);
+      setSearchTerm("");
     } else if (suggestion.type === "subcategory") {
       nav(`/product-subcategory/${suggestion.value}`);
       window.scrollTo({ top: 0, behavior: "instant" });
-      setIsMenuOpen(false)
-      setSearchTerm("")
+      setIsMenuOpen(false);
+      setSearchTerm("");
     }
     setSuggestions([]);
   };
@@ -119,7 +119,9 @@ export default function MyNavbar() {
     localStorage.clear();
     const resData = await AXIOS.post(
       "https://zenglow-server.onrender.com/user/logOut",
-      { email: email }
+      {
+        email: email,
+      }
     );
     if (resData.data.success) {
       toast.success(resData.data.message);

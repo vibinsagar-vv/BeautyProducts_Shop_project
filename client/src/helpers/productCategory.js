@@ -6,7 +6,7 @@ const productCategory =[
         { id : 4 , label : "Eyeliners", value : "Eyeliners"},
         { id : 5 , label : "Concealers", value : "Concealers"},
         { id : 6 , label : "Kajals", value : "Kajals"},
-        { id : 7 , label : "Primers", value : "Primers"},
+        { id : 7 , label : "NailPolish", value : "NailPolish"},
         { id : 8 , label : "Mascaras", value : "Mascaras"},
         { id : 9 , label : "Eye Shadows", value : "Eye Shadows"}
     ]},

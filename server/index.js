@@ -6,7 +6,11 @@ const userRouter = require('./routes/user')
 const productRouter = require('./routes/product')
 const fs =require('fs')
 const cookieParser = require('cookie-parser')
+
+
 const app = express()
+
+
 app.use(cors())
 app.use(express.static('uploads'))
 app.use(express.json())

@@ -1,8 +1,8 @@
 const fs = require('fs')
 async function DeletePrdctImageCntrl(req,res){
     try{
-        const {image,imageName}=req.body
-        fs.unlinkSync(`uploads/ProductImages/${imageName}_${image}`)
+        const {imageName}=req.body
+        fs.unlinkSync(`uploads/ProductImages/${imageName}`)
 
     }catch(error){
     console.log('main error',error);
