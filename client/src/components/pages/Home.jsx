@@ -181,7 +181,6 @@ export default function Home() {
                   <div>
                     <div className="w-full mt-4 flex justify-center">
                       <div
-                      data-aos="fade-right"
                         className={`md:w-full  bannerBackground md:h-80 ${
                           evenColorClasses[
                             Math.floor(Math.random() * evenColorClasses.length)
