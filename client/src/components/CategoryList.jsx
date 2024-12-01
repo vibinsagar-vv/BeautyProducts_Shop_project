@@ -39,7 +39,7 @@ export default function CategoryList() {
                   key={product.subcategory}
                   className=" flex flex-col items-center justify-center cursor-pointer"
                 >
-                  <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-full shadow-pink-950 shadow-lg bg-primary-light hover:bg-[#FFDF00] flex items-center justify-center">
+                  <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-full shadow-pink-950 shadow-lg bg-primary-light hover:bg-[#ffec66] flex items-center justify-center">
                     {/* Adjusted img styles */}
                     <img
                       src={`https://zenglow-server.onrender.com/ProductImages/${product?.productImage[0]}`}
