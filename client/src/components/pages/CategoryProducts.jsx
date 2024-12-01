@@ -148,7 +148,7 @@ export default function CategoryProducts() {
                           className="p-4 w-full h-full transform object-scale-down hover:scale-110 transition-transform duration-500 ease-in-out"
                         />
                       )}
-                      {product.freez === true && (
+                      {item.freez === true && (
                         <div className="absolute w-full h-full bg-gray-400 bg-opacity-55 flex justify-center items-center">
                           <span className="text-xl font-bold bg-white px-3 text-gray-700 rounded-full">
                             Out Of Stock
@@ -189,12 +189,12 @@ export default function CategoryProducts() {
                         {localStorage.getItem("token") && (
                           <button
                           className={`py-1.5 px-4 font-semibold rounded-full  ${
-                            !product?.freez
+                            !item?.freez
                               ? `bg-accent-light text-white hover:bg-tertiary-dark hover:text-white`
                               : `bg-gray-500 text-white`
                           } transition-colors duration-300`}
                           onClick={(e) =>
-                            !product?.freez ? handleAddToCart(e, product?._id) : ""
+                            !item?.freez ? handleAddToCart(e, item?._id) : ""
                           }
                         >
                           Add to Cart
