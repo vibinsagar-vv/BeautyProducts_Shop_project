@@ -130,63 +130,79 @@ export default function CategoryProducts() {
               {product.products.map((item, index) => {
                 return (
                   <Link
-                    to={`/product/${item?._id}`}
+                    to={`/product/${product?._id}`}
                     key={index}
-                    className="ml-3 md:ml-0 flex-shrink-0 w-72 sm:w-[45%] md:w-[30%] lg:w-[22%] bg-white shadow-accent-dark shadow-lg rounded-lg overflow-hidden hover:shadow-accent-dark hover:shadow-2xl transition-shadow duration-300 ease-in-out"
+                    className="ml-3 md:min-w-[306px] md:ml-0 flex-shrink-0 w-60 sm:w-[45%] md:w-[30%] lg:w-[22%] bg-white shadow-accent-dark shadow-lg rounded-lg overflow-hidden hover:shadow-accent-dark hover:shadow-2xl transition-shadow duration-300 ease-in-out"
                   >
                     <div className="relative h-48 md:h-60 lg:h-72 bg-primary-light flex items-center justify-center overflow-hidden">
-                      {item.productImage[0] ? (
+                      <div className="absolute w-48 h-48 bg-white rounded-full blur-[50px] opacity-85"></div>
+                      {product.productImage[0] ? (
                         <img
-                          src={`https://zenglow-server.onrender.com/ProductImages/${item.productImage[0]}`}
-                          alt={item?.ProductName}
+                          src={`https://zenglow-server.onrender.com/ProductImages/${product.productImage[0]}`}
+                          alt={product?.ProductName}
                           className="p-4 w-full h-full transform object-scale-down hover:scale-110 transition-transform duration-500 ease-in-out"
                         />
                       ) : (
                         <img
                           src={noImage}
-                          alt={item?.ProductName}
+                          alt={product?.ProductName}
                           className="p-4 w-full h-full transform object-scale-down hover:scale-110 transition-transform duration-500 ease-in-out"
                         />
                       )}
+                      {product.freez === true && (
+                        <div className="absolute w-full h-full bg-gray-400 bg-opacity-55 flex justify-center items-center">
+                          <span className="text-xl font-bold bg-white px-3 text-gray-700 rounded-full">
+                            Out Of Stock
+                          </span>
+                        </div>
+                      )}
                       <div className="absolute top-2 left-2">
                         {/* Heart icon for wishlist */}
-                        {wishlist.includes(item?._id) ? (
+                        {wishlist?.includes(product?._id) ? (
                           <FaHeart
                             className="text-pink-500 text-2xl cursor-pointer"
-                            onClick={(e) => toggleWishlist(e, item._id)}
+                            onClick={(e) => toggleWishlist(e, product._id)}
                           />
                         ) : (
                           <FaRegHeart
                             className="text-accent-light text-2xl cursor-pointer"
-                            onClick={(e) => toggleWishlist(e, item._id)}
+                            onClick={(e) => toggleWishlist(e, product._id)}
                           />
                         )}
                       </div>
                     </div>
                     <div className="p-4 flex flex-col justify-between h-40 lg:h-48">
                       <h2 className="font-semibold text-lg lg:text-xl text-gray-800 truncate">
-                        {item?.ProductName}
+                        {product?.ProductName}
                       </h2>
                       <p className="text-sm text-gray-500 capitalize">
-                        {item?.category}
+                        {product?.category}
                       </p>
                       <div className="flex items-center justify-between mt-2">
                         <div>
                           <p className="text-xl text-accent-light font-bold">
-                            {displayINRCurrency(item?.sellingPrice)}
+                            {displayINRCurrency(product?.sellingPrice)}
                           </p>
                           <p className="text-sm text-gray-400 line-through">
-                            {displayINRCurrency(item?.price)}
+                            {displayINRCurrency(product?.price)}
                           </p>
                         </div>
-                        {localStorage.getItem("token") && (
+                        {
                           <button
-                            className="py-1.5 px-4 bg-accent-light text-white font-semibold rounded-full hover:bg-tertiary-dark hover:text-white transition-colors duration-300"
-                            onClick={(e) => handleAddToCart(e, item?._id)}
+                            className={`py-1.5 px-4 font-semibold rounded-full  ${
+                              !product?.freez
+                                ? `bg-accent-light text-white hover:bg-tertiary-dark hover:text-white`
+                                : `bg-gray-500 text-white`
+                            } transition-colors duration-300`}
+                            onClick={(e) =>
+                              !product?.freez
+                                ? handleAddToCart(e, product?._id)
+                                : ""
+                            }
                           >
                             Add to Cart
                           </button>
-                        )}
+                        }
                       </div>
                     </div>
                   </Link>
