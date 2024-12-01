@@ -189,7 +189,6 @@ export default function Home() {
                       >
                         <div className="">
                           <p
-                            data-aos="fade-right"
                             style={{ lineHeight: "1.5" }}
                             className="md:text-7xl text-center text-4xl edu_australia font-bold text-white md:w-[500px] my-6 w-[300px] md:ml-20"
                           >
