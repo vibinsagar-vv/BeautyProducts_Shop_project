@@ -86,7 +86,6 @@ export default function WishList() {
     fetchWishlist();
   }, []);
 
-  console.log("wish", wishlist);
 
   return (
     <div className="pt-24">
@@ -95,7 +94,7 @@ export default function WishList() {
       </div>
       {data?.length == 0 ? (
         <div className="min-h-[calc(100vh-300px)] flex flex-col items-center w-full">
-          <p className="bg-white py-5 text-4xl font-bold">
+          <p className="bg-white text-center py-5 text-4xl font-bold">
             Your Wishlist is Empty!
           </p>
           <p className="text-base font-semibold">Add products to Wishlist.</p>
@@ -109,7 +108,6 @@ export default function WishList() {
       ) : (
         <div className="md:max-w-7xl p-8 justify-center md:justify-start flex flex-wrap scrollbar-none gap-6 mx-auto md:gap-x-36 gap-y-10 lg:gap-y-20 max-md:gap-20 py-4 overflow-y-scroll">
           {data?.map((product, index) => {
-            console.log("product", product);
 
             return (
               <Link

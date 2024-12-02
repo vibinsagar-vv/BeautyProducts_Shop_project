@@ -48,7 +48,6 @@ export default function DashBoardHome() {
       );
 
       setAllOrders(resData.data.data);
-      console.log(resData.data.data);
     } catch (error) {
       toast.error("Error fetching users");
     }
@@ -78,7 +77,6 @@ export default function DashBoardHome() {
       );
       if (resData.data.success) {
         SetTotalAmount(resData.data.data);
-        console.log(totalAmount);
       }
     } catch (error) {
       console.log("Error fetching counts");
@@ -167,8 +165,6 @@ export default function DashBoardHome() {
           { headers: { token: localStorage.getItem("token") } }
         );
 
-        console.log(response.data.data, "yeatdata");
-
         setYears(response.data.data);
         if (response.data.data.length) {
           setYear(response.data.data[response.data.data.length - 1]); // Set the latest year as default
@@ -189,7 +185,6 @@ export default function DashBoardHome() {
           { year: year },
           { headers: { token: localStorage.getItem("token") } }
         );
-        console.log(response.data.data, "data");
 
         const formattedData = response.data.data.map((item) => ({
           month: new Date(year, item.month - 1).toLocaleString("default", {
@@ -197,7 +192,6 @@ export default function DashBoardHome() {
           }),
           totalSales: item.totalSales,
         }));
-        console.log(formattedData, "fdata");
 
         setMonthlyData(formattedData);
       } catch (error) {
@@ -286,9 +280,12 @@ export default function DashBoardHome() {
                 className="min-w-full divide-y divide-gray-200"
               >
                 <thead className="bg-gray-50 py-3 border border-gray-500">
-                  {headerGroups.map((headerGroup) => (
-                    <tr className="" {...headerGroup.getHeaderGroupProps()}>
-                      {headerGroup.headers.map((column) => (
+                  {headerGroups.map((headerGroup,index) => (
+                    <tr
+                      className=""
+                      {...headerGroup.getHeaderGroupProps()}
+                    >
+                      {headerGroup.headers.map((column,index) => (
                         <th
                           {...column.getHeaderProps(
                             column.getSortByToggleProps()
@@ -312,12 +309,17 @@ export default function DashBoardHome() {
                   {...getTableBodyProps()}
                   className="bg-white divide-y divide-gray-200"
                 >
-                  {rows.map((row) => {
+                  {rows.map((row,index) => {
                     prepareRow(row);
                     return (
-                      <tr className="" {...row.getRowProps()}>
+                      <tr
+                        key={index}
+                        className=""
+                        {...row.getRowProps()}
+                      >
                         {row.cells.map((cell) => (
                           <td
+                          key={index}
                             {...cell.getCellProps()}
                             className="px-6 py-4 whitespace-nowrap text-center text-xs text-gray-500"
                           >

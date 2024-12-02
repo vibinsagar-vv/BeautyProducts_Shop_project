@@ -36,7 +36,6 @@ function App() {
   const [userDetial, SetUserDetial] = useState({});
   const [cartProductCount, SetCartProductCount] = useState(0);
   const url = useLocation();
-  console.log(url);
 
   const fetchUserDetials = async () => {
     try {
@@ -88,6 +87,12 @@ function App() {
     //user cart detial
     fetchUserAddToCart();
   }, []);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });    
+    
+  }, [url?.pathname]);
+
 
   return (
     <>

@@ -20,11 +20,11 @@ export default function MyNavbar() {
   const [searchTerm, setSearchTerm] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const nav = useNavigate();
-  const params = useLocation();
 
   useEffect(() => {
     fetchProduct();
   }, []);
+
 
   const fetchProduct = async () => {
     try {
@@ -108,7 +108,6 @@ export default function MyNavbar() {
   const [search, SetSearch] = useState("");
   const url = useLocation();
   const userDetials = useSelector((state) => state?.user?.user);
-  // console.log('userhead',user);
   const dispatch = useDispatch();
 
   const context = useContext(Context);
@@ -137,14 +136,16 @@ export default function MyNavbar() {
   const handleSearch = (e) => {
     const { value } = e.target;
     if (value) {
-      console.log("insearch", value);
 
       nav(`/search?p=${value}`);
     } else {
       nav("/");
     }
-    console.log(value);
   };
+
+  useEffect(() => {
+    setIsMenuOpen(false)
+  }, [url]);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -164,7 +165,13 @@ export default function MyNavbar() {
           <div className="flex items-center justify-center gap-5">
             <div className="pt-1">
               {userDetials?._id && (
-                <Link to={"/cart"} className="text-2xl cursor-pointer relative">
+                <Link
+                  to={"/cart"}
+                  onClick={() =>
+                    window.scrollTo({ top: 0, behavior: "smooth" })
+                  }
+                  className="text-2xl cursor-pointer relative"
+                >
                   <span>
                     <FaCartShopping />
                   </span>
@@ -205,13 +212,25 @@ export default function MyNavbar() {
                     {(userDetials?.role === "ADMIN" ||
                       userDetials?.role === "MASTER_ADMIN") && (
                       <Dropdown.Item>
-                        <Link className="w-full flex" to={"/dashboard"}>
+                        <Link
+                          onClick={() =>
+                            window.scrollTo({ top: 0, behavior: "smooth" })
+                          }
+                          className="w-full flex"
+                          to={"/dashboard"}
+                        >
                           Dashboard
                         </Link>
                       </Dropdown.Item>
                     )}
                     <Dropdown.Item>
-                      <Link className="w-full flex" to={"/profile"}>
+                      <Link
+                        onClick={() =>
+                          window.scrollTo({ top: 0, behavior: "smooth" })
+                        }
+                        className="w-full flex"
+                        to={"/profile"}
+                      >
                         Profile
                       </Link>
                     </Dropdown.Item>
@@ -418,6 +437,7 @@ export default function MyNavbar() {
             </li>
             <li>
               <Link
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                 to={"/wishlist"}
                 className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-accent-light md:p-0 dark:text-white md:dark:hover:text-accent-light dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
               >

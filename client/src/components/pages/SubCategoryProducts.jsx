@@ -23,7 +23,6 @@ export default function SubCategoryProducts() {
         "https://zenglow-server.onrender.com/user/get-wishlist",
         { headers: { token: localStorage.getItem("token") } }
       );
-      console.log(response);
 
       SetWishlist(response?.data?.wishlist.map((item) => item._id));
     } catch (error) {

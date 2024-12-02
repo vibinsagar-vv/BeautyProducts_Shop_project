@@ -40,7 +40,6 @@ export default function Home() {
       "https://zenglow-server.onrender.com/products/get-category-product"
     );
     await SetCategory(resData.data.category);
-    console.log("category", category);
 
     // await console.log(category);
   };
@@ -48,7 +47,7 @@ export default function Home() {
   const fetchProduct = async () => {
     const res = await contex.fetchProduct();
     SetProduct(res.data);
-    console.log("product", product);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
   useEffect(() => {
     fetchCategoryProduct();
@@ -164,22 +163,8 @@ export default function Home() {
           {category.map((name, index) => {
             // if(name=="makeup"||name=="whiteningcreams"){
             return (
-              <div>
-                {/* {name == "LipSticks" && (
-                  <div className="w-full mt-4 flex justify-center">
-                    <img className="w-[97%]" src={lipsticBanner} alt="" />
-                  </div>
-                )}
-                {name == "Compacts" && (
-                  <div className="w-full mt-4 flex justify-center">
-                    <img className="w-[97%]" src={CompactBanner} alt="" />
-                  </div>
-                )}
-                {name == "Serums & Essences" && (
-                  <div className="w-full mt-4 flex justify-center">
-                    <img className="w-[97%]" src={sunscrenBanner} alt="" />
-                  </div>
-                )} */}
+              <div key={index}>
+                
                 {index % 2 == 0 && (
                   <div>
                     <div className="w-full mt-4 flex justify-center">

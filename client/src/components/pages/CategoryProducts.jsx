@@ -37,7 +37,6 @@ export default function CategoryProducts() {
         "https://zenglow-server.onrender.com/user/get-wishlist",
         { headers: { token: localStorage.getItem("token") } }
       );
-      console.log(response);
 
       SetWishlist(response?.data?.wishlist.map((item) => item._id));
     } catch (error) {
@@ -91,14 +90,12 @@ export default function CategoryProducts() {
     fetchData();
     fetchWishlist();
   }, []);
-  console.log(data);
 
   return (
     <div className="pt-20 min-h-[100vh]">
       <div className="container mx-auto p-4 pt-10 ">
         <div className="flex items-center gap-4 px-10 justify-between lg:justify-evenly overflow-scroll py-6 scrollbar-none pl-3">
           {data.map((product, index) => {
-            console.log("i", product);
 
             return (
               <a
@@ -124,7 +121,7 @@ export default function CategoryProducts() {
       </div>
       {data.map((product, index) => {
         return (
-          <div className="container mx-auto md:px-4 my-6">
+          <div key={index} className="container mx-auto md:px-4 my-6">
             <Heading text={product.subcategory} />
             <div className="flex gap-4 md:gap-10 lg:gap-12 overflow-x-auto  md:flex-wrap md:justify-center pb-16">
               {product.products.map((item, index) => {

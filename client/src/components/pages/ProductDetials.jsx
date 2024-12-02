@@ -111,9 +111,6 @@ export default function ProductDetials() {
               <div className="h-full">
                 <div className="flex gap-2 lg:flex-col max-w-[300px] overflow-scroll scrollbar-none md:h-full">
                   {data.productImage.map((image, index) => {
-                    console.log(
-                      `https://zenglow-server.onrender.com/ProductImages/${image}`
-                    );
 
                     return (
                       <div
@@ -252,7 +249,6 @@ export default function ProductDetials() {
                 <div className="w-full px-8 h-[320px] py-4 justify-start flex scrollbar-none mx-auto md:gap-x-36 gap-10  overflow-x-scroll ">
                   {related[0] &&
                     related.map((product, index) => {
-                      console.log("112", product);
 
                       if (index <= 5 && product._id !== data._id) {
                         return (

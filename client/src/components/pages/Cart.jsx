@@ -12,19 +12,16 @@ export default function Cart() {
   const context = useContext(Context);
   const nav = useNavigate();
   const TotalQty = data.reduce((prev, curr) => {
-    console.log(curr);
 
     return prev + parseInt(curr?.Quantity);
   }, 0);
 
   const TotalPrice = data.reduce((prev, curr) => {
-    console.log(curr);
 
     return prev + parseInt(curr?.Quantity * curr.ProductId?.sellingPrice);
   }, 0);
 
   const handleBuy = () => {
-    console.log("66", data);
 
     nav("/buy", { state: { product: data, from: "cart" } });
   };
@@ -45,7 +42,6 @@ export default function Cart() {
       console.log(err);
     }
   };
-  console.log("555", data);
 
   useEffect(() => {
     fetchData();
