@@ -14,13 +14,13 @@ export default function Cart() {
   const TotalQty = data.reduce((prev, curr) => {
     console.log(curr);
 
-    return prev + parseInt(curr.Quantity);
+    return prev + parseInt(curr?.Quantity);
   }, 0);
 
   const TotalPrice = data.reduce((prev, curr) => {
     console.log(curr);
 
-    return prev + parseInt(curr.Quantity * curr.ProductId.sellingPrice);
+    return prev + parseInt(curr?.Quantity * curr.ProductId?.sellingPrice);
   }, 0);
 
   const handleBuy = () => {
@@ -126,14 +126,14 @@ export default function Cart() {
                       </div>
                       <div className="flex items-center justify-center min-w-32 h-32 p-2">
                         <img
-                          src={`https://zenglow-server.onrender.com/ProductImages/${product?.ProductId.productImage[0]}`}
+                          src={`https://zenglow-server.onrender.com/ProductImages/${product?.ProductId?.productImage[0]}`}
                           alt=""
                           className="w-full h-full object-scale-down mix-blend-multiply"
                         />
                       </div>
                       <div className="px-4 w-full  py-2 text-start">
                         <h2 className="text-lg font-medium text-start lg:text-xl text-ellipsis line-clamp-1">
-                          {product?.ProductId.ProductName}
+                          {product?.ProductId?.ProductName}
                         </h2>
                         <p className="text-sm lg:text-base capitalize  text-slate-400">
                           {product?.ProductId?.category}
