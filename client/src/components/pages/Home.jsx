@@ -127,6 +127,7 @@ export default function Home() {
             className="flex flex-col items-center"
           >
             <img
+              onClick={() => window.scrollTo({ top: 0, behavior: "instant" })}
               src={SkinCare}
               className="w-40 md:h-40 rounded-lg border-4 hover:border-primary-light shadow-md hover:shadow-lg"
               alt="SkinCare"
@@ -138,6 +139,7 @@ export default function Home() {
             className="flex flex-col items-center"
           >
             <img
+              onClick={() => window.scrollTo({ top: 0, behavior: "instant" })}
               src={MakeUp}
               className="w-40 md:h-40 rounded-lg border-4 hover:border-primary-light shadow-md hover:shadow-lg"
               alt="MakeUp"
@@ -149,6 +151,7 @@ export default function Home() {
             className="flex flex-col items-center"
           >
             <img
+              onClick={() => window.scrollTo({ top: 0, behavior: "instant" })}
               src={HairCare}
               className="w-40 md:h-40 rounded-lg border-4 hover:border-primary-light shadow-md hover:shadow-lg"
               alt="HairCare"
